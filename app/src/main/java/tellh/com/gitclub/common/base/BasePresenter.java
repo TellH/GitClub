@@ -6,6 +6,7 @@ import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
+import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 
 public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
 
@@ -40,6 +41,13 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
 
     public boolean isViewAttached() {
         return view != null;
+    }
+
+    public boolean checkLogin() {
+        if (AccountPrefs.isLogin(AndroidApplication.getInstance()))
+            return true;
+        view.showOnError(Utils.getString(R.string.note_to_login));
+        return false;
     }
 
     public static class MvpViewNotAttachedException extends RuntimeException {

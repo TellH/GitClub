@@ -9,6 +9,8 @@ import java.util.List;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.utils.StringUtils;
+import tellh.com.gitclub.common.utils.Utils;
+import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.widget.IconToggleHelper;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
@@ -85,6 +87,7 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         ivFork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkLogin()) return;
                 //to fork
                 presenter.forkRepo(position, RepoListAdapter.this);
             }
@@ -92,10 +95,10 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         ivStar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkLogin()) return;
                 boolean state = starToggleHelper
                         .toggleStarCount(holder.getTextView(R.id.tv_star_count), item, ivStar)
                         .toggle(ivStar);
-
                 //to star or unStar
                 presenter.starRepo(position, RepoListAdapter.this, state);
             }
@@ -103,12 +106,21 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         ivWatch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!checkLogin()) return;
                 //to watch or unWatch
                 presenter.watchRepo(position, RepoListAdapter.this,
                         watchToggleHelper.toggle(ivWatch));
             }
         });
 
+    }
+
+    protected boolean checkLogin() {
+        if (!AccountPrefs.isLogin(mContext)) {
+            Note.show(Utils.getString(R.string.note_to_login));
+            return false;
+        }
+        return true;
     }
 
     private String checkRepoNameLength(RepositoryInfo item) {

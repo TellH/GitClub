@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import tellh.com.gitclub.R;
+import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 
@@ -17,7 +18,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (AccountPrefs.isLogin(this)){
+        if (AccountPrefs.isLogin(this)) {
             gotoHomeActivity();
             finish();
         }
@@ -43,7 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.tv_login:
                 if (loginFragment.getDialog() == null)
-                    loginFragment.show(getSupportFragmentManager(), "LoginFragment");
+                    loginFragment.show(getSupportFragmentManager(), ExtraKey.TAG_LOGIN_FRAGMENT);
                 else loginFragment.getDialog().show();
                 break;
             case R.id.tv_skip:
@@ -54,7 +55,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccessToLogin() {
         loginFragment.setDismissable(true);
         loginFragment.dismiss();
         gotoHomeActivity();
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onDismiss() {
+    public void onDismissLogin() {
         loginFragment = null;
     }
 }
