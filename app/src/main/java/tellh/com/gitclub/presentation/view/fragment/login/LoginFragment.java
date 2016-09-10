@@ -22,11 +22,10 @@ import javax.inject.Inject;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
-import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.common.utils.Utils;
+import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.di.component.DaggerLoginComponent;
 import tellh.com.gitclub.presentation.contract.LoginContract;
-import tellh.com.gitclub.presentation.view.activity.LoginActivity;
 
 /**
  * Created by tlh on 2016/8/28 :)
@@ -43,8 +42,10 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
     private ProgressBar progressBar;
     private TextView tvLogin;
     private View mRootView;
-    private boolean isCancelable;
+    private boolean dismissable;
     private TextView tvCancel;
+
+    private LoginCallback callback;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -91,7 +92,9 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getDialog().hide();
+                if (dismissable)
+                    dismiss();
+                else getDialog().hide();
             }
         });
     }
@@ -125,14 +128,16 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
     @Override
     public void showOnSuccess() {
         toggle();
-        isCancelable = true;
-        Note.show(Utils.getString(R.string.success_login));
-        ((LoginActivity) getActivity()).onLoginSuccess();
+        if (callback != null)
+            callback.onSuccess();
+    }
+
+    public void setDismissable(boolean dismissable) {
+        this.dismissable = dismissable;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         if (mRootView == null) {
             mRootView = inflater.inflate(R.layout.frag_dialog_login, container, false);
             initView();
@@ -172,10 +177,22 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
 
     @Override
     public void onDismiss(DialogInterface dialog) {
-        if (!isCancelable && getDialog() != null) {
+        if (!dismissable && getDialog() != null) {
             getDialog().hide();
             return;
         }
+        if (callback != null)
+            callback.onDismiss();
         super.onDismiss(dialog);
+    }
+
+    public void setCallback(LoginCallback callback) {
+        this.callback = callback;
+    }
+
+    public interface LoginCallback {
+        void onSuccess();
+
+        void onDismiss();
     }
 }

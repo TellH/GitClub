@@ -2,7 +2,6 @@ package tellh.com.gitclub.presentation.view.activity;
 
 import android.os.Bundle;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
 
@@ -19,6 +18,7 @@ import tellh.com.gitclub.presentation.view.fragment.explore.ExploreFragment;
 import tellh.com.gitclub.presentation.view.fragment.home.PersonalPageFragment;
 import tellh.com.gitclub.presentation.view.fragment.news.NewsFragment;
 import tellh.com.gitclub.presentation.view.fragment.search.SearchFragment;
+import tellh.com.gitclub.presentation.widget.AHBottomNavigation;
 
 public class HomeActivity extends BaseActivity {
 
@@ -26,7 +26,6 @@ public class HomeActivity extends BaseActivity {
     private AHBottomNavigation navBar;
 
     Subscription subscriptionQuickReturn;
-    private int prePos = 0;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -45,7 +44,7 @@ public class HomeActivity extends BaseActivity {
     }
 
     private void initBottomBar() {
-        AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.search, R.drawable.ic_search_white, R.color.colorAccent);
+        AHBottomNavigationItem search = new AHBottomNavigationItem(R.string.search, R.drawable.ic_search_white, R.color.blue);
         AHBottomNavigationItem profile = new AHBottomNavigationItem(R.string.profile, R.drawable.ic_personal_page_white, R.color.brown);
         AHBottomNavigationItem explore = new AHBottomNavigationItem(R.string.explore, R.drawable.ic_explore_white, R.color.purple);
         AHBottomNavigationItem news = new AHBottomNavigationItem(R.string.news, R.drawable.ic_notifications_white, R.color.teal);
@@ -53,8 +52,7 @@ public class HomeActivity extends BaseActivity {
         navBar.addItem(news);
         navBar.addItem(search);
         navBar.addItem(profile);
-        navBar.setColored(true);
-        navBar.setBehaviorTranslationEnabled(true);
+        navBar.setColored(false);
         navBar.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {

@@ -18,6 +18,10 @@
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            app:titleTextColor="@color/white"
+            app:title="@string/search"
+            app:tabIndicatorColor="@color/white"
+            app:theme="@style/ToolbarColoredIcon"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed" />
@@ -30,7 +34,7 @@
             app:tabIndicatorColor="@color/white"
             app:tabMode="fixed"
             app:tabSelectedTextColor="@color/white"
-            app:tabTextColor="#7B87CC" />
+            app:tabTextColor="@color/gray" />
     </android.support.design.widget.AppBarLayout>
 
     <com.getbase.floatingactionbutton.FloatingActionsMenu

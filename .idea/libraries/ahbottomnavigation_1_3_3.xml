@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="ahbottomnavigation-1.3.3">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.aurelhubert/ahbottomnavigation/1.3.3/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.aurelhubert/ahbottomnavigation/1.3.3/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.aurelhubert/ahbottomnavigation/1.3.3/c40bb0581bb34e3855ff81d79ac2bd7022e120c5/ahbottomnavigation-1.3.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

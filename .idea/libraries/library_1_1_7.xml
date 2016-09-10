@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="library-1.1.7">
+    <ANNOTATIONS>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/me.zhanghai.android.materialprogressbar/library/1.1.7/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/me.zhanghai.android.materialprogressbar/library/1.1.7/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/me.zhanghai.android.materialprogressbar/library/1.1.7/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/me.zhanghai.android.materialprogressbar/library/1.1.7/5c8b4ffc0795143999933697805c7e7aead41e47/library-1.1.7-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
