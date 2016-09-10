@@ -37,7 +37,7 @@ public class PresenterModule {
     }
 
     @Provides
-    public NewsContract.Presenter provideNewsPresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource, Context context) {
-        return new NewsPresenter(repositoryDataSource, userDataSource,context);
+    public NewsContract.Presenter provideNewsPresenter(UserDataSource userDataSource, Context context) {
+        return new NewsPresenter(userDataSource, context);
     }
 }

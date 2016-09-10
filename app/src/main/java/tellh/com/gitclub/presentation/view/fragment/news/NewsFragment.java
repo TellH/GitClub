@@ -100,9 +100,11 @@ public class NewsFragment extends LazyFragment
     }
 
     @Override
-    public void showOnError(String s) {
-        super.showOnError(s);
-        refreshLayout.setRefreshing(false);
-        loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+    public void showOnError(String s, UpdateType updateType) {
+        showOnError(s);
+        if (updateType == UpdateType.REFRESH)
+            refreshLayout.setRefreshing(false);
+        else
+            loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
     }
 }

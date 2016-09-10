@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#303F9F</color>
-    <color name="colorPrimaryDark">#512DA8</color>
-    <color name="colorAccent">#536DFE</color>
+    <color name="colorPrimary">#1E8AE8</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#3F51B5</color>
+    <color name="blue_deep">#536DFE</color>
     <color name="blue">#6498FE</color>
     <color name="light_blue">#02A8F3</color>
     <color name="white">#FFFFFF</color>
@@ -17,7 +18,7 @@
     <color name="yellow">#FEEA3A</color>
     <color name="orange">#FE9700</color>
     <color name="brown">#785447</color>
-    <color name="gray">#E0E0E0</color>
+    <color name="gray">#D4D4D4</color>
     <color name="teal">#009587</color>
     <color name="pink">#FF4081</color>
     <color name="pink_pressed">#FF71B8</color>
@@ -27,6 +28,8 @@
 
     <color name="orange_red">#F86E4D</color>
     <color name="light_purple">#694485</color>
+
+    <color name="bottom_bar">#C5CAE9</color>
 
 
 </resources>

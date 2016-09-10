@@ -16,7 +16,7 @@
             android:layout_gravity="left|bottom"
             android:text="@string/login"
             android:textColor="@drawable/selector_white"
-            android:textSize="26sp" />
+            android:textSize="23sp" />
 
         <TextView
             android:id="@+id/tv_skip"
@@ -28,5 +28,5 @@
             android:layout_marginBottom="10dp"
             android:layout_gravity="left|bottom"
             android:textColor="@drawable/selector_white"
-            android:textSize="26sp" />
+            android:textSize="23sp" />
 </LinearLayout>

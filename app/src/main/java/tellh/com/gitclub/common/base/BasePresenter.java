@@ -21,8 +21,10 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
     @Override
     public void detachView() {
         view = null;
-        subscriptions.unsubscribe();
-        subscriptions = null;
+        if (subscriptions != null) {
+            subscriptions.unsubscribe();
+            subscriptions = null;
+        }
         Utils.leakWatch(this);
     }
 
@@ -49,8 +51,9 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
     public void addSubscription(Subscription subscription) {
         subscriptions.add(subscription);
     }
+
     public boolean checkNetwork() {
-        if (!Utils.isNetworkAvailable(AndroidApplication.getInstance())){
+        if (!Utils.isNetworkAvailable(AndroidApplication.getInstance())) {
             Note.show(Utils.getString(R.string.error_no_network));
             return false;
         }

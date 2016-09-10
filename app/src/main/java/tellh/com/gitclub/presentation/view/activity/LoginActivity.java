@@ -7,18 +7,28 @@ import android.view.View;
 import android.widget.TextView;
 
 import tellh.com.gitclub.R;
+import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener, LoginFragment.LoginCallback {
 
     private LoginFragment loginFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (AccountPrefs.isLogin(this)){
+            gotoHomeActivity();
+            finish();
+        }
         setContentView(R.layout.activity_login);
         initView();
         loginFragment = new LoginFragment();
+        loginFragment.setCallback(this);
+    }
+
+    private void gotoHomeActivity() {
+        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
     }
 
     private void initView() {
@@ -37,15 +47,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 else loginFragment.getDialog().show();
                 break;
             case R.id.tv_skip:
-                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                gotoHomeActivity();
                 finish();
                 break;
         }
     }
 
-    public void onLoginSuccess() {
+    @Override
+    public void onSuccess() {
+        loginFragment.setDismissable(true);
         loginFragment.dismiss();
-        startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+        gotoHomeActivity();
         finish();
+    }
+
+    @Override
+    public void onDismiss() {
+        loginFragment = null;
     }
 }

@@ -90,7 +90,6 @@ public class SearchFragment extends LazyFragment
         //init toolbar
         setHasOptionsMenu(true);
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle(R.string.title_search);
 
         //init tab layout
         tabLayout.setupWithViewPager(pager);
@@ -218,7 +217,7 @@ public class SearchFragment extends LazyFragment
             Field field = searchView.getClass().getDeclaredField("mGoButton");
             field.setAccessible(true);
             ImageView iv = (ImageView) field.get(searchView);
-            iv.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_send_black));
+            iv.setImageDrawable(ContextCompat.getDrawable(getContext(), R.drawable.ic_send_white));
         } catch (Exception e) {
             e.printStackTrace();
         }
