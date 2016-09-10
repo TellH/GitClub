@@ -76,4 +76,5 @@
     <string name="date_hour">hour</string>
     <string name="date_minute">minute</string>
     <string name="date_sec">second</string>
+    <string name="note_to_login">Please login first!</string>
 </resources>

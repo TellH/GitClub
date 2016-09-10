@@ -12,6 +12,8 @@ public interface NewsContract {
         void OnGetNews(List<Event> newsList, UpdateType updateType);
 
         void showOnError(String s, UpdateType updateType);
+
+        void showLoginDialog();
     }
 
     interface Presenter extends MvpPresenter<View> {

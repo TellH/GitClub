@@ -35,13 +35,9 @@ public class NewsPresenter extends BasePresenter<NewsContract.View> implements N
             getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
             return;
         }
-        isFlying = true;
         UserInfo user = AccountPrefs.getLoginUser(mCtx);
-        if (user == null) {
-            getView().showOnError(mCtx.getString(R.string.error_not_login));
-            // TODO: 2016/9/8 go to login activity
-            return;
-        }
+        if (!checkLogin(user, getUpdateType(page))) return;
+        isFlying = true;
         addSubscription(mUserDataSource.listNews(user.getLogin(), page)
                 .doOnTerminate(new Action0() {
                     @Override
@@ -61,6 +57,15 @@ public class NewsPresenter extends BasePresenter<NewsContract.View> implements N
                         getView().showOnError(StringUtils.append(mCtx.getString(R.string.error_get_news), errorStr), getUpdateType(page));
                     }
                 }));
+    }
+
+    protected boolean checkLogin(UserInfo user, UpdateType updateType) {
+        if (user == null) {
+            getView().showOnError(mCtx.getString(R.string.error_not_login), updateType);
+            getView().showLoginDialog();
+            return false;
+        }
+        return true;
     }
 
     @NonNull

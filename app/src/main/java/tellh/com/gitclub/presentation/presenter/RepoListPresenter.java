@@ -28,7 +28,7 @@ public class RepoListPresenter implements IRepoListPresenter {
 
     @Override
     public void checkState(final int position, final BaseRecyclerAdapter<RepositoryInfo> adapter) {
-        if (!mPresenter.checkNetwork())
+        if (!mPresenter.checkNetwork()|| !mPresenter.checkLogin())
             return;
         List<RepositoryInfo> items = adapter.getItems();
         final RepositoryInfo repositoryInfo = items.get(position);
@@ -75,14 +75,14 @@ public class RepoListPresenter implements IRepoListPresenter {
                                                    Note.show(Utils.getString(R.string.success_star_repo) + repo.getFull_name());
                                                    repo.hasStarred = true;
                                                } else {
-                                                   Note.show(Utils.getString(R.string.error_star_repo) + repo.getFull_name());
+                                                   handleStarError(repo);
                                                }
                                            }
 
                                            @Override
                                            protected void onError(String errorStr) {
                                                super.onError(errorStr);
-                                               Note.show(Utils.getString(R.string.error_star_repo) + repo.getFull_name());
+                                               handleStarError(repo);
                                            }
                                        }
                             )
@@ -98,20 +98,25 @@ public class RepoListPresenter implements IRepoListPresenter {
                                                 Note.show(Utils.getString(R.string.success_unstar_repo) + repo.getFull_name());
                                                 repo.hasStarred = false;
                                             } else {
-                                                Note.show(Utils.getString(R.string.error_unstar_repo) + repo.getFull_name());
+                                                handleStarError(repo);
                                             }
                                         }
 
                                         @Override
                                         protected void onError(String errorStr) {
                                             super.onError(errorStr);
-                                            Note.show(Utils.getString(R.string.error_unstar_repo) + repo.getFull_name());
+                                            handleStarError(repo);
                                         }
                                     }
                             )
             );
         }
 
+    }
+
+    protected void handleStarError(RepositoryInfo repo) {
+        Note.show(Utils.getString(R.string.error_star_repo) + repo.getFull_name());
+        repo.setStars(repo.getStars() - 1);
     }
 
     @Override

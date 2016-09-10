@@ -129,7 +129,7 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
     public void showOnSuccess() {
         toggle();
         if (callback != null)
-            callback.onSuccess();
+            callback.onSuccessToLogin();
     }
 
     public void setDismissable(boolean dismissable) {
@@ -182,7 +182,7 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
             return;
         }
         if (callback != null)
-            callback.onDismiss();
+            callback.onDismissLogin();
         super.onDismiss(dialog);
     }
 
@@ -191,8 +191,8 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
     }
 
     public interface LoginCallback {
-        void onSuccess();
+        void onSuccessToLogin();
 
-        void onDismiss();
+        void onDismissLogin();
     }
 }

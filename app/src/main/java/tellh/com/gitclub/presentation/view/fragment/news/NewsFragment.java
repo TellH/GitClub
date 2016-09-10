@@ -12,20 +12,24 @@ import javax.inject.Inject;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
+import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.di.component.DaggerNewsComponent;
 import tellh.com.gitclub.model.entity.Event;
 import tellh.com.gitclub.presentation.contract.NewsContract;
 import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
 import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 import tellh.com.gitclub.presentation.view.adapter.NewsListAdapter;
+import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 
 public class NewsFragment extends LazyFragment
         implements NewsContract.View, SwipeRefreshLayout.OnRefreshListener,
-        FooterLoadMoreAdapterWrapper.OnReachFooterListener {
+        FooterLoadMoreAdapterWrapper.OnReachFooterListener, LoginFragment.LoginCallback {
     @Inject
     NewsContract.Presenter presenter;
     private FooterLoadMoreAdapterWrapper loadMoreWrapper;
     private SwipeRefreshLayout refreshLayout;
+
+    private LoginFragment loginFragment;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -106,5 +110,30 @@ public class NewsFragment extends LazyFragment
             refreshLayout.setRefreshing(false);
         else
             loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+    }
+
+    @Override
+    public void showLoginDialog() {
+        if (loginFragment == null) {
+            loginFragment = new LoginFragment();
+            loginFragment.setCallback(this);
+        }
+        if (loginFragment.getDialog() == null)
+            loginFragment.show(getFragmentManager(), ExtraKey.TAG_LOGIN_FRAGMENT);
+        else loginFragment.getDialog().show();
+    }
+
+    @Override
+    public void onSuccessToLogin() {
+        loginFragment.setDismissable(true);
+        loginFragment.dismiss();
+        //load data
+        refreshLayout.setRefreshing(true);
+        presenter.listNews(1);
+    }
+
+    @Override
+    public void onDismissLogin() {
+        loginFragment = null;
     }
 }

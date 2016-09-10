@@ -59,7 +59,7 @@ public class UserListPresenter implements IUserListPresenter {
 
     @Override
     public void followUser(final int position, final BaseRecyclerAdapter<UserEntity> adapter, boolean toggle) {
-        if (!mPresenter.checkNetwork())
+        if (!mPresenter.checkNetwork()|| !mPresenter.checkLogin())
             return;
         final UserEntity userEntity = adapter.getItems().get(position);
         final String user = userEntity.getLogin();
