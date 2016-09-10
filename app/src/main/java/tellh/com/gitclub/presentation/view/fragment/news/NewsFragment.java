@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewStub;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
 import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 import tellh.com.gitclub.presentation.view.adapter.NewsListAdapter;
 import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
+import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 
 public class NewsFragment extends LazyFragment
         implements NewsContract.View, SwipeRefreshLayout.OnRefreshListener,
@@ -30,6 +32,7 @@ public class NewsFragment extends LazyFragment
     private SwipeRefreshLayout refreshLayout;
 
     private LoginFragment loginFragment;
+    private ErrorViewHelper errorView;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -57,6 +60,7 @@ public class NewsFragment extends LazyFragment
         //find view
         RecyclerView list = (RecyclerView) mRootView.findViewById(R.id.list);
         refreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.refreshLayout);
+        errorView = new ErrorViewHelper((ViewStub) mRootView.findViewById(R.id.vs_error));
 
         //swipe refresh layout
         refreshLayout.setProgressViewOffset(false, -100, 230);
@@ -110,7 +114,19 @@ public class NewsFragment extends LazyFragment
             refreshLayout.setRefreshing(false);
         else
             loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+
+        if (updateType == UpdateType.REFRESH) {
+            errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
+                @Override
+                public void reload() {
+                    refreshLayout.setRefreshing(true);
+                    presenter.listNews(1);
+                }
+            });
+        }
+
     }
+
 
     @Override
     public void showLoginDialog() {
