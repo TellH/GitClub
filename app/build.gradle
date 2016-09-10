@@ -59,4 +59,6 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.1'
 
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    compile 'com.github.paolorotolo:appintro:4.0.0'
 }
