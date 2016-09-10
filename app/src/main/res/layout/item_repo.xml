@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_container"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginTop="5dp"
+    app:cardCornerRadius="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="36dp">
+
+            <ImageView
+                android:id="@+id/iv_owner"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                tools:src="@mipmap/ic_launcher" />
+
+            <TextView
+                android:id="@+id/tv_repo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:scrollHorizontally="true"
+                android:gravity="center_vertical"
+                android:textColor="@color/blue"
+                android:textSize="18sp"
+                tools:text="apple/swift" />
+            <!--<ImageView-->
+            <!--android:id="@+id/iv_menu"-->
+            <!--android:background="@drawable/ic_more"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_width="@dimen/icSize"-->
+            <!--android:layout_height="@dimen/icSize" />-->
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="65dp"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="3"
+            tools:text="Server-side Swift. The Perfect library, application server, connectors and example apps. (For mobile back-end development, website and web app development, and more...)" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_language"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                tools:text="JavaScript" />
+
+            <ImageView
+                android:id="@+id/iv_star"
+                android:layout_width="@dimen/icSize"
+                android:layout_height="@dimen/icSize"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/ic_star" />
+
+            <TextView
+                android:id="@+id/tv_star_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.5"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingLeft="3dp"
+                tools:text="33,5155" />
+
+            <ImageView
+                android:id="@+id/iv_fork"
+                android:layout_width="@dimen/icSize"
+                android:layout_height="@dimen/icSize"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_fork" />
+
+            <TextView
+                android:id="@+id/tv_fork_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingLeft="3dp"
+                tools:text="4,721" />
+
+            <ImageView
+                android:id="@+id/iv_watch"
+                android:layout_width="@dimen/icSize"
+                android:layout_height="@dimen/icSize"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ic_watch" />
+
+            <TextView
+                android:id="@+id/tv_watch_count"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.8"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:paddingLeft="3dp"
+                tools:text="33,515" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
