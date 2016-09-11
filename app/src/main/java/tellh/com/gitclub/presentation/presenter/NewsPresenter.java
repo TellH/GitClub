@@ -1,7 +1,6 @@
 package tellh.com.gitclub.presentation.presenter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 
 import java.util.List;
 
@@ -66,10 +65,5 @@ public class NewsPresenter extends BasePresenter<NewsContract.View> implements N
             return false;
         }
         return true;
-    }
-
-    @NonNull
-    private UpdateType getUpdateType(int page) {
-        return page == 1 ? UpdateType.REFRESH : UpdateType.LOAD_MORE;
     }
 }

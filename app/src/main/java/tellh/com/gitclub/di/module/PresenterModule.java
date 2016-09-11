@@ -8,14 +8,17 @@ import tellh.com.gitclub.di.Fragment;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
-import tellh.com.gitclub.presentation.contract.NewsContract;
 import tellh.com.gitclub.presentation.contract.ExploreContract;
 import tellh.com.gitclub.presentation.contract.LoginContract;
+import tellh.com.gitclub.presentation.contract.NewsContract;
 import tellh.com.gitclub.presentation.contract.SearchContract;
 import tellh.com.gitclub.presentation.presenter.ExplorePresenter;
+import tellh.com.gitclub.presentation.presenter.HomePagePresenter;
+import tellh.com.gitclub.presentation.presenter.ListRepoPresenter;
 import tellh.com.gitclub.presentation.presenter.LoginPresenter;
 import tellh.com.gitclub.presentation.presenter.NewsPresenter;
 import tellh.com.gitclub.presentation.presenter.SearchPresenter;
+import tellh.com.gitclub.presentation.contract.HomePageContract.Presenter;
 
 @Module
 public class PresenterModule {
@@ -39,5 +42,15 @@ public class PresenterModule {
     @Provides
     public NewsContract.Presenter provideNewsPresenter(UserDataSource userDataSource, Context context) {
         return new NewsPresenter(userDataSource, context);
+    }
+
+    @Provides
+    public Presenter provideHomePagePresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource, Context ctx) {
+        return new HomePagePresenter(repositoryDataSource, userDataSource, ctx);
+    }
+
+    @Provides
+    public ListRepoPresenter provideListRepoPresenter(UserDataSource userDataSource, RepositoryDataSource repositoryDataSource, Context ctx) {
+        return new ListRepoPresenter(userDataSource, repositoryDataSource, ctx);
     }
 }

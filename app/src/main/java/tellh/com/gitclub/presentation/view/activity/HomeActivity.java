@@ -15,7 +15,7 @@ import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.QuickReturnEvent;
 import tellh.com.gitclub.presentation.view.adapter.CommonViewPagerAdapter;
 import tellh.com.gitclub.presentation.view.fragment.explore.ExploreFragment;
-import tellh.com.gitclub.presentation.view.fragment.home.PersonalPageFragment;
+import tellh.com.gitclub.presentation.view.fragment.home.HomePageFragment;
 import tellh.com.gitclub.presentation.view.fragment.news.NewsFragment;
 import tellh.com.gitclub.presentation.view.fragment.search.SearchFragment;
 import tellh.com.gitclub.presentation.widget.AHBottomNavigation;
@@ -68,7 +68,7 @@ public class HomeActivity extends BaseActivity {
         pagerAdapter.addFragment("Explore", ExploreFragment.newInstance());
         pagerAdapter.addFragment("News", NewsFragment.newInstance());
         pagerAdapter.addFragment("Search", SearchFragment.newInstance());
-        pagerAdapter.addFragment("Personal", PersonalPageFragment.newInstance());
+        pagerAdapter.addFragment("Personal", HomePageFragment.newInstance());
         viewPager.setAdapter(pagerAdapter);
     }
 

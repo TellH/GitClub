@@ -58,10 +58,8 @@ public interface UserService {
     Observable<List<RepositoryInfo>> listStarredRepo(@Path("user") String user);
 
     @GET("users/{user}/starred")
-    Observable<List<RepositoryInfo>> listStarredRepo(@Path("user") String user, @Query("sort") String sort, @Query("page") int page);
-
-    @GET("users/{user}/starred")
-    Observable<List<RepositoryInfo>> listStarredRepo(@Path("user") String user, @Query("page") int page, @Query("per_page") int pageSize);
+    Observable<List<RepositoryInfo>> listStarredRepo(@Path("user") String user, @Query("sort") String sort,
+                                                     @Query("page") int page, @Query("per_page") int pageSize);
 
     @GET("users/{user}/subscriptions")
         //https://developer.github.com/v3/activity/watching
