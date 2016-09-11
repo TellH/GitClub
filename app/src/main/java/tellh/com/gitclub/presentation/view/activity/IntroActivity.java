@@ -64,6 +64,7 @@ public class IntroActivity extends AppIntroBase implements LoginFragment.LoginCa
     @Override
     public void onSkipPressed(Fragment currentFragment) {
         super.onSkipPressed(currentFragment);
+        loginFragment.setDismissable(true);
         gotoHomeActivity();
         finish();
     }

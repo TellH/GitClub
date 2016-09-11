@@ -14,6 +14,7 @@ import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
 import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.di.component.DaggerNewsComponent;
 import tellh.com.gitclub.model.entity.Event;
 import tellh.com.gitclub.presentation.contract.NewsContract;
@@ -115,7 +116,7 @@ public class NewsFragment extends LazyFragment
         else
             loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
 
-        if (updateType == UpdateType.REFRESH) {
+        if (updateType == UpdateType.REFRESH && !s.equals(Utils.getString(R.string.reqest_flying))) {
             errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
                 @Override
                 public void reload() {
@@ -141,8 +142,11 @@ public class NewsFragment extends LazyFragment
 
     @Override
     public void onSuccessToLogin() {
+        //dismiss the login dialog
         loginFragment.setDismissable(true);
         loginFragment.dismiss();
+        //hide error view
+        errorView.hideErrorView(refreshLayout);
         //load data
         refreshLayout.setRefreshing(true);
         presenter.listNews(1);

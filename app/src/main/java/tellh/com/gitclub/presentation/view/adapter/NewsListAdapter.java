@@ -46,7 +46,7 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
             }
         });
         ImageLoader.load(item.getActor().getAvatar_url(), imageView);
-        holder.setText(R.id.tv_actor, createUserSpan(item.getActor().getLogin()))
+        holder.setText(R.id.tv_actor, item.getActor().getLogin())
                 .setText(R.id.tv_time_ago, DateUtils.timeAgo(item.getCreated_at()))
                 .setText(R.id.tv_repo, item.getRepo().getName());
         handleEventType(holder, item);
@@ -123,18 +123,18 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
         }
     }
 
-    private SpannableString createUserSpan(final String showText) {
-        SpannableString spanString = new SpannableString(showText);
-        spanString.setSpan(showText, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spanString.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-                // TODO: 2016/9/9 start the user info activity
-                gotoUserInfoActivity(showText);
-            }
-        }, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        return spanString;
-    }
+//    private SpannableString createUserSpan(final String showText) {
+//        SpannableString spanString = new SpannableString(showText);
+//        spanString.setSpan(showText, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        spanString.setSpan(new ClickableSpan() {
+//            @Override
+//            public void onClick(View widget) {
+//                // TODO: 2016/9/9 start the user info activity
+//                gotoUserInfoActivity(showText);
+//            }
+//        }, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+//        return spanString;
+//    }
 
     private SpannableString createReposSpan(final String showText) {
         SpannableString spanString = new SpannableString(showText);

@@ -28,14 +28,16 @@ public class ErrorViewHelper {
         flErrorView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                flErrorView.setVisibility(View.INVISIBLE);
-                mainView.setVisibility(View.VISIBLE);
+                hideErrorView(mainView);
                 if (callback != null)
                     callback.reload();
-//                refreshLayout.setRefreshing(true);
-//                presenter.listNews(1);
             }
         });
+    }
+
+    public void hideErrorView(final View mainView) {
+        flErrorView.setVisibility(View.INVISIBLE);
+        mainView.setVisibility(View.VISIBLE);
     }
 
     public interface OnReLoadCallback {
