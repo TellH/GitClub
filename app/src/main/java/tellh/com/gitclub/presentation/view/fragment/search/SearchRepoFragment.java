@@ -70,4 +70,5 @@ public class SearchRepoFragment extends ListFragment
         if (loadMoreWrapper.getFooterStatus() == FooterState.LOADING)
             loadMoreWrapper.setFooterStatus(FooterState.PULL_TO_LOAD_MORE);
     }
+
 }

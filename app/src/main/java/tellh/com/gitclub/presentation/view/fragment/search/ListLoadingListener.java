@@ -8,4 +8,5 @@ public interface ListLoadingListener {
 
     void hideLoading();
 
+    void showErrorView();
 }
