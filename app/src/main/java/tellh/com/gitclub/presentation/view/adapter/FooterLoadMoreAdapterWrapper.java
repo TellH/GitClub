@@ -17,6 +17,7 @@ import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
  */
 public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper {
     private int curPage;
+    private View footerView;
 
     public enum UpdateType {
         REFRESH, LOAD_MORE
@@ -43,7 +44,9 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return super.onCreateViewHolder(parent, viewType);
+        RecyclerViewHolder recyclerViewHolder = super.onCreateViewHolder(parent, viewType);
+        footerView = recyclerViewHolder.itemView;
+        return recyclerViewHolder;
     }
 
     @Override
@@ -120,14 +123,23 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
         if (updateType == UpdateType.REFRESH) {
             refresh(data);
             curPage = 1;
+            setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+            if (data.size() < getCoverScreenCount())
+                footerView.setVisibility(View.INVISIBLE);
+            else footerView.setVisibility(View.VISIBLE);
         } else {
+            if (data.isEmpty()) {
+                setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.NO_MORE);
+                return;
+            }
             addAll(data);
             curPage++;
-            if (data.isEmpty())
-                setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.NO_MORE);
-            else
-                setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+            setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
         }
+    }
+
+    private int getCoverScreenCount() {
+        return 4;
     }
 
     public int getCurPage() {

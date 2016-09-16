@@ -88,7 +88,7 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
             @Override
             public void onClick(View view) {
                 if (!checkLogin()) return;
-                //to fork
+                //to ic_fork
                 presenter.forkRepo(position, RepoListAdapter.this);
             }
         });

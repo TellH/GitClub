@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@color/blue"
+                android:textStyle="bold"
                 android:textSize="18sp"
                 tools:text="TellH111111111111111" />
 

@@ -78,4 +78,11 @@
     <string name="date_sec">second</string>
     <string name="note_to_login">Please login first!</string>
     <string name="load_again">Please Load again.</string>
+    <string name="home">Home</string>
+    <string name="please_login">Please Login</string>
+    <string name="visit_personal_home_page">Visit Personal Home Page</string>
+    <string name="sign_out">Sign out</string>
+    <string name="success_sign_out">Succeed to sign out!</string>
+    <string name="confirm_sign_out">Are you sure to sign out?</string>
+    <string name="Confirm">Confirm</string>
 </resources>

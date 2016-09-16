@@ -93,7 +93,7 @@ public class UserDataSource {
     }
 
     public Observable<List<RepositoryInfo>> listStarredRepo(String user, SortType_Repo sort, int page) {
-        return userApi.listStarredRepo(user, sort.val(), page)
+        return userApi.listStarredRepo(user, sort.val(), page, Constant.PER_PAGE)
                 .compose(RxJavaUtils.<List<RepositoryInfo>>applySchedulers());
     }
 

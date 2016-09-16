@@ -1,6 +1,7 @@
 package tellh.com.gitclub.common.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -103,6 +104,10 @@ public class Constant {
                 return list;
             }
 
+            public static List<String> getDisplayStringListForStarredRepo() {
+                return Arrays.asList(CREATED.display, STARS.display, UPDATED.display);
+            }
+
             public static SortType lookup(String key) {
                 for (SortType_Repo typeRepo : SortType_Repo.values()) {
                     if (!typeRepo.display.equalsIgnoreCase(key))
@@ -176,7 +181,7 @@ public class Constant {
         CSHARP("C#", "csharp"),
         Python("Python", "python"),
         Ruby("Ruby", "Ruby"),
-        Go("Go", "Go"),
+        Go("Go", "go"),
         PHP("PHP", "PHP"),
         ASP("ASP", "aspx-vb");
         String value;

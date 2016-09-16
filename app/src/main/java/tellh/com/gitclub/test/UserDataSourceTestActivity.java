@@ -16,7 +16,7 @@ import tellh.com.gitclub.model.entity.SearchResult;
 import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 
-import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo.CREATED;
+import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo.UPDATED;
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_User.FOLLOWERS;
 
 public class UserDataSourceTestActivity extends AppCompatActivity {
@@ -33,11 +33,11 @@ public class UserDataSourceTestActivity extends AppCompatActivity {
 //        testLogin();
 //        testListFollowers();
 //        testListFollowing();
-//        testListStarredRepo();
+        testListStarredRepo();
 //        testListWatchingRepo();
 //        testListOwnRepo();
 //        testListNews();
-        testSearch();
+//        testSearch();
     }
 
 
@@ -106,7 +106,7 @@ public class UserDataSourceTestActivity extends AppCompatActivity {
 
 
     public void testListStarredRepo() {
-        dataSource.listStarredRepo(userName, CREATED, 1)
+        dataSource.listStarredRepo(userName, UPDATED, 1)
                 .subscribe(new Subscriber<List<RepositoryInfo>>() {
                     @Override
                     public void onCompleted() {

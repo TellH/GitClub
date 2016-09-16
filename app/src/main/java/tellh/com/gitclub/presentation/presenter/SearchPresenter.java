@@ -27,7 +27,6 @@ import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 import tellh.com.gitclub.presentation.contract.SearchContract;
 import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo;
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_User;
@@ -131,7 +130,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
             if (getUpdateType(page) == repoSearchEntity.updateType)
                 Note.show(Utils.getString(R.string.reqest_flying));
             else
-                getView().showOnError(Utils.getString(R.string.reqest_flying), ListType.REPO);
+                getView().showOnError(Utils.getString(R.string.reqest_flying), ListType.REPO, getUpdateType(page));
             return;
         }
         repoSearchEntity.isFlying = true;
@@ -152,7 +151,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
                     @Override
                     protected void onError(String errorStr) {
-                        getView().showOnError(Utils.getString(R.string.error_search_repo) + errorStr, ListType.REPO);
+                        getView().showOnError(Utils.getString(R.string.error_search_repo) + errorStr, ListType.REPO, getUpdateType(page));
                     }
                 }));
     }
@@ -162,7 +161,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
             if (getUpdateType(page) == userSearchEntity.updateType)
                 Note.show(Utils.getString(R.string.reqest_flying));
             else
-                getView().showOnError(Utils.getString(R.string.reqest_flying), ListType.USER);
+                getView().showOnError(Utils.getString(R.string.reqest_flying), ListType.USER, getUpdateType(page));
             return;
         }
         userSearchEntity.isFlying = true;
@@ -183,14 +182,9 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
                     @Override
                     protected void onError(String errorStr) {
-                        getView().showOnError(Utils.getString(R.string.error_search_user) + errorStr, ListType.USER);
+                        getView().showOnError(Utils.getString(R.string.error_search_user) + errorStr, ListType.USER, getUpdateType(page));
                     }
                 }));
-    }
-
-    @NonNull
-    private UpdateType getUpdateType(int page) {
-        return page == 1 ? UpdateType.REFRESH : UpdateType.LOAD_MORE;
     }
 
     @Override
@@ -332,6 +326,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
         }
 
     }
+
     @Override
     public MaterialDialog getDialogLang() {
         return dialogManager.dialogLang;

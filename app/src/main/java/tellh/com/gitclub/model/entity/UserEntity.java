@@ -8,7 +8,7 @@ public class UserEntity {
     private String type;
 
     public boolean hasCheck = false;
-    public String bio;
+    private String bio;
     public boolean isFollowing = false;
 
     public String getType() {
@@ -49,5 +49,13 @@ public class UserEntity {
 
     public void setHtml_url(String html_url) {
         this.html_url = html_url;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

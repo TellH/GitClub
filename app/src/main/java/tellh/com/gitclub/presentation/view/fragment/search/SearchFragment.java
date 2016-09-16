@@ -35,6 +35,7 @@ import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnClickOutsideToHideEvent;
 import tellh.com.gitclub.presentation.view.adapter.CommonViewPagerAdapter;
 import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 import tellh.com.gitclub.presentation.widget.OnPageChangeListenerAdapter;
 
 import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
@@ -187,15 +188,24 @@ public class SearchFragment extends LazyFragment
     }
 
     @Override
-    public void showOnError(String msg, ListType type) {
+    public void showOnError(String msg, ListType type, UpdateType updateType) {
         showOnError(msg);
+        //hide loading
         switch (type) {
             case USER:
                 userListListener.hideLoading();
+                showErrorView(msg, userListListener, updateType);
                 break;
             case REPO:
                 reposListListener.hideLoading();
+                showErrorView(msg, reposListListener, updateType);
                 break;
+        }
+    }
+
+    private void showErrorView(String msg, final ListFragment listFragment, UpdateType updateType) {
+        if (updateType == UpdateType.REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
+            listFragment.showErrorView();
         }
     }
 

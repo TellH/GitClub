@@ -18,7 +18,7 @@ public class RepositoryInfo {
      * private : false
      * html_url : https://github.com/TellH/AutoGo
      * description : Ease your code, easy go!
-     * fork : false
+     * ic_fork : false
      * url : https://api.github.com/repos/TellH/AutoGo
      * forks_url : https://api.github.com/repos/TellH/AutoGo/forks
      * keys_url : https://api.github.com/repos/TellH/AutoGo/keys{/key_id}
@@ -270,4 +270,30 @@ public class RepositoryInfo {
         this.open_issues = open_issues;
     }
 
+    @Override
+    public String toString() {
+        return "RepositoryInfo{" +
+                "hasCheckState=" + hasCheckState +
+                ", hasStarred=" + hasStarred +
+                ", hasWatched=" + hasWatched +
+                ", id=" + id +
+                ", name='" + name + '\'' +
+                ", full_name='" + full_name + '\'' +
+                ", owner=" + owner +
+                ", privateX=" + privateX +
+                ", html_url='" + html_url + '\'' +
+                ", description='" + description + '\'' +
+                ", fork=" + fork +
+                ", stars=" + stars +
+                ", watchers_count=" + watchers_count +
+                ", language='" + language + '\'' +
+                ", forks_count=" + forks_count +
+                ", open_issues_count=" + open_issues_count +
+                ", forks=" + forks +
+                ", open_issues=" + open_issues +
+                ", created_at='" + created_at + '\'' +
+                ", updated_at='" + updated_at + '\'' +
+                ", subscribers_count=" + subscribers_count +
+                '}';
+    }
 }

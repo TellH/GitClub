@@ -41,7 +41,7 @@ public class UserListPresenter implements IUserListPresenter {
                             public Void call(Boolean isFollowing, UserInfo userInfo) {
                                 boolean change = !TextUtils.isEmpty(userInfo.getBio()) || isFollowing != userEntity.isFollowing;
                                 userEntity.isFollowing = isFollowing;
-                                userEntity.bio = userInfo.getBio();
+                                userEntity.setBio(userInfo.getBio());
                                 userEntity.hasCheck = true;
                                 if (change)
                                     adapter.notifyItemChanged(position);

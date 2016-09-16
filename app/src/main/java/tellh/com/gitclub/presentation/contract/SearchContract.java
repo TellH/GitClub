@@ -29,7 +29,7 @@ public interface SearchContract {
 
         void showListRefreshLoading(ListType listType);
 
-        void showOnError(String msg, ListType type);
+        void showOnError(String msg, ListType type, UpdateType updateType);
     }
 
     interface Presenter extends MvpPresenter<View>, IRepoListPresenter, IUserListPresenter {
