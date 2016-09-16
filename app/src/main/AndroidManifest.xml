@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".presentation.view.activity.HomeActivity" android:launchMode="singleTop"/>
         <activity android:name=".presentation.view.activity.ListStarredRepoActivity"/>
+        <activity android:name=".presentation.view.activity.ListWatchingActivity"/>
         <activity android:name=".presentation.view.activity.ListFollowersActivity"/>
         <activity android:name=".presentation.view.activity.ListFollowingUserActivity"/>
         <activity android:name=".presentation.view.activity.ListOwnRepoActivity"/>

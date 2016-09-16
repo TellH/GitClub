@@ -18,7 +18,7 @@ public class RepositoryInfo {
      * private : false
      * html_url : https://github.com/TellH/AutoGo
      * description : Ease your code, easy go!
-     * fork : false
+     * ic_fork : false
      * url : https://api.github.com/repos/TellH/AutoGo
      * forks_url : https://api.github.com/repos/TellH/AutoGo/forks
      * keys_url : https://api.github.com/repos/TellH/AutoGo/keys{/key_id}

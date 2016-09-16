@@ -2,6 +2,10 @@ package tellh.com.gitclub.presentation.view.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import tellh.com.gitclub.R;
 
 import static tellh.com.gitclub.common.config.ExtraKey.USER_NAME;
 
@@ -29,5 +33,20 @@ public class ListStarredRepoActivity extends ListRepoActivity {
     @Override
     public void onRefresh() {
         presenter.listStarredRepo(1);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_sort, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_sort) {
+            presenter.getDialogSortRepo().show();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -10,7 +10,7 @@ import static tellh.com.gitclub.common.config.ExtraKey.USER_NAME;
  */
 public class ListWatchingActivity extends ListRepoActivity {
     public static void launch(String user, Activity srcActivity) {
-        Intent intent = new Intent(srcActivity, ListStarredRepoActivity.class);
+        Intent intent = new Intent(srcActivity, ListWatchingActivity.class);
         intent.putExtra(USER_NAME, user);
         srcActivity.startActivity(intent);
     }

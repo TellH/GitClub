@@ -1,14 +1,19 @@
 package tellh.com.gitclub.presentation.view.fragment.home;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.LazyFragment;
 import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.UserInfo;
@@ -130,9 +135,20 @@ public class HomePageFragment extends LazyFragment
                 Note.show("start settings activity");
                 break;
             case R.id.tv_sign_out:
-                AccountPrefs.removeLoginUser(getContext());
-                Note.showBar("Succeed to sign out!", getView());
-                initData(null);
+                new MaterialDialog.Builder(getContext())
+                        .title(R.string.Confirm)
+                        .content(R.string.confirm_sign_out)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                AccountPrefs.removeLoginUser(getContext());
+                                Note.showBar(Utils.getString(R.string.success_sign_out), getView());
+                                initData(null);
+                            }
+                        })
+                        .positiveText("Yes")
+                        .negativeText("Cancel")
+                        .show();
                 break;
         }
     }
