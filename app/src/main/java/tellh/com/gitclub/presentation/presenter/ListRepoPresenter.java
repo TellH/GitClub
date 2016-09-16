@@ -10,6 +10,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
+import rx.functions.Action0;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BasePresenter;
 import tellh.com.gitclub.common.base.BaseView;
@@ -17,23 +18,54 @@ import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
-import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
-import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
+import tellh.com.gitclub.presentation.contract.ShowError;
+import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 /**
  * Created by tlh on 2016/9/11 :)
  */
-public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoView> {
+public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoView> implements IRepoListPresenter {
     private final UserDataSource mUserDataSource;
     private final IRepoListPresenter repoListPresenter;
 
-    private UserInfo user;
+    private String user;
 
     private ListStarredRepoRequest listStarredRepoRequest;
     private DialogManager dialogManager;
+    private boolean isFlying;
+
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    @Override
+    public void checkState(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+        repoListPresenter.checkState(position, adapter);
+    }
+
+    @Override
+    public void starRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+        repoListPresenter.starRepo(position, adapter, toggle);
+    }
+
+    @Override
+    public void watchRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+        repoListPresenter.watchRepo(position, adapter, toggle);
+    }
+
+    @Override
+    public void forkRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+        repoListPresenter.forkRepo(position, adapter);
+    }
+
+    @Override
+    public void getRepoInfo(String owner, String name, OnGetRepoCallback callback) {
+        repoListPresenter.getRepoInfo(owner, name, callback);
+    }
 
     private class ListStarredRepoRequest {
         int page;
@@ -45,22 +77,29 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
         }
     }
 
-    public ListRepoPresenter(UserDataSource userDataSource, RepositoryDataSource repositoryDataSource, Context ctx) {
+    public ListRepoPresenter(UserDataSource userDataSource, RepositoryDataSource repositoryDataSource) {
         this.mUserDataSource = userDataSource;
         repoListPresenter = new RepoListPresenter(this, repositoryDataSource);
-        user = AccountPrefs.getLoginUser(ctx);
     }
 
     public void listStarredRepo(final int page) {
-        if (user == null) {
-            getView().showOnError(Utils.getString(R.string.error_not_login));
+        if (isFlying) {
+            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
             return;
         }
         if (listStarredRepoRequest == null)
             listStarredRepoRequest = new ListStarredRepoRequest(1, SortType_Repo.CREATED);
+        isFlying = true;
+        listStarredRepoRequest.page = page;
         addSubscription(
-                mUserDataSource.listStarredRepo(user.getLogin(), listStarredRepoRequest.sortType,
+                mUserDataSource.listStarredRepo(user, listStarredRepoRequest.sortType,
                         listStarredRepoRequest.page)
+                        .doOnTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                isFlying = false;
+                            }
+                        })
                         .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
                             @Override
                             public void onNext(List<RepositoryInfo> repositoryInfos) {
@@ -78,11 +117,21 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
 
     public void listWatchingRepo(final int page) {
         if (user == null) {
-            getView().showOnError(Utils.getString(R.string.error_not_login));
             return;
         }
+        if (isFlying) {
+            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            return;
+        }
+        isFlying = true;
         addSubscription(
-                mUserDataSource.listWatchingRepo(user.getLogin(), page)
+                mUserDataSource.listWatchingRepo(user, page)
+                        .doOnTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                isFlying = false;
+                            }
+                        })
                         .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
                             @Override
                             public void onNext(List<RepositoryInfo> repositoryInfos) {
@@ -99,12 +148,19 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
     }
 
     public void listOwnRepo(final int page) {
-        if (user == null) {
-            getView().showOnError(Utils.getString(R.string.error_not_login));
+        if (isFlying) {
+            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
             return;
         }
+        isFlying = true;
         addSubscription(
-                mUserDataSource.listOwnRepo(user.getLogin(), page)
+                mUserDataSource.listOwnRepo(user, page)
+                        .doOnTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                isFlying = false;
+                            }
+                        })
                         .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
                             @Override
                             public void onNext(List<RepositoryInfo> repositoryInfos) {
@@ -165,9 +221,7 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
         }
     }
 
-    public interface ListRepoView extends BaseView {
+    public interface ListRepoView extends BaseView, ShowError {
         void onGetRepoList(List<RepositoryInfo> list, UpdateType updateType);
-
-        void showOnError(String msg, UpdateType updateType);
     }
 }

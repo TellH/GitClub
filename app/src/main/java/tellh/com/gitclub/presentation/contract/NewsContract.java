@@ -8,10 +8,8 @@ import tellh.com.gitclub.model.entity.Event;
 import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 public interface NewsContract {
-    interface View extends BaseView {
+    interface View extends BaseView,ShowError {
         void OnGetNews(List<Event> newsList, UpdateType updateType);
-
-        void showOnError(String s, UpdateType updateType);
 
         void showLoginDialog();
     }

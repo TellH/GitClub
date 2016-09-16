@@ -13,12 +13,13 @@ import tellh.com.gitclub.presentation.contract.LoginContract;
 import tellh.com.gitclub.presentation.contract.NewsContract;
 import tellh.com.gitclub.presentation.contract.SearchContract;
 import tellh.com.gitclub.presentation.presenter.ExplorePresenter;
-import tellh.com.gitclub.presentation.presenter.HomePagePresenter;
+import tellh.com.gitclub.presentation.presenter.PersonalPagePresenter;
 import tellh.com.gitclub.presentation.presenter.ListRepoPresenter;
+import tellh.com.gitclub.presentation.presenter.ListUserPresenter;
 import tellh.com.gitclub.presentation.presenter.LoginPresenter;
 import tellh.com.gitclub.presentation.presenter.NewsPresenter;
 import tellh.com.gitclub.presentation.presenter.SearchPresenter;
-import tellh.com.gitclub.presentation.contract.HomePageContract.Presenter;
+import tellh.com.gitclub.presentation.contract.PersonalPageContract.Presenter;
 
 @Module
 public class PresenterModule {
@@ -46,11 +47,16 @@ public class PresenterModule {
 
     @Provides
     public Presenter provideHomePagePresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource, Context ctx) {
-        return new HomePagePresenter(repositoryDataSource, userDataSource, ctx);
+        return new PersonalPagePresenter(repositoryDataSource, userDataSource, ctx);
     }
 
     @Provides
-    public ListRepoPresenter provideListRepoPresenter(UserDataSource userDataSource, RepositoryDataSource repositoryDataSource, Context ctx) {
-        return new ListRepoPresenter(userDataSource, repositoryDataSource, ctx);
+    public ListRepoPresenter provideListRepoPresenter(UserDataSource userDataSource, RepositoryDataSource repositoryDataSource) {
+        return new ListRepoPresenter(userDataSource, repositoryDataSource);
+    }
+
+    @Provides
+    public ListUserPresenter provideListUserPresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource) {
+        return new ListUserPresenter(repositoryDataSource, userDataSource);
     }
 }

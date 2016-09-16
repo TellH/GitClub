@@ -43,8 +43,8 @@ public class UserListAdapter extends BaseRecyclerAdapter<UserEntity> {
         //fill out data
         holder.setText(R.id.tv_name, item.getLogin());
         ImageLoader.load(item.getAvatar_url(), holder.getImageView(R.id.iv_user));
-        if (!TextUtils.isEmpty(item.bio)) {
-            holder.setText(R.id.tv_bio, item.bio);
+        if (!TextUtils.isEmpty(item.getBio())) {
+            holder.setText(R.id.tv_bio, item.getBio());
         } else {
             holder.setText(R.id.tv_bio, Utils.getString(R.string.default_bio));
         }

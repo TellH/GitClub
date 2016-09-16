@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by tlh on 2016/8/26 :)
  */
-public class UserInfo implements Parcelable {
+public class UserInfo extends UserEntity implements Parcelable {
 
     /**
      * login : TellH
@@ -41,51 +41,15 @@ public class UserInfo implements Parcelable {
      * updated_at : 2016-08-22T12:16:31Z
      */
 
-    private String login;
-    private int id;
-    private String avatar_url;
-    private String html_url;
     private String name;
     private String company;
     private String blog;
     private String location;
     private String email;
-    private String bio;
     private int public_repos;
     private int followers;
     private int following;
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getAvatar_url() {
-        return avatar_url;
-    }
-
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
-    }
-
-    public String getHtml_url() {
-        return html_url;
-    }
-
-    public void setHtml_url(String html_url) {
-        this.html_url = html_url;
-    }
 
     public String getName() {
         return name;
@@ -127,14 +91,6 @@ public class UserInfo implements Parcelable {
         this.email = email;
     }
 
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
     public int getPublic_repos() {
         return public_repos;
     }
@@ -166,16 +122,16 @@ public class UserInfo implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.login);
-        dest.writeInt(this.id);
-        dest.writeString(this.avatar_url);
-        dest.writeString(this.html_url);
+        dest.writeString(getLogin());
+        dest.writeInt(getId());
+        dest.writeString(getAvatar_url());
+        dest.writeString(getHtml_url());
         dest.writeString(this.name);
         dest.writeString(this.company);
         dest.writeString(this.blog);
         dest.writeString(this.location);
         dest.writeString(this.email);
-        dest.writeString(this.bio);
+        dest.writeString(getBio());
         dest.writeInt(this.public_repos);
         dest.writeInt(this.followers);
         dest.writeInt(this.following);
@@ -185,16 +141,16 @@ public class UserInfo implements Parcelable {
     }
 
     protected UserInfo(Parcel in) {
-        this.login = in.readString();
-        this.id = in.readInt();
-        this.avatar_url = in.readString();
-        this.html_url = in.readString();
+        setLogin(in.readString());
+        setId(in.readInt());
+        setAvatar_url(in.readString());
+        setHtml_url(in.readString());
         this.name = in.readString();
         this.company = in.readString();
         this.blog = in.readString();
         this.location = in.readString();
         this.email = in.readString();
-        this.bio = in.readString();
+        setBio(in.readString());
         this.public_repos = in.readInt();
         this.followers = in.readInt();
         this.following = in.readInt();

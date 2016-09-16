@@ -1,18 +1,33 @@
 package tellh.com.gitclub.presentation.view.fragment.home;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
-import javax.inject.Inject;
-
+import de.hdodenhof.circleimageview.CircleImageView;
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
-import tellh.com.gitclub.di.component.DaggerHomePageComponent;
-import tellh.com.gitclub.presentation.contract.HomePageContract;
+import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.wrapper.ImageLoader;
+import tellh.com.gitclub.common.wrapper.Note;
+import tellh.com.gitclub.model.entity.UserInfo;
+import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
+import tellh.com.gitclub.presentation.contract.PersonalPageContract;
+import tellh.com.gitclub.presentation.view.activity.ListFollowersActivity;
+import tellh.com.gitclub.presentation.view.activity.ListFollowingUserActivity;
+import tellh.com.gitclub.presentation.view.activity.ListOwnRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.ListStarredRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.ListWatchingActivity;
+import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 
-public class HomePageFragment extends LazyFragment implements HomePageContract.View {
-    @Inject
-    HomePageContract.Presenter presenter;
+public class HomePageFragment extends LazyFragment
+        implements PersonalPageContract.View, LoginFragment.LoginCallback, View.OnClickListener {
+    private CircleImageView ivUser;
+    private TextView tvUser;
+
+    private UserInfo loginUser;
+    private LoginFragment loginFragment;
 
     public HomePageFragment() {
         // Required empty public constructor
@@ -22,31 +37,103 @@ public class HomePageFragment extends LazyFragment implements HomePageContract.V
         return new HomePageFragment();
     }
 
-    private void initDagger() {
-        DaggerHomePageComponent.builder()
-                .appComponent(AndroidApplication.getInstance().getAppComponent())
-                .build().inject(this);
-        presenter.attachView(this);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        presenter.detachView();
-    }
-
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        loginUser = AccountPrefs.getLoginUser(getContext());
+        if (loginUser != null) {
+            ImageLoader.load(loginUser.getAvatar_url(), ivUser);
+            tvUser.setText(loginUser.getLogin());
+        } else {
+            ivUser.setImageResource(R.mipmap.ic_launcher);
+            tvUser.setText("Please login in.");
+        }
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.frag_personal_page;
+        return R.layout.frag_home_page;
     }
 
     @Override
     public void initView() {
-        initDagger();
+        ivUser = (CircleImageView) mRootView.findViewById(R.id.iv_user);
+        tvUser = (TextView) mRootView.findViewById(R.id.tv_user);
+        FrameLayout flPersonalPage = (FrameLayout) mRootView.findViewById(R.id.fl_personal_page);
+        FrameLayout flStars = (FrameLayout) mRootView.findViewById(R.id.fl_stars);
+        FrameLayout flWatching = (FrameLayout) mRootView.findViewById(R.id.fl_watching);
+        FrameLayout flFollowing = (FrameLayout) mRootView.findViewById(R.id.fl_following);
+        FrameLayout flFollowers = (FrameLayout) mRootView.findViewById(R.id.fl_followers);
+        FrameLayout flRepositories = (FrameLayout) mRootView.findViewById(R.id.fl_repositories);
+        FrameLayout flSettings = (FrameLayout) mRootView.findViewById(R.id.fl_settings);
+        TextView tvSignOut = (TextView) mRootView.findViewById(R.id.tv_sign_out);
+
+        flPersonalPage.setOnClickListener(this);
+        flStars.setOnClickListener(this);
+        flRepositories.setOnClickListener(this);
+        flFollowers.setOnClickListener(this);
+        flWatching.setOnClickListener(this);
+        flFollowing.setOnClickListener(this);
+        flSettings.setOnClickListener(this);
+        tvSignOut.setOnClickListener(this);
+    }
+
+    public void showLoginDialog() {
+        if (loginFragment == null) {
+            loginFragment = new LoginFragment();
+            loginFragment.setCallback(this);
+        }
+        if (loginFragment.getDialog() == null)
+            loginFragment.show(getFragmentManager(), ExtraKey.TAG_LOGIN_FRAGMENT);
+        else loginFragment.getDialog().show();
+    }
+
+    @Override
+    public void onSuccessToLogin() {
+        //dismiss the login dialog
+        loginFragment.setDismissable(true);
+        loginFragment.dismiss();
+
+        initData(null);
+    }
+
+    @Override
+    public void onDismissLogin() {
+        loginFragment = null;
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() != R.id.fl_settings && loginUser == null) {
+            showLoginDialog();
+            return;
+        }
+        switch (view.getId()) {
+            case R.id.fl_personal_page:
+                break;
+            case R.id.fl_stars:
+                ListStarredRepoActivity.launch(loginUser.getLogin(), getActivity());
+                break;
+            case R.id.fl_watching:
+                ListWatchingActivity.launch(loginUser.getLogin(), getActivity());
+                break;
+            case R.id.fl_followers:
+                ListFollowersActivity.launch(loginUser.getLogin(), getActivity());
+                break;
+            case R.id.fl_following:
+                ListFollowingUserActivity.launch(loginUser.getLogin(), getActivity());
+                break;
+            case R.id.fl_repositories:
+                ListOwnRepoActivity.launch(loginUser.getLogin(), getActivity());
+                break;
+            case R.id.fl_settings:
+                // TODO: 2016/9/16 start settings activity
+                Note.show("start settings activity");
+                break;
+            case R.id.tv_sign_out:
+                AccountPrefs.removeLoginUser(getContext());
+                Note.showBar("Succeed to sign out!", getView());
+                initData(null);
+                break;
+        }
     }
 }
