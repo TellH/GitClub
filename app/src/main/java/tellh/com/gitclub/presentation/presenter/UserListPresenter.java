@@ -59,53 +59,40 @@ public class UserListPresenter implements IUserListPresenter {
 
     @Override
     public void followUser(final int position, final BaseRecyclerAdapter<UserEntity> adapter, boolean toggle) {
-        if (!mPresenter.checkNetwork()|| !mPresenter.checkLogin())
+        if (!mPresenter.checkNetwork() || !mPresenter.checkLogin())
             return;
         final UserEntity userEntity = adapter.getItems().get(position);
         final String user = userEntity.getLogin();
         //to follow
-        if (toggle)
-            mPresenter.addSubscription(
-                    mUserDataSource.toFollow(user)
-                            .subscribe(new DefaultSubscriber<Boolean>() {
-                                           @Override
-                                           public void onNext(Boolean result) {
-                                               if (result) {
-                                                   Note.show(Utils.getString(R.string.success_follow_repo) + user);
-                                               } else {
-                                                   Note.show(Utils.getString(R.string.error_follow_repo) + user);
-                                               }
-                                           }
+        Observable<Boolean> observable;
+        final int hint_success;
+        final int hint_error;
+        if (toggle) {
+            observable = mUserDataSource.toFollow(user);
+            hint_success = R.string.success_follow_user;
+            hint_error = R.string.error_follow_user;
+        } else {
+            observable = mUserDataSource.toUnFollow(user);
+            hint_success = R.string.success_unfollow_user;
+            hint_error = R.string.error_unfollow_user;
+        }
+        mPresenter.addSubscription(observable
+                .subscribe(new DefaultSubscriber<Boolean>() {
+                               @Override
+                               public void onNext(Boolean result) {
+                                   if (result) {
+                                       Note.show(Utils.getString(hint_success) + user);
+                                   } else {
+                                       Note.show(Utils.getString(hint_error) + user);
+                                   }
+                               }
 
-                                           @Override
-                                           protected void onError(String errorStr) {
-                                               super.onError(errorStr);
-                                               Note.show(Utils.getString(R.string.error_follow_repo) + user);
-                                           }
-                                       }
-                            )
-            );
-        else
-            mPresenter.addSubscription(
-                    mUserDataSource.toUnFollow(user)
-                            .subscribe(new DefaultSubscriber<Boolean>() {
-                                           @Override
-                                           public void onNext(Boolean result) {
-                                               if (result) {
-                                                   Note.show(Utils.getString(R.string.success_unfollow_user) + user);
-                                               } else {
-                                                   Note.show(Utils.getString(R.string.error_unfollow_user) + user);
-                                               }
-                                           }
-
-                                           @Override
-                                           protected void onError(String errorStr) {
-                                               super.onError(errorStr);
-                                               Note.show(Utils.getString(R.string.error_unfollow_user) + user);
-                                           }
-                                       }
-                            )
-            );
-
+                               @Override
+                               protected void onError(String errorStr) {
+                                   super.onError(errorStr);
+                                   Note.show(Utils.getString(hint_error) + user);
+                               }
+                           }
+                ));
     }
 }
