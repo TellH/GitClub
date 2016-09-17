@@ -9,15 +9,12 @@ import android.widget.ProgressBar;
 import java.util.List;
 
 import tellh.com.gitclub.R;
+import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 
-/**
- * Created by tlh on 2016/2/18.
- */
 public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper {
     private int curPage;
-    private View footerView;
 
     public enum UpdateType {
         REFRESH, LOAD_MORE
@@ -44,9 +41,7 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerViewHolder recyclerViewHolder = super.onCreateViewHolder(parent, viewType);
-        footerView = recyclerViewHolder.itemView;
-        return recyclerViewHolder;
+        return super.onCreateViewHolder(parent, viewType);
     }
 
     @Override
@@ -55,6 +50,11 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
         if (mItems.size() == 0) {
             progressBar.setVisibility(View.INVISIBLE);
             holder.setText(R.id.tv_footer, Utils.getString(R.string.empty));
+            return;
+        }
+        if (mItems.size() < getPerPageSize()) {
+            holder.setText(R.id.tv_footer, noMoreText);
+            progressBar.setVisibility(View.INVISIBLE);
             return;
         }
         switch (mFooterStatus) {
@@ -124,9 +124,6 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
             refresh(data);
             curPage = 1;
             setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
-            if (data.size() < getCoverScreenCount())
-                footerView.setVisibility(View.INVISIBLE);
-            else footerView.setVisibility(View.VISIBLE);
         } else {
             if (data.isEmpty()) {
                 setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.NO_MORE);
@@ -138,8 +135,8 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
         }
     }
 
-    private int getCoverScreenCount() {
-        return 4;
+    private int getPerPageSize() {
+        return Constant.PER_PAGE;
     }
 
     public int getCurPage() {

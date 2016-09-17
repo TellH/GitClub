@@ -198,7 +198,8 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
                         @Override
                         public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                             listStarredRepoRequest.sortType = (SortType_Repo) SortType_Repo.lookup(text.toString());
-                            listStarredRepo(1);
+//                            listStarredRepo(1);
+                            getView().initData(null);
                             return true;
                         }
                     })
