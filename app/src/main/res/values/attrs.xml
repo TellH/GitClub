@@ -8,4 +8,8 @@
             <enum name="scale_offset" value="3"/>
         </attr>
     </declare-styleable>
+    <declare-styleable name="PersonalPageTextView">
+        <attr name="text_append" format="string"/>
+    </declare-styleable>
+
 </resources>

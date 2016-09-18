@@ -81,7 +81,8 @@
                     android:gravity="center"
                     android:paddingTop="5dp">
 
-                    <TextView
+                    <tellh.com.gitclub.presentation.widget.PersonalPageTextView
+                        android:id="@+id/tv_followers"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -89,9 +90,12 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_group"
                         android:gravity="center"
-                        android:text="31k Followers" />
+                        android:text="31k"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:text_append=" Followers" />
 
-                    <TextView
+                    <tellh.com.gitclub.presentation.widget.PersonalPageTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -99,9 +103,12 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_following"
                         android:gravity="center"
-                        android:text="339 Following" />
+                        android:text="969"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:text_append=" Following" />
 
-                    <TextView
+                    <tellh.com.gitclub.presentation.widget.PersonalPageTextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -109,7 +116,10 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_book"
                         android:gravity="center_horizontal"
-                        android:text="33 repos" />
+                        android:text="33"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:text_append=" Repos" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -120,11 +130,12 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_bio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
-                        android:gravity="center"
-                        android:text="Stay hungry, stay foolish."
+                        android:paddingLeft="10dp"
+                        android:text="Bio:Stay hungry, stay foolish."
                         android:textSize="18sp" />
 
                     <LinearLayout
