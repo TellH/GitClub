@@ -39,9 +39,10 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                 app:navigationIcon="@drawable/md_nav_back"
-                app:title="TellH" />
+                app:title="User" />
 
             <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/iv_user"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center"
@@ -63,7 +64,6 @@
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
-                android:id="@+id/card_view_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -75,7 +75,6 @@
                 app:contentPaddingTop="16dp">
 
                 <LinearLayout
-                    android:id="@+id/shot_actions"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:gravity="center"
@@ -90,12 +89,13 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_group"
                         android:gravity="center"
-                        android:text="31k"
+                        tools:text="31k"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:text_append=" Followers" />
 
                     <tellh.com.gitclub.presentation.widget.PersonalPageTextView
+                        android:id="@+id/tv_following"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -103,12 +103,13 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_following"
                         android:gravity="center"
-                        android:text="969"
+                        tools:text="969"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:text_append=" Following" />
 
                     <tellh.com.gitclub.presentation.widget.PersonalPageTextView
+                        android:id="@+id/tv_repo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -116,7 +117,7 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_book"
                         android:gravity="center_horizontal"
-                        android:text="33"
+                        tools:text="33"
                         android:textSize="20sp"
                         android:textStyle="bold"
                         app:text_append=" Repos" />
@@ -135,7 +136,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:paddingLeft="10dp"
-                        android:text="Bio:Stay hungry, stay foolish."
+                        tools:text="Bio:Stay hungry, stay foolish."
                         android:textSize="18sp" />
 
                     <LinearLayout
@@ -143,6 +144,7 @@
                         android:layout_height="46dp">
 
                         <Button
+                            android:id="@+id/btn_contact"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -150,21 +152,141 @@
                             android:drawableTop="@drawable/ic_contact"
                             android:gravity="center"
                             android:text="Contact"
+                            android:textSize="16sp"
                             android:textAllCaps="false"
                             android:textColor="@color/white" />
 
-                        <Button
+                        <tellh.com.gitclub.presentation.widget.RotateIconButton
+                            android:id="@+id/btn_follow"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:background="@drawable/selector_pink_right"
-                            android:drawableTop="@drawable/ic_add"
+                            android:drawableTop="@drawable/rotate_plus"
                             android:text="Follow"
+                            android:textSize="16sp"
                             android:textAllCaps="false"
                             android:textColor="@color/white" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <FrameLayout
+                android:id="@+id/fl_stars"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/selector_white"
+                android:paddingLeft="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_star" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="40dp"
+                    android:text="Stars"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_watching"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/selector_white"
+                android:paddingLeft="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:backgroundTint="#B9B9B9"
+                    android:src="@drawable/ic_watch" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="40dp"
+                    android:text="Watching"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_following"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/selector_white"
+                android:paddingLeft="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:backgroundTint="#B9B9B9"
+                    android:src="@drawable/ic_following" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="40dp"
+                    android:text="Following"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_followers"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/selector_white"
+                android:paddingLeft="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_group" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="40dp"
+                    android:text="Followers"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/fl_repositories"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/selector_white"
+                android:paddingLeft="16dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_book" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="40dp"
+                    android:text="Repositories"
+                    android:textStyle="bold" />
+            </FrameLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

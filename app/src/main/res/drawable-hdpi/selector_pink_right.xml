@@ -9,6 +9,14 @@
                 />
         </shape>
     </item>
+
+    <item android:state_checked="true">
+        <shape>
+            <solid android:color="@color/gray" />
+            <corners android:bottomRightRadius="5dp" android:topRightRadius="5dp" />
+        </shape>
+    </item>
+
     <item>
         <shape>
             <solid android:color="@color/pink" />
@@ -17,4 +25,5 @@
                 />
         </shape>
     </item>
+
 </selector>
