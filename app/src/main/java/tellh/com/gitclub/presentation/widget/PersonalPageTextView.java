@@ -53,7 +53,7 @@ public class PersonalPageTextView extends TextView {
         SpannableString sp = new SpannableString(text + txtAppend);
         sp.setSpan(new RelativeSizeSpan(0.6f), text.length(), text.length() + txtAppend.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         sp.setSpan(new StyleSpan(android.graphics.Typeface.NORMAL), text.length(), text.length() + txtAppend.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        StringUtils.changeFontStype("fonts/Georgia.ttf", this);
+        StringUtils.changeFontStyle("fonts/Georgia.ttf", this);
         super.setText(sp, type);
     }
 }

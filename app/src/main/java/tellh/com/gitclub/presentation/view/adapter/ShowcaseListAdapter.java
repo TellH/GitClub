@@ -33,7 +33,6 @@ public class ShowcaseListAdapter extends BaseRecyclerAdapter<ShowCase> {
         holder.getView(R.id.item_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 2016/9/7 go to showcase detail activity.
                 RxBusPostman.postGetShowcaseDetailEvent(item);
             }
         });

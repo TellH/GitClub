@@ -1,7 +1,10 @@
 package tellh.com.gitclub.presentation.contract.bus;
 
+import java.util.Map;
+
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.presentation.contract.bus.event.GetShowcaseDetailEvent;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnClickOutsideToHideEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.QuickReturnEvent;
@@ -24,5 +27,9 @@ public class RxBusPostman {
 
     public static void postGetShowcaseDetailEvent(ShowCase showCase) {
         RxBus.getDefault().post(new GetShowcaseDetailEvent(showCase));
+    }
+
+    public static void postLaunchActivityEvent(Map<String, String> params, LaunchActivityEvent.TargetActivity targetActivity) {
+        RxBus.getDefault().post(new LaunchActivityEvent(params, targetActivity));
     }
 }

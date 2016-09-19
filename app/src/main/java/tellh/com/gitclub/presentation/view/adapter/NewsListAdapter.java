@@ -142,7 +142,7 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
         spanString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // TODO: 2016/9/9 start the user info activity
+                // TODO: 2016/9/9 start the repo info activity
                 gotoRepoActivity(showText);
             }
         }, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

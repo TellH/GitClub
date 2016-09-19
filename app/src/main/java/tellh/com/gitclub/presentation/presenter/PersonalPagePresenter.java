@@ -41,11 +41,6 @@ public class PersonalPagePresenter extends BasePresenter<PersonalPageContract.Vi
                             public void onNext(Boolean aBoolean) {
                                 getView().onCheckFollowing(aBoolean);
                             }
-
-                            @Override
-                            protected void onError(String errorStr) {
-                                getView().showOnError(errorStr);
-                            }
                         })
         );
     }

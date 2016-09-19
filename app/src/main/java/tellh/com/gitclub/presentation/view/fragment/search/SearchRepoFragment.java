@@ -28,7 +28,7 @@ public class SearchRepoFragment extends ListFragment
     @Override
     protected RecyclerView.Adapter getListAdapter() {
         assert mListener != null;
-        loadMoreWrapper = new FooterLoadMoreAdapterWrapper(new RepoListAdapter(context, null, mListener.getPresenter()));
+        loadMoreWrapper = new FooterLoadMoreAdapterWrapper(new RepoListAdapter(getContext(), null, mListener.getPresenter()));
         loadMoreWrapper.addFooter(R.layout.footer_load_more);
         loadMoreWrapper.setOnReachFooterListener(recyclerView, this);
         return loadMoreWrapper;

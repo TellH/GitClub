@@ -6,11 +6,14 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="tellh.com.gitclub.presentation.view.activity.PersonalHomePageActivity">
+
     <ViewStub
         android:id="@+id/vs_error"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
+        android:layout_gravity="bottom"
         android:layout="@layout/error_view" />
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="256dp"
@@ -95,10 +98,10 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_group"
                         android:gravity="center"
-                        tools:text="31k"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:text_append=" Followers" />
+                        app:text_append=" Followers"
+                        tools:text="31k" />
 
                     <tellh.com.gitclub.presentation.widget.PersonalPageTextView
                         android:id="@+id/tv_following"
@@ -109,10 +112,10 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_following"
                         android:gravity="center"
-                        tools:text="969"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:text_append=" Following" />
+                        app:text_append=" Following"
+                        tools:text="969" />
 
                     <tellh.com.gitclub.presentation.widget.PersonalPageTextView
                         android:id="@+id/tv_repo"
@@ -123,10 +126,10 @@
                         android:clickable="true"
                         android:drawableTop="@drawable/ic_book"
                         android:gravity="center_horizontal"
-                        tools:text="33"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        app:text_append=" Repos" />
+                        app:text_append=" Repos"
+                        tools:text="33" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -142,8 +145,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="5dp"
                         android:paddingLeft="10dp"
-                        tools:text="Bio:Stay hungry, stay foolish."
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:text="Bio:Stay hungry, stay foolish." />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -158,9 +161,9 @@
                             android:drawableTop="@drawable/ic_contact"
                             android:gravity="center"
                             android:text="Contact"
-                            android:textSize="16sp"
                             android:textAllCaps="false"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
 
                         <tellh.com.gitclub.presentation.widget.RotateIconButton
                             android:id="@+id/btn_follow"
@@ -170,9 +173,9 @@
                             android:background="@drawable/selector_pink_right"
                             android:drawableTop="@drawable/rotate_plus"
                             android:text="Follow"
-                            android:textSize="16sp"
                             android:textAllCaps="false"
-                            android:textColor="@color/white" />
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -295,5 +298,5 @@
             </FrameLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-    <include layout="@layout/dialog_contact"/>
+
 </android.support.design.widget.CoordinatorLayout>

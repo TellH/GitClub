@@ -27,8 +27,14 @@ public class StringUtils {
         return builder.toString();
     }
 
-    public static void changeFontStype(String fontType, TextView tv) {
+    public static void changeFontStyle(String fontType, TextView tv) {
         Typeface custom_font = Typeface.createFromAsset(AndroidApplication.getInstance().getAssets(), fontType);
         tv.setTypeface(custom_font);
+    }
+
+    public static String formatNumber2Thousand(int num) {
+        if (num / 1000 <= 0)
+            return String.valueOf(num);
+        return append(String.format("%.1f", (float) num / 1000f), "k");
     }
 }

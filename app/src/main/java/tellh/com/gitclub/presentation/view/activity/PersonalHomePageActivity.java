@@ -4,16 +4,17 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -39,24 +40,17 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
     @Inject
     PersonalPageContract.Presenter presenter;
     private Toolbar toolbar;
+    private TextView tvBio;
     private CircleImageView ivUser;
     private PersonalPageTextView tvFollowers;
     private PersonalPageTextView tvFollowing;
     private PersonalPageTextView tvRepo;
-    private TextView tvBio;
-    private Button btnContact;
     private RotateIconButton btnFollow;
     private String mUserName;
     private UserInfo mUserInfo;
-    private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
-    private TextView tvBlog;
-    private TextView tvEmail;
-    private TextView tvName;
-    private TextView tvLocation;
-    private TextView tvCompany;
-
     private ErrorViewHelper errorView;
     private NestedScrollView mainContent;
+    private ContactUserInfoBottomSheetDialog bottomSheetDialog;
 
     public static void launch(Activity srcActivity, String user) {
         Intent intent = new Intent(srcActivity, PersonalHomePageActivity.class);
@@ -68,6 +62,7 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
     public void showOnError(String s) {
         Note.show(s);
         progressDialog.dismiss();
+
         if (!errorView.isShowing()) {
             errorView.showErrorView(mainContent, new ErrorViewHelper.OnReLoadCallback() {
                 @Override
@@ -75,7 +70,6 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
                     presenter.getUserInfo(mUserName);
                 }
             });
-
         }
     }
 
@@ -107,7 +101,7 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
             if (loginUser != null && loginUser.getLogin().equals(mUserName)) {
                 btnFollow.setClickable(false);
                 btnFollow.setBackgroundResource(R.drawable.selector_pink_right_checked);
-            }else {
+            } else {
                 presenter.checkIfFollowing(mUserName);
             }
 
@@ -133,22 +127,14 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         tvFollowing = (PersonalPageTextView) findViewById(R.id.tv_following);
         tvRepo = (PersonalPageTextView) findViewById(R.id.tv_repo);
         tvBio = (TextView) findViewById(R.id.tv_bio);
-        tvName = (TextView) findViewById(R.id.tv_name);
-        tvCompany = (TextView) findViewById(R.id.tv_company);
-        tvLocation = (TextView) findViewById(R.id.tv_location);
-        tvBlog = (TextView) findViewById(R.id.tv_blog);
-        tvEmail = (TextView) findViewById(R.id.tv_email);
-        btnContact = (Button) findViewById(R.id.btn_contact);
+
+        Button btnContact = (Button) findViewById(R.id.btn_contact);
         btnFollow = (RotateIconButton) findViewById(R.id.btn_follow);
         FrameLayout flStars = (FrameLayout) findViewById(R.id.fl_stars);
         FrameLayout flWatching = (FrameLayout) findViewById(R.id.fl_watching);
         FrameLayout flFollowing = (FrameLayout) findViewById(R.id.fl_following);
         FrameLayout flFollowers = (FrameLayout) findViewById(R.id.fl_followers);
         FrameLayout flRepositories = (FrameLayout) findViewById(R.id.fl_repositories);
-
-        LinearLayout bottomSheetContainer
-                = (LinearLayout) findViewById(R.id.bottom_sheet_container);
-        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer);
 
         tvFollowers.setOnClickListener(this);
         tvFollowing.setOnClickListener(this);
@@ -160,10 +146,9 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         flStars.setOnClickListener(this);
         flWatching.setOnClickListener(this);
         flFollowing.setOnClickListener(this);
-        tvBlog.setOnClickListener(this);
-        tvEmail.setOnClickListener(this);
 
-        StringUtils.changeFontStype("fonts/Georgia.ttf", tvBio);
+        StringUtils.changeFontStyle("fonts/Georgia.ttf", tvBio);
+        setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,11 +184,14 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
                 ListWatchingActivity.launch(mUserName, this);
                 break;
             case R.id.btn_contact:
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                if (bottomSheetDialog == null)
+                    bottomSheetDialog = new ContactUserInfoBottomSheetDialog(this, mUserInfo);
+                bottomSheetDialog.show();
                 break;
             case R.id.btn_follow:
                 presenter.toFollow(mUserName, btnFollow.toggle());
                 break;
+
         }
     }
 
@@ -219,28 +207,42 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         this.mUserInfo = userInfo;
         ImageLoader.load(userInfo.getAvatar_url(), ivUser);
         toolbar.setTitle(userInfo.getLogin());
-        tvFollowers.setText(String.valueOf(userInfo.getFollowers()));
-        tvRepo.setText(String.valueOf(userInfo.getPublic_repos()));
-        tvFollowing.setText(String.valueOf(userInfo.getFollowing()));
+        tvFollowers.setText(StringUtils.formatNumber2Thousand(userInfo.getFollowers()));
+        tvRepo.setText(StringUtils.formatNumber2Thousand(userInfo.getPublic_repos()));
+        tvFollowing.setText(StringUtils.formatNumber2Thousand(userInfo.getFollowing()));
         if (!TextUtils.isEmpty(userInfo.getBio())) {
             tvBio.setText(userInfo.getBio());
         }
-
-        setContactData(userInfo.getName(), tvName);
-        setContactData(userInfo.getCompany(), tvCompany);
-        setContactData(userInfo.getBlog(), tvBlog);
-        setContactData(userInfo.getLocation(), tvLocation);
-        setContactData(userInfo.getEmail(), tvEmail);
+        if (bottomSheetDialog == null)
+            bottomSheetDialog = new ContactUserInfoBottomSheetDialog(this, mUserInfo);
+        bottomSheetDialog.refreshData(userInfo);
     }
 
-    protected void setContactData(String data, TextView textView) {
-        if (!TextUtils.isEmpty(data))
-            textView.setText(data);
-        else textView.setText("No description.");
-    }
 
     @Override
     public void onCheckFollowing(Boolean isFollowing) {
         btnFollow.setState(isFollowing);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_personal_page, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_open_in_browser) {
+            if (mUserInfo == null || TextUtils.isEmpty(mUserInfo.getHtml_url()))
+                return super.onOptionsItemSelected(item);
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(mUserInfo.getHtml_url()));
+            intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

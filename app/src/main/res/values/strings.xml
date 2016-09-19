@@ -87,4 +87,5 @@
     <string name="Confirm">Confirm</string>
     <string name="error_self_follow">User can\'t not self-follow</string>
     <string name="no_description">No description</string>
+    <string name="open_in_browser">Open in browser</string>
 </resources>

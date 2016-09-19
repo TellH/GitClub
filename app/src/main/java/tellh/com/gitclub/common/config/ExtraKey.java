@@ -6,4 +6,5 @@ package tellh.com.gitclub.common.config;
 public class ExtraKey {
     public static final String TAG_LOGIN_FRAGMENT = "LoginFragment";
     public static final String USER_NAME = "USER_NAME";
+    public static final String NAME_BLOG = "USER_BLOG";
 }
