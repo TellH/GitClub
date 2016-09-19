@@ -6,7 +6,11 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="tellh.com.gitclub.presentation.view.activity.PersonalHomePageActivity">
-
+    <ViewStub
+        android:id="@+id/vs_error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout="@layout/error_view" />
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="256dp"
@@ -53,6 +57,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"

@@ -86,4 +86,5 @@
     <string name="confirm_sign_out">Are you sure to sign out?</string>
     <string name="Confirm">Confirm</string>
     <string name="error_self_follow">User can\'t not self-follow</string>
+    <string name="no_description">No description</string>
 </resources>

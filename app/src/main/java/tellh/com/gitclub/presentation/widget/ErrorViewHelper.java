@@ -40,6 +40,10 @@ public class ErrorViewHelper {
         mainView.setVisibility(View.VISIBLE);
     }
 
+    public boolean isShowing() {
+        return flErrorView != null && flErrorView.getVisibility() == View.VISIBLE;
+    }
+
     public interface OnReLoadCallback {
         void reload();
     }

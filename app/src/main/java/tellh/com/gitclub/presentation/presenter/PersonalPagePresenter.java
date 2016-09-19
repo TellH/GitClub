@@ -6,6 +6,7 @@ import rx.Observable;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BasePresenter;
 import tellh.com.gitclub.common.base.DefaultSubscriber;
+import tellh.com.gitclub.common.utils.RxJavaUtils;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.UserInfo;
@@ -16,16 +17,11 @@ import tellh.com.gitclub.presentation.contract.PersonalPageContract;
 public class PersonalPagePresenter extends BasePresenter<PersonalPageContract.View> implements PersonalPageContract.Presenter {
     private final UserDataSource mUserDataSource;
     private final Context mCtx;
-//    private String mUser;
 
     public PersonalPagePresenter(UserDataSource userDataSource, Context ctx) {
         mUserDataSource = userDataSource;
         mCtx = ctx;
     }
-
-//    public void setUser(String mUser) {
-//        this.mUser = mUser;
-//    }
 
     @Override
     public void checkIfFollowing(String user) {
@@ -58,13 +54,20 @@ public class PersonalPagePresenter extends BasePresenter<PersonalPageContract.Vi
     public void getUserInfo(final String user) {
         addSubscription(
                 mUserDataSource.getUserInfo(user)
+                        .compose(RxJavaUtils.<UserInfo>setLoadingListener(getView()))
                         .subscribe(new DefaultSubscriber<UserInfo>() {
-                            @Override
-                            public void onNext(UserInfo userInfo) {
-                                getView().showOnSuccess();
-                                getView().onGetUserInfo(userInfo);
-                            }
-                        })
+                                       @Override
+                                       public void onNext(UserInfo userInfo) {
+                                           getView().showOnSuccess();
+                                           getView().onGetUserInfo(userInfo);
+                                       }
+
+                                       @Override
+                                       protected void onError(String errorStr) {
+                                           getView().showOnError(errorStr);
+                                       }
+                                   }
+                        )
         );
     }
 

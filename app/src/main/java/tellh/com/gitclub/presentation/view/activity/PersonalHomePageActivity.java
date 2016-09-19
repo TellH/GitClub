@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -28,6 +30,7 @@ import tellh.com.gitclub.di.component.DaggerHomePageComponent;
 import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.contract.PersonalPageContract;
+import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 import tellh.com.gitclub.presentation.widget.PersonalPageTextView;
 import tellh.com.gitclub.presentation.widget.RotateIconButton;
 
@@ -52,6 +55,9 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
     private TextView tvLocation;
     private TextView tvCompany;
 
+    private ErrorViewHelper errorView;
+    private NestedScrollView mainContent;
+
     public static void launch(Activity srcActivity, String user) {
         Intent intent = new Intent(srcActivity, PersonalHomePageActivity.class);
         intent.putExtra(ExtraKey.USER_NAME, user);
@@ -62,6 +68,15 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
     public void showOnError(String s) {
         Note.show(s);
         progressDialog.dismiss();
+        if (!errorView.isShowing()) {
+            errorView.showErrorView(mainContent, new ErrorViewHelper.OnReLoadCallback() {
+                @Override
+                public void reload() {
+                    presenter.getUserInfo(mUserName);
+                }
+            });
+
+        }
     }
 
     @Override
@@ -74,6 +89,8 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
     public void showOnSuccess() {
         progressDialog.dismiss();
         Note.show(getString(R.string.success_loading));
+        if (errorView.isShowing())
+            errorView.hideErrorView(mainContent);
     }
 
     @Override
@@ -86,11 +103,12 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         if (intent != null) {
             mUserName = intent.getStringExtra(ExtraKey.USER_NAME);
             presenter.getUserInfo(mUserName);
-            presenter.checkIfFollowing(mUserName);
             UserInfo loginUser = AccountPrefs.getLoginUser(this);
             if (loginUser != null && loginUser.getLogin().equals(mUserName)) {
                 btnFollow.setClickable(false);
                 btnFollow.setBackgroundResource(R.drawable.selector_pink_right_checked);
+            }else {
+                presenter.checkIfFollowing(mUserName);
             }
 
         }
@@ -106,6 +124,9 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         progressDialog = new ProgressDialog(this);
         progressDialog.setCanceledOnTouchOutside(false);
 
+        errorView = new ErrorViewHelper((ViewStub) findViewById(R.id.vs_error));
+
+        mainContent = (NestedScrollView) findViewById(R.id.main_content);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         ivUser = (CircleImageView) findViewById(R.id.iv_user);
         tvFollowers = (PersonalPageTextView) findViewById(R.id.tv_followers);
@@ -128,7 +149,6 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         LinearLayout bottomSheetContainer
                 = (LinearLayout) findViewById(R.id.bottom_sheet_container);
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer);
-
 
         tvFollowers.setOnClickListener(this);
         tvFollowing.setOnClickListener(this);
