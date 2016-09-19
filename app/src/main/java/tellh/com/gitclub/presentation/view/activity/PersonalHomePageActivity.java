@@ -5,11 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import javax.inject.Inject;
@@ -43,6 +45,12 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
     private RotateIconButton btnFollow;
     private String mUserName;
     private UserInfo mUserInfo;
+    private BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
+    private TextView tvBlog;
+    private TextView tvEmail;
+    private TextView tvName;
+    private TextView tvLocation;
+    private TextView tvCompany;
 
     public static void launch(Activity srcActivity, String user) {
         Intent intent = new Intent(srcActivity, PersonalHomePageActivity.class);
@@ -104,6 +112,11 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         tvFollowing = (PersonalPageTextView) findViewById(R.id.tv_following);
         tvRepo = (PersonalPageTextView) findViewById(R.id.tv_repo);
         tvBio = (TextView) findViewById(R.id.tv_bio);
+        tvName = (TextView) findViewById(R.id.tv_name);
+        tvCompany = (TextView) findViewById(R.id.tv_company);
+        tvLocation = (TextView) findViewById(R.id.tv_location);
+        tvBlog = (TextView) findViewById(R.id.tv_blog);
+        tvEmail = (TextView) findViewById(R.id.tv_email);
         btnContact = (Button) findViewById(R.id.btn_contact);
         btnFollow = (RotateIconButton) findViewById(R.id.btn_follow);
         FrameLayout flStars = (FrameLayout) findViewById(R.id.fl_stars);
@@ -111,6 +124,11 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         FrameLayout flFollowing = (FrameLayout) findViewById(R.id.fl_following);
         FrameLayout flFollowers = (FrameLayout) findViewById(R.id.fl_followers);
         FrameLayout flRepositories = (FrameLayout) findViewById(R.id.fl_repositories);
+
+        LinearLayout bottomSheetContainer
+                = (LinearLayout) findViewById(R.id.bottom_sheet_container);
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetContainer);
+
 
         tvFollowers.setOnClickListener(this);
         tvFollowing.setOnClickListener(this);
@@ -122,6 +140,8 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         flStars.setOnClickListener(this);
         flWatching.setOnClickListener(this);
         flFollowing.setOnClickListener(this);
+        tvBlog.setOnClickListener(this);
+        tvEmail.setOnClickListener(this);
 
         StringUtils.changeFontStype("fonts/Georgia.ttf", tvBio);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -159,6 +179,7 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
                 ListWatchingActivity.launch(mUserName, this);
                 break;
             case R.id.btn_contact:
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 break;
             case R.id.btn_follow:
                 presenter.toFollow(mUserName, btnFollow.toggle());
@@ -184,6 +205,18 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         if (!TextUtils.isEmpty(userInfo.getBio())) {
             tvBio.setText(userInfo.getBio());
         }
+
+        setContactData(userInfo.getName(), tvName);
+        setContactData(userInfo.getCompany(), tvCompany);
+        setContactData(userInfo.getBlog(), tvBlog);
+        setContactData(userInfo.getLocation(), tvLocation);
+        setContactData(userInfo.getEmail(), tvEmail);
+    }
+
+    protected void setContactData(String data, TextView textView) {
+        if (!TextUtils.isEmpty(data))
+            textView.setText(data);
+        else textView.setText("No description.");
     }
 
     @Override

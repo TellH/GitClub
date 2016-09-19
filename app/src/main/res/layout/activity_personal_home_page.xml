@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context="tellh.com.gitclub.presentation.view.activity.PersonalHomePageActivity">
 
     <android.support.design.widget.AppBarLayout
@@ -289,4 +290,5 @@
             </FrameLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    <include layout="@layout/dialog_contact"/>
 </android.support.design.widget.CoordinatorLayout>
