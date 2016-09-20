@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -35,7 +37,8 @@ import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 import tellh.com.gitclub.presentation.widget.PersonalPageTextView;
 import tellh.com.gitclub.presentation.widget.RotateIconButton;
 
-public class PersonalHomePageActivity extends BaseActivity implements View.OnClickListener, PersonalPageContract.View {
+public class PersonalHomePageActivity extends BaseActivity
+        implements View.OnClickListener, PersonalPageContract.View {
     protected ProgressDialog progressDialog;
     @Inject
     PersonalPageContract.Presenter presenter;
@@ -135,7 +138,18 @@ public class PersonalHomePageActivity extends BaseActivity implements View.OnCli
         FrameLayout flFollowing = (FrameLayout) findViewById(R.id.fl_following);
         FrameLayout flFollowers = (FrameLayout) findViewById(R.id.fl_followers);
         FrameLayout flRepositories = (FrameLayout) findViewById(R.id.fl_repositories);
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appBarLayout);
 
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset == 0)
+                    ViewCompat.setAlpha(ivUser, 1);
+                else if (verticalOffset >= -100)
+                    ViewCompat.setAlpha(ivUser, (float) 1 + verticalOffset / 100f);
+                else ViewCompat.setAlpha(ivUser, 0);
+            }
+        });
         tvFollowers.setOnClickListener(this);
         tvFollowing.setOnClickListener(this);
         tvRepo.setOnClickListener(this);
