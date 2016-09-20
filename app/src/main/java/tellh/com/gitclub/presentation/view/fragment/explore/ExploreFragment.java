@@ -41,6 +41,8 @@ import tellh.com.gitclub.presentation.widget.ShowcaseListBottomSheetDialog;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.ListType;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.Presenter;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.SHOWCASES;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.TRENDING;
 
 public class ExploreFragment extends LazyFragment
         implements ExploreContract.View, OnListFragmentInteractListener {
@@ -204,9 +206,9 @@ public class ExploreFragment extends LazyFragment
     }
 
     @Override
-    public void showOnError(String msg, ListType type) {
+    public void showOnError(String msg, @ListType int type) {
         showOnError(msg);
-        if (type == ListType.TRENDING)
+        if (type == ExploreContract.TRENDING)
             trendingListFragment.hideLoading();
         else showCaseListFragment.hideLoading();
     }
@@ -230,7 +232,7 @@ public class ExploreFragment extends LazyFragment
     }
 
     @Override
-    public void onFetchData(ListType type) {
+    public void onFetchData(@ListType int type) {
         switch (type) {
             case SHOWCASES:
                 presenter.listShowCase();

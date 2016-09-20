@@ -2,6 +2,8 @@ package tellh.com.gitclub.presentation.contract.bus.event;
 
 import android.support.annotation.IntDef;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Map;
 
 /**
@@ -12,6 +14,7 @@ public class LaunchActivityEvent {
     public static final int BROWSER_ACTIVITY = 987;
 
     @IntDef({PERSONAL_HOME_PAGE_ACTIVITY, BROWSER_ACTIVITY})
+    @Retention(RetentionPolicy.SOURCE)
     public @interface TargetActivity {
     }
 

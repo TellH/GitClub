@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.config.IUsersType;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.model.entity.UserEntity;
@@ -55,7 +55,7 @@ public class UserListAdapter extends BaseRecyclerAdapter<UserEntity> {
 
         //set up the Follow or unFollow button.
         final Button btnFollow = holder.getButton(R.id.btn_follow);
-        if (!Constant.UsersType.USER.toString().equals(item.getType())) {
+        if (!IUsersType.USER.equals(item.getType())) {
             btnFollow.setClickable(false);
             btnFollow.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray));
             btnFollow.setTextColor(ContextCompat.getColor(mContext, R.color.gray_text));

@@ -17,6 +17,7 @@ import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.QuickReturnEvent;
+import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
 import tellh.com.gitclub.presentation.view.adapter.CommonViewPagerAdapter;
 import tellh.com.gitclub.presentation.view.fragment.explore.ExploreFragment;
 import tellh.com.gitclub.presentation.view.fragment.home.HomePageFragment;

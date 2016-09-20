@@ -26,12 +26,12 @@
         <activity
             android:name=".presentation.view.activity.HomeActivity"
             android:launchMode="singleTop" />
-        <activity android:name=".presentation.view.activity.ListStarredRepoActivity" />
-        <activity android:name=".presentation.view.activity.ListWatchingActivity" />
-        <activity android:name=".presentation.view.activity.ListFollowersActivity" />
-        <activity android:name=".presentation.view.activity.ListFollowingUserActivity" />
-        <activity android:name=".presentation.view.activity.ListOwnRepoActivity" />
-        <activity android:name=".presentation.view.activity.PersonalHomePageActivity"></activity>
+        <activity android:name=".presentation.view.activity.detail_list.ListStarredRepoActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListWatchingActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListFollowersActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListFollowingUserActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListOwnRepoActivity" />
+        <activity android:name=".presentation.view.activity.user_personal_page.PersonalHomePageActivity"></activity>
     </application>
 
 </manifest>

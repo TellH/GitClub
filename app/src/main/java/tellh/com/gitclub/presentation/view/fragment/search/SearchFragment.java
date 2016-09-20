@@ -41,6 +41,8 @@ import tellh.com.gitclub.presentation.widget.OnPageChangeListenerAdapter;
 import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.Presenter;
+import static tellh.com.gitclub.presentation.contract.SearchContract.REPO;
+import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
 
 public class SearchFragment extends LazyFragment
         implements SearchContract.View, OnListFragmentInteractListener {
@@ -111,7 +113,7 @@ public class SearchFragment extends LazyFragment
             @Override
             public void onClick(android.view.View view) {
                 SearchContract.SearchEntity searchEntity = presenter.getCurrentSearchEntity();
-                if (searchEntity.type == ListType.REPO)
+                if (searchEntity.type == REPO)
                     presenter.getDialogSortRepo().show();
                 else presenter.getDialogSortUser().show();
                 fabMenu.collapse();
@@ -180,15 +182,15 @@ public class SearchFragment extends LazyFragment
     }
 
     @Override
-    public void showListRefreshLoading(ListType listType) {
-        if (listType == ListType.REPO) {
+    public void showListRefreshLoading(@ListType int listType) {
+        if (listType == REPO) {
             reposListListener.showLoading();
         } else
             userListListener.showLoading();
     }
 
     @Override
-    public void showOnError(String msg, ListType type, UpdateType updateType) {
+    public void showOnError(String msg, @ListType int type, UpdateType updateType) {
         showOnError(msg);
         //hide loading
         switch (type) {
@@ -250,7 +252,7 @@ public class SearchFragment extends LazyFragment
     }
 
     @Override
-    public void onFetchPage(ListType type, int page) {
+    public void onFetchPage(@ListType int type, int page) {
         switch (type) {
             case USER:
                 presenter.searchUser(page);

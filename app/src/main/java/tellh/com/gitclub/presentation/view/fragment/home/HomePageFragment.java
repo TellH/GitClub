@@ -18,12 +18,12 @@ import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
-import tellh.com.gitclub.presentation.view.activity.ListFollowersActivity;
-import tellh.com.gitclub.presentation.view.activity.ListFollowingUserActivity;
-import tellh.com.gitclub.presentation.view.activity.ListOwnRepoActivity;
-import tellh.com.gitclub.presentation.view.activity.ListStarredRepoActivity;
-import tellh.com.gitclub.presentation.view.activity.ListWatchingActivity;
-import tellh.com.gitclub.presentation.view.activity.PersonalHomePageActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListFollowersActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListFollowingUserActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListOwnRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListStarredRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListWatchingActivity;
+import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
 import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 
 public class HomePageFragment extends LazyFragment

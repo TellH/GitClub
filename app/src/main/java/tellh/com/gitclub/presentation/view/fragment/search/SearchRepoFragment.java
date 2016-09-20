@@ -12,9 +12,9 @@ import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.
 import tellh.com.gitclub.presentation.view.adapter.RepoListAdapter;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
-import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnGetReposListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
+import static tellh.com.gitclub.presentation.contract.SearchContract.REPO;
 
 public class SearchRepoFragment extends ListFragment
         implements OnGetReposListener, FooterLoadMoreAdapterWrapper.OnReachFooterListener {
@@ -52,7 +52,7 @@ public class SearchRepoFragment extends ListFragment
 
     @Override
     public void onToLoadMore(int curPage) {
-        mListener.onFetchPage(ListType.REPO, curPage + 1);
+        mListener.onFetchPage(REPO, curPage + 1);
     }
 
     void setListFragmentInteractListener(OnListFragmentInteractListener listener) {
@@ -61,7 +61,7 @@ public class SearchRepoFragment extends ListFragment
 
     @Override
     public void onRefresh() {
-        mListener.onFetchPage(ListType.REPO, 1);
+        mListener.onFetchPage(REPO, 1);
     }
 
     @Override

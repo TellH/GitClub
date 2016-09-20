@@ -1,4 +1,4 @@
-package tellh.com.gitclub.presentation.view.activity;
+package tellh.com.gitclub.presentation.view.activity.detail_list;
 
 import android.app.ProgressDialog;
 import android.content.Context;

@@ -245,40 +245,4 @@ public class Constant {
         }
     }
 
-    public enum UsersType {
-        USER("User"),
-        ORGANIZATION("Organization");
-
-        private final String value;
-
-        UsersType(String val) {
-            value = val;
-        }
-
-        @Override
-        public String toString() {
-            return value;
-        }
-    }
-
-    public enum EventType {
-        WatchEvent,
-        CreateEvent,
-        CommitCommentEvent,
-        ForkEvent,
-        GollumEvent,
-        IssueCommentEvent,
-        IssuesEvent,
-        MemberEvent,
-        MembershipEvent,
-        PublicEvent,
-        PullRequestEvent,
-        PullRequestReviewCommentEvent,
-        PushEvent,
-        StatusEvent,
-        TeamAddEvent,
-        DeleteEvent,
-        ReleaseEvent,
-        Unhandled;
-    }
 }

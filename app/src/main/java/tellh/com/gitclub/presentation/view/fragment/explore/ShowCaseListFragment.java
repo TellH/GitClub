@@ -12,8 +12,8 @@ import tellh.com.gitclub.presentation.contract.ExploreContract;
 import tellh.com.gitclub.presentation.view.adapter.ShowcaseListAdapter;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
-import static tellh.com.gitclub.presentation.contract.ExploreContract.ListType.SHOWCASES;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFragmentInteractListener;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.SHOWCASES;
 
 /**
  * Created by tlh on 2016/9/5 :)

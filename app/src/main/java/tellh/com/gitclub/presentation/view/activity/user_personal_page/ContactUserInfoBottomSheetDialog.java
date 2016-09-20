@@ -1,4 +1,4 @@
-package tellh.com.gitclub.presentation.view.activity;
+package tellh.com.gitclub.presentation.view.activity.user_personal_page;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

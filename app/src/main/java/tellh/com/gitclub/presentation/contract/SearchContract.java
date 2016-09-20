@@ -1,8 +1,12 @@
 package tellh.com.gitclub.presentation.contract;
 
 
+import android.support.annotation.IntDef;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import tellh.com.gitclub.common.base.BaseView;
@@ -17,9 +21,12 @@ import tellh.com.gitclub.presentation.view.fragment.search.ListLoadingListener;
 import static tellh.com.gitclub.common.config.Constant.SortType;
 
 public interface SearchContract {
+    int REPO = 0;
+    int USER = 1;
 
-    enum ListType {
-        REPO, USER
+    @IntDef({REPO, USER})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface ListType {
     }
 
     interface View extends BaseView {
@@ -27,9 +34,9 @@ public interface SearchContract {
 
         void onGetUsers(int total_count, List<UserEntity> items, UpdateType updateType);
 
-        void showListRefreshLoading(ListType listType);
+        void showListRefreshLoading(@ListType int listType);
 
-        void showOnError(String msg, ListType type, UpdateType updateType);
+        void showOnError(String msg, @ListType int type, UpdateType updateType);
     }
 
     interface Presenter extends MvpPresenter<View>, IRepoListPresenter, IUserListPresenter {
@@ -58,7 +65,7 @@ public interface SearchContract {
     }
 
     interface OnListFragmentInteractListener {
-        void onFetchPage(ListType type, int page);
+        void onFetchPage(@ListType int type, int page);
 
         Presenter getPresenter();
     }
@@ -73,12 +80,13 @@ public interface SearchContract {
     }
 
     class SearchEntity {
-        public SearchEntity(ListType type) {
+        public SearchEntity(@ListType int type) {
             this.type = type;
         }
 
         public boolean isFlying;
-        public ListType type;
+        @ListType
+        public int type;
         public String keyWord;
         public SortType sortType;
         public String language;

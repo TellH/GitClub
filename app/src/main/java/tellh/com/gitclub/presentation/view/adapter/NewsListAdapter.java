@@ -23,7 +23,22 @@ import tellh.com.gitclub.model.entity.Event;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 
-import static tellh.com.gitclub.common.config.Constant.EventType;
+import static tellh.com.gitclub.common.config.IEventType.CommitCommentEvent;
+import static tellh.com.gitclub.common.config.IEventType.CreateEvent;
+import static tellh.com.gitclub.common.config.IEventType.DeleteEvent;
+import static tellh.com.gitclub.common.config.IEventType.EventType;
+import static tellh.com.gitclub.common.config.IEventType.ForkEvent;
+import static tellh.com.gitclub.common.config.IEventType.GollumEvent;
+import static tellh.com.gitclub.common.config.IEventType.IssueCommentEvent;
+import static tellh.com.gitclub.common.config.IEventType.IssuesEvent;
+import static tellh.com.gitclub.common.config.IEventType.MemberEvent;
+import static tellh.com.gitclub.common.config.IEventType.MembershipEvent;
+import static tellh.com.gitclub.common.config.IEventType.PublicEvent;
+import static tellh.com.gitclub.common.config.IEventType.PullRequestEvent;
+import static tellh.com.gitclub.common.config.IEventType.PullRequestReviewCommentEvent;
+import static tellh.com.gitclub.common.config.IEventType.PushEvent;
+import static tellh.com.gitclub.common.config.IEventType.ReleaseEvent;
+import static tellh.com.gitclub.common.config.IEventType.WatchEvent;
 
 public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
     public NewsListAdapter(List<Event> items, Context context) {
@@ -62,7 +77,9 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
         holder.setText(R.id.tv_desc, "");
         try {
             Event.PayloadEntity payload = item.getPayload();
-            switch (EventType.valueOf(item.getType())) {
+            @EventType
+            String type = item.getType();
+            switch (type) {
                 case WatchEvent:
                     holder.setText(R.id.tv_event, " starred");
                     break;

@@ -1,4 +1,4 @@
-package tellh.com.gitclub.presentation.view.activity;
+package tellh.com.gitclub.presentation.view.activity.user_personal_page;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -33,6 +33,11 @@ import tellh.com.gitclub.di.component.DaggerHomePageComponent;
 import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.contract.PersonalPageContract;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListFollowersActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListFollowingUserActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListOwnRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListStarredRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListWatchingActivity;
 import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 import tellh.com.gitclub.presentation.widget.PersonalPageTextView;
 import tellh.com.gitclub.presentation.widget.RotateIconButton;

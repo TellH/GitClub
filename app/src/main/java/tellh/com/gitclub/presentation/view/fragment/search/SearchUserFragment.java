@@ -11,9 +11,9 @@ import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.
 import tellh.com.gitclub.presentation.view.adapter.UserListAdapter;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
-import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnGetUserListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
+import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
 import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.FooterState;
 import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
 
@@ -48,7 +48,7 @@ public class SearchUserFragment extends ListFragment
 
     @Override
     public void onToLoadMore(int curPage) {
-        mListener.onFetchPage(ListType.USER, curPage + 1);
+        mListener.onFetchPage(USER, curPage + 1);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class SearchUserFragment extends ListFragment
 
     @Override
     public void onRefresh() {
-        mListener.onFetchPage(ListType.USER, 1);
+        mListener.onFetchPage(USER, 1);
     }
 
     @Override
