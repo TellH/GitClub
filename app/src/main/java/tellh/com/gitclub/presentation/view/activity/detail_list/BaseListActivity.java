@@ -1,4 +1,4 @@
-package tellh.com.gitclub.presentation.view.activity;
+package tellh.com.gitclub.presentation.view.activity.detail_list;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewStub;
 
 import tellh.com.gitclub.R;
@@ -23,6 +24,10 @@ import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.
 import tellh.com.gitclub.presentation.view.fragment.search.ListLoadingListener;
 import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
+
 /**
  * Created by tlh on 2016/9/16 :)
  */
@@ -34,7 +39,6 @@ public abstract class BaseListActivity extends BaseActivity
     protected SwipeRefreshLayout refreshLayout;
     protected ErrorViewHelper errorView;
     protected RecyclerView recyclerView;
-    private Toolbar toolbar;
     protected FooterLoadMoreAdapterWrapper loadMoreWrapper;
     protected String user;
 
@@ -57,10 +61,15 @@ public abstract class BaseListActivity extends BaseActivity
         recyclerView = (RecyclerView) findViewById(R.id.list);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
         errorView = new ErrorViewHelper((ViewStub) findViewById(R.id.vs_error));
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getToolbarTitle());
         setSupportActionBar(toolbar);
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         loadMoreWrapper = new FooterLoadMoreAdapterWrapper(getListAdapter());
         loadMoreWrapper.addFooter(R.layout.footer_load_more);
@@ -136,22 +145,22 @@ public abstract class BaseListActivity extends BaseActivity
 
     @Override
     public void onToLoadMore(int curPage) {
-        loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.LOADING);
+        loadMoreWrapper.setFooterStatus(LOADING);
     }
 
     @Override
-    public void showOnError(String msg, UpdateType updateType) {
+    public void showOnError(String msg, @UpdateType int updateType) {
         showOnError(msg);
         handleError(msg, updateType);
     }
 
-    protected void handleError(String msg, UpdateType updateType) {
-        if (updateType == UpdateType.REFRESH)
+    protected void handleError(String msg, @UpdateType int updateType) {
+        if (updateType == REFRESH)
             refreshLayout.setRefreshing(false);
         else
-            loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+            loadMoreWrapper.setFooterStatus(PULL_TO_LOAD_MORE);
 
-        if (updateType == UpdateType.REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
+        if (updateType == REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
             errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
                 @Override
                 public void reload() {

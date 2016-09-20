@@ -8,17 +8,37 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tellh.com.gitclub.R;
+import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.DateUtils;
 import tellh.com.gitclub.common.utils.LogUtils;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.Event;
+import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 
-import static tellh.com.gitclub.common.config.Constant.EventType;
+import static tellh.com.gitclub.common.config.IEventType.CommitCommentEvent;
+import static tellh.com.gitclub.common.config.IEventType.CreateEvent;
+import static tellh.com.gitclub.common.config.IEventType.DeleteEvent;
+import static tellh.com.gitclub.common.config.IEventType.EventType;
+import static tellh.com.gitclub.common.config.IEventType.ForkEvent;
+import static tellh.com.gitclub.common.config.IEventType.GollumEvent;
+import static tellh.com.gitclub.common.config.IEventType.IssueCommentEvent;
+import static tellh.com.gitclub.common.config.IEventType.IssuesEvent;
+import static tellh.com.gitclub.common.config.IEventType.MemberEvent;
+import static tellh.com.gitclub.common.config.IEventType.MembershipEvent;
+import static tellh.com.gitclub.common.config.IEventType.PublicEvent;
+import static tellh.com.gitclub.common.config.IEventType.PullRequestEvent;
+import static tellh.com.gitclub.common.config.IEventType.PullRequestReviewCommentEvent;
+import static tellh.com.gitclub.common.config.IEventType.PushEvent;
+import static tellh.com.gitclub.common.config.IEventType.ReleaseEvent;
+import static tellh.com.gitclub.common.config.IEventType.WatchEvent;
 
 public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
     public NewsListAdapter(List<Event> items, Context context) {
@@ -57,7 +77,9 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
         holder.setText(R.id.tv_desc, "");
         try {
             Event.PayloadEntity payload = item.getPayload();
-            switch (EventType.valueOf(item.getType())) {
+            @EventType
+            String type = item.getType();
+            switch (type) {
                 case WatchEvent:
                     holder.setText(R.id.tv_event, " starred");
                     break;
@@ -123,26 +145,13 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
         }
     }
 
-//    private SpannableString createUserSpan(final String showText) {
-//        SpannableString spanString = new SpannableString(showText);
-//        spanString.setSpan(showText, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        spanString.setSpan(new ClickableSpan() {
-//            @Override
-//            public void onClick(View widget) {
-//                // TODO: 2016/9/9 start the user info activity
-//                gotoUserInfoActivity(showText);
-//            }
-//        }, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        return spanString;
-//    }
-
     private SpannableString createReposSpan(final String showText) {
         SpannableString spanString = new SpannableString(showText);
         spanString.setSpan(showText, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spanString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // TODO: 2016/9/9 start the user info activity
+                // TODO: 2016/9/9 start the repo info activity
                 gotoRepoActivity(showText);
             }
         }, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -160,6 +169,9 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
     }
 
     protected void gotoUserInfoActivity(String user) {
+        Map<String, String> params = new HashMap<>(1);
+        params.put(ExtraKey.USER_NAME, user);
+        RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY);
         Note.show("start the user info activity");
     }
 }

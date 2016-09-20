@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:visible="true"
+    android:fromDegrees="0"
+    android:toDegrees="45"
+    android:drawable="@drawable/ic_add" >
+</rotate>

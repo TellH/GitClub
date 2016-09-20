@@ -1,6 +1,10 @@
 package tellh.com.gitclub.common.utils;
 
+import android.graphics.Typeface;
 import android.util.Base64;
+import android.widget.TextView;
+
+import tellh.com.gitclub.common.AndroidApplication;
 
 /**
  * Created by tlh on 2016/8/24 :)
@@ -21,5 +25,16 @@ public class StringUtils {
             builder.append(s);
         }
         return builder.toString();
+    }
+
+    public static void changeFontStyle(String fontType, TextView tv) {
+        Typeface custom_font = Typeface.createFromAsset(AndroidApplication.getInstance().getAssets(), fontType);
+        tv.setTypeface(custom_font);
+    }
+
+    public static String formatNumber2Thousand(int num) {
+        if (num / 1000 <= 0)
+            return String.valueOf(num);
+        return append(String.format("%.1f", (float) num / 1000f), "k");
     }
 }

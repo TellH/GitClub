@@ -41,6 +41,9 @@ import tellh.com.gitclub.presentation.widget.OnPageChangeListenerAdapter;
 import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.Presenter;
+import static tellh.com.gitclub.presentation.contract.SearchContract.REPO;
+import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
 
 public class SearchFragment extends LazyFragment
         implements SearchContract.View, OnListFragmentInteractListener {
@@ -111,7 +114,7 @@ public class SearchFragment extends LazyFragment
             @Override
             public void onClick(android.view.View view) {
                 SearchContract.SearchEntity searchEntity = presenter.getCurrentSearchEntity();
-                if (searchEntity.type == ListType.REPO)
+                if (searchEntity.type == REPO)
                     presenter.getDialogSortRepo().show();
                 else presenter.getDialogSortUser().show();
                 fabMenu.collapse();
@@ -166,29 +169,29 @@ public class SearchFragment extends LazyFragment
     }
 
     @Override
-    public void onGetRepos(int total_count, List<RepositoryInfo> items, UpdateType updateType) {
+    public void onGetRepos(int total_count, List<RepositoryInfo> items, @UpdateType int updateType) {
         reposListListener.onGetRepos(total_count, items, updateType);
-        if (updateType == UpdateType.REFRESH)
+        if (updateType == REFRESH)
             reposListListener.hideLoading();
     }
 
     @Override
-    public void onGetUsers(int total_count, List<UserEntity> items, UpdateType updateType) {
+    public void onGetUsers(int total_count, List<UserEntity> items, @UpdateType int updateType) {
         userListListener.onGetUser(total_count, items, updateType);
-        if (updateType == UpdateType.REFRESH)
+        if (updateType == REFRESH)
             userListListener.hideLoading();
     }
 
     @Override
-    public void showListRefreshLoading(ListType listType) {
-        if (listType == ListType.REPO) {
+    public void showListRefreshLoading(@ListType int listType) {
+        if (listType == REPO) {
             reposListListener.showLoading();
         } else
             userListListener.showLoading();
     }
 
     @Override
-    public void showOnError(String msg, ListType type, UpdateType updateType) {
+    public void showOnError(String msg, @ListType int type, @UpdateType int updateType) {
         showOnError(msg);
         //hide loading
         switch (type) {
@@ -203,8 +206,8 @@ public class SearchFragment extends LazyFragment
         }
     }
 
-    private void showErrorView(String msg, final ListFragment listFragment, UpdateType updateType) {
-        if (updateType == UpdateType.REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
+    private void showErrorView(String msg, final ListFragment listFragment, @UpdateType int updateType) {
+        if (updateType == REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
             listFragment.showErrorView();
         }
     }
@@ -250,7 +253,7 @@ public class SearchFragment extends LazyFragment
     }
 
     @Override
-    public void onFetchPage(ListType type, int page) {
+    public void onFetchPage(@ListType int type, int page) {
         switch (type) {
             case USER:
                 presenter.searchUser(page);

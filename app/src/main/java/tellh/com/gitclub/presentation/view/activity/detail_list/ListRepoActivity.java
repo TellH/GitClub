@@ -1,4 +1,4 @@
-package tellh.com.gitclub.presentation.view.activity;
+package tellh.com.gitclub.presentation.view.activity.detail_list;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public abstract class ListRepoActivity extends BaseListActivity
     }
 
     @Override
-    public void onGetRepoList(List<RepositoryInfo> list, UpdateType updateType) {
+    public void onGetRepoList(List<RepositoryInfo> list, @UpdateType int updateType) {
         loadMoreWrapper.OnGetData(list, updateType);
         refreshLayout.setRefreshing(false);
     }

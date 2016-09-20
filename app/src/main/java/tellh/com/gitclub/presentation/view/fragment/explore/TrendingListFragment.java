@@ -13,9 +13,9 @@ import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.presentation.view.adapter.RepoListAdapter;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
-import static tellh.com.gitclub.presentation.contract.ExploreContract.ListType.TRENDING;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnGetTrendingListener;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFragmentInteractListener;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.TRENDING;
 
 /**
  * Created by tlh on 2016/9/5 :)

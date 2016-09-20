@@ -30,9 +30,10 @@ import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo;
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_User;
-import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.Presenter;
+import static tellh.com.gitclub.presentation.contract.SearchContract.REPO;
 import static tellh.com.gitclub.presentation.contract.SearchContract.SearchEntity;
+import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
 
 public class SearchPresenter extends BasePresenter<SearchContract.View> implements Presenter {
 
@@ -46,8 +47,8 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
     private final UserListPresenter userListPresenter;
 
     private SearchEntity currentSearchEntity;
-    private SearchEntity repoSearchEntity = new SearchEntity(ListType.REPO);
-    private SearchEntity userSearchEntity = new SearchEntity(ListType.USER);
+    private SearchEntity repoSearchEntity = new SearchEntity(REPO);
+    private SearchEntity userSearchEntity = new SearchEntity(USER);
 
     public SearchPresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource) {
         mRepositoryDataSource = repositoryDataSource;
@@ -100,7 +101,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
             currentSearchEntity.sortType = currentSearchEntity.sortType.getBestMatch();
             currentSearchEntity.language = null;
         }
-        if (currentSearchEntity.type == ListType.REPO)
+        if (currentSearchEntity.type == REPO)
             searchRepo(page);
         else searchUser(page);
     }
@@ -108,7 +109,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
     @Override
     public void searchRepo(int page) {
         if (page == 1)
-            getView().showListRefreshLoading(ListType.REPO);
+            getView().showListRefreshLoading(REPO);
         searchRepo(repoSearchEntity.keyWord, repoSearchEntity.language, (SortType_Repo) repoSearchEntity.sortType, page);
         if (!TextUtils.isEmpty(repoSearchEntity.keyWord))
             Note.showBar("Searching Repository: " + repoSearchEntity.keyWord, ((Fragment) getView()).getView());
@@ -117,7 +118,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
     @Override
     public void searchUser(int page) {
         if (page == 1)
-            getView().showListRefreshLoading(ListType.USER);
+            getView().showListRefreshLoading(USER);
         if (Language.ALL.val().equals(userSearchEntity.language))
             userSearchEntity.language = Language.JAVA.val();
         searchUser(userSearchEntity.keyWord, userSearchEntity.language, (SortType_User) userSearchEntity.sortType, page);
@@ -130,7 +131,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
             if (getUpdateType(page) == repoSearchEntity.updateType)
                 Note.show(Utils.getString(R.string.reqest_flying));
             else
-                getView().showOnError(Utils.getString(R.string.reqest_flying), ListType.REPO, getUpdateType(page));
+                getView().showOnError(Utils.getString(R.string.reqest_flying), REPO, getUpdateType(page));
             return;
         }
         repoSearchEntity.isFlying = true;
@@ -151,7 +152,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
                     @Override
                     protected void onError(String errorStr) {
-                        getView().showOnError(Utils.getString(R.string.error_search_repo) + errorStr, ListType.REPO, getUpdateType(page));
+                        getView().showOnError(Utils.getString(R.string.error_search_repo) + errorStr, REPO, getUpdateType(page));
                     }
                 }));
     }
@@ -161,7 +162,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
             if (getUpdateType(page) == userSearchEntity.updateType)
                 Note.show(Utils.getString(R.string.reqest_flying));
             else
-                getView().showOnError(Utils.getString(R.string.reqest_flying), ListType.USER, getUpdateType(page));
+                getView().showOnError(Utils.getString(R.string.reqest_flying), USER, getUpdateType(page));
             return;
         }
         userSearchEntity.isFlying = true;
@@ -182,7 +183,7 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
 
                     @Override
                     protected void onError(String errorStr) {
-                        getView().showOnError(Utils.getString(R.string.error_search_user) + errorStr, ListType.USER, getUpdateType(page));
+                        getView().showOnError(Utils.getString(R.string.error_search_user) + errorStr, USER, getUpdateType(page));
                     }
                 }));
     }

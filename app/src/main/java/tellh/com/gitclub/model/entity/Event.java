@@ -2,7 +2,7 @@ package tellh.com.gitclub.model.entity;
 
 import com.google.gson.annotations.SerializedName;
 
-import tellh.com.gitclub.common.config.Constant;
+import tellh.com.gitclub.common.config.IEventType;
 
 /**
  * Created by tlh on 2016/8/26 :)
@@ -55,7 +55,7 @@ public class Event {
     }
 
     public String getType() {
-        return type != null ? type : Constant.EventType.Unhandled.toString();
+        return type != null ? type : IEventType.Unhandled;
     }
 
     public void setType(String type) {

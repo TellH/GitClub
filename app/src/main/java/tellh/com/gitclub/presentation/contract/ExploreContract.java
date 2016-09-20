@@ -1,8 +1,12 @@
 package tellh.com.gitclub.presentation.contract;
 
 
+import android.support.annotation.IntDef;
+
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import tellh.com.gitclub.common.base.BaseView;
@@ -14,14 +18,16 @@ import tellh.com.gitclub.presentation.presenter.IRepoListPresenter;
 import tellh.com.gitclub.presentation.view.fragment.search.ListLoadingListener;
 
 public interface ExploreContract {
+    int SHOWCASES = 0;
+    int TRENDING = 1;
 
-    enum ListType {
-        SHOWCASES,
-        TRENDING
+    @IntDef({SHOWCASES, TRENDING})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface ListType {
     }
 
     interface View extends BaseView {
-        void showOnError(String msg, ListType type);
+        void showOnError(String msg, @ListType int type);
 
         void onGetTrending(List<Trending> trendings);
 
@@ -44,7 +50,7 @@ public interface ExploreContract {
     }
 
     interface OnListFragmentInteractListener {
-        void onFetchData(ListType type);
+        void onFetchData(@ListType int type);
 
         Presenter getPresenter();
     }

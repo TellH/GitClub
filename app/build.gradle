@@ -61,4 +61,6 @@ dependencies {
     compile 'de.hdodenhof:circleimageview:2.1.0'
 
     compile 'com.github.paolorotolo:appintro:4.0.0'
+
+    compile 'com.sackcentury:shinebutton:0.1.6'
 }

@@ -1,6 +1,7 @@
 package tellh.com.gitclub.presentation.widget;
 
 import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +24,8 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
 
     int txt_color_default;
     int txt_color_pressed;
+    private int drawable_Default;
+    private int drawable_Pressed;
 
     private ButtonToggleHelper() {
     }
@@ -60,6 +63,10 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
 
     @Override
     public void setState(@NonNull Button button, boolean state) {
+        if (drawable_Default != 0 && drawable_Pressed != 0) {
+            int drawableRes = !state ? drawable_Default : drawable_Pressed;
+            button.setBackgroundResource(drawableRes);
+        }
         if (color_pressed != 0 && color_default != 0) {
             int color = !state ? color_default : color_pressed;
             button.setBackgroundColor(ContextCompat.getColor(button.getContext(), color));
@@ -95,6 +102,10 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
         return new Builder();
     }
 
+    public boolean getState(RotateIconButton rotateIconButton) {
+        return (boolean) rotateIconButton.getTag();
+    }
+
     public static class Builder {
         private int color_default;
         private int color_pressed;
@@ -104,8 +115,16 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
         private int txt_pressed;
         private int txt_color_pressed;
         private int txt_color_default;
+        private int drawable_Pressed;
+        private int drawable_Default;
 
         private Builder() {
+        }
+
+        public Builder setBackgroundDrawable(@DrawableRes int drawableDefault, @DrawableRes int drawablePressed) {
+            drawable_Default = drawableDefault;
+            drawable_Pressed = drawablePressed;
+            return this;
         }
 
         public Builder setBackgroundColor(@ColorRes int colorDefault, @ColorRes int colorPressed) {
@@ -142,6 +161,8 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
             helper.txt_pressed = txt_pressed;
             helper.txt_color_default = txt_color_default;
             helper.txt_color_pressed = txt_color_pressed;
+            helper.drawable_Default = drawable_Default;
+            helper.drawable_Pressed = drawable_Pressed;
             return helper;
         }
 

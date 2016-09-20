@@ -1,5 +1,7 @@
 package tellh.com.gitclub.common.utils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -61,5 +63,11 @@ public class Utils {
             }
         });
         img.startAnimation(fadeOut);
+    }
+
+    public static void copyDataToClipBoard(String data) {
+        ClipboardManager clipboardManager;
+        clipboardManager = (ClipboardManager) AndroidApplication.getInstance().getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager.setPrimaryClip(ClipData.newPlainText("text", data));
     }
 }

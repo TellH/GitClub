@@ -6,15 +6,19 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.HashMap;
 import java.util.List;
 
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.config.Constant;
-import tellh.com.gitclub.presentation.widget.ButtonToggleHelper;
+import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.config.IUsersType;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.model.entity.UserEntity;
+import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.presenter.IUserListPresenter;
+import tellh.com.gitclub.presentation.widget.ButtonToggleHelper;
 
 /**
  * Created by tlh on 2016/8/31 :)
@@ -39,7 +43,7 @@ public class UserListAdapter extends BaseRecyclerAdapter<UserEntity> {
     }
 
     @Override
-    protected void bindData(RecyclerViewHolder holder, final int position, UserEntity item) {
+    protected void bindData(RecyclerViewHolder holder, final int position, final UserEntity item) {
         //fill out data
         holder.setText(R.id.tv_name, item.getLogin());
         ImageLoader.load(item.getAvatar_url(), holder.getImageView(R.id.iv_user));
@@ -51,7 +55,7 @@ public class UserListAdapter extends BaseRecyclerAdapter<UserEntity> {
 
         //set up the Follow or unFollow button.
         final Button btnFollow = holder.getButton(R.id.btn_follow);
-        if (!Constant.UsersType.USER.toString().equals(item.getType())) {
+        if (!IUsersType.USER.equals(item.getType())) {
             btnFollow.setClickable(false);
             btnFollow.setBackgroundColor(ContextCompat.getColor(mContext, R.color.gray));
             btnFollow.setTextColor(ContextCompat.getColor(mContext, R.color.gray_text));
@@ -72,12 +76,13 @@ public class UserListAdapter extends BaseRecyclerAdapter<UserEntity> {
             btnFollow.setTag(false);
         }
 
-
         //jump to detail activity
         holder.setClickListener(R.id.item_container, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 2016/9/1 go to the user info detail activity.
+                HashMap<String, String> params = new HashMap<>(1);
+                params.put(ExtraKey.USER_NAME, item.getLogin());
+                RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY);
             }
         });
     }

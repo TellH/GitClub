@@ -18,16 +18,16 @@ import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
-import tellh.com.gitclub.presentation.contract.PersonalPageContract;
-import tellh.com.gitclub.presentation.view.activity.ListFollowersActivity;
-import tellh.com.gitclub.presentation.view.activity.ListFollowingUserActivity;
-import tellh.com.gitclub.presentation.view.activity.ListOwnRepoActivity;
-import tellh.com.gitclub.presentation.view.activity.ListStarredRepoActivity;
-import tellh.com.gitclub.presentation.view.activity.ListWatchingActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListFollowersActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListFollowingUserActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListOwnRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListStarredRepoActivity;
+import tellh.com.gitclub.presentation.view.activity.detail_list.ListWatchingActivity;
+import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
 import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 
 public class HomePageFragment extends LazyFragment
-        implements PersonalPageContract.View, LoginFragment.LoginCallback, View.OnClickListener {
+        implements LoginFragment.LoginCallback, View.OnClickListener {
     private CircleImageView ivUser;
     private TextView tvUser;
 
@@ -114,6 +114,7 @@ public class HomePageFragment extends LazyFragment
         }
         switch (view.getId()) {
             case R.id.fl_personal_page:
+                PersonalHomePageActivity.launch(getActivity(), loginUser.getLogin());
                 break;
             case R.id.fl_stars:
                 ListStarredRepoActivity.launch(loginUser.getLogin(), getActivity());

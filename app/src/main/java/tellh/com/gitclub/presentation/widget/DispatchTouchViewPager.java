@@ -11,12 +11,12 @@ import tellh.com.gitclub.presentation.contract.bus.event.OnClickOutsideToHideEve
 /**
  * Created by tlh on 2016/9/6 :)
  */
-public class TouchableViewPager extends ViewPager {
-    public TouchableViewPager(Context context) {
+public class DispatchTouchViewPager extends ViewPager {
+    public DispatchTouchViewPager(Context context) {
         super(context);
     }
 
-    public TouchableViewPager(Context context, AttributeSet attrs) {
+    public DispatchTouchViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

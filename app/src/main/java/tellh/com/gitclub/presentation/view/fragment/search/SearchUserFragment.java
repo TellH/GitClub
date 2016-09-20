@@ -11,11 +11,12 @@ import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.
 import tellh.com.gitclub.presentation.view.adapter.UserListAdapter;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
-import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnGetUserListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.FooterState;
+import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
 import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
 
 public class SearchUserFragment extends ListFragment
         implements OnGetUserListener, OnReachFooterListener {
@@ -48,11 +49,11 @@ public class SearchUserFragment extends ListFragment
 
     @Override
     public void onToLoadMore(int curPage) {
-        mListener.onFetchPage(ListType.USER, curPage + 1);
+        mListener.onFetchPage(USER, curPage + 1);
     }
 
     @Override
-    public void onGetUser(int total_count, List<UserEntity> items, UpdateType updateType) {
+    public void onGetUser(int total_count, List<UserEntity> items, @UpdateType int updateType) {
         loadMoreWrapper.OnGetData(items, updateType);
     }
 
@@ -62,13 +63,13 @@ public class SearchUserFragment extends ListFragment
 
     @Override
     public void onRefresh() {
-        mListener.onFetchPage(ListType.USER, 1);
+        mListener.onFetchPage(USER, 1);
     }
 
     @Override
     public void hideLoading() {
         super.hideLoading();
-        if (loadMoreWrapper.getFooterStatus() == FooterState.LOADING)
-            loadMoreWrapper.setFooterStatus(FooterState.PULL_TO_LOAD_MORE);
+        if (loadMoreWrapper.getFooterStatus() == LOADING)
+            loadMoreWrapper.setFooterStatus(PULL_TO_LOAD_MORE);
     }
 }

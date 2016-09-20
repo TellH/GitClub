@@ -34,6 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
+        app:navigationIcon="@drawable/md_nav_back"
         app:layout_behavior="@string/quick_return_top_behavior"
         app:quick_return_style="translate"
         app:titleTextColor="@color/white" />

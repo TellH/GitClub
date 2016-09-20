@@ -1,5 +1,7 @@
 package tellh.com.gitclub.presentation.view.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -9,10 +11,13 @@ import rx.Subscription;
 import rx.functions.Action1;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BaseActivity;
+import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.presentation.contract.bus.RxBus;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.QuickReturnEvent;
+import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
 import tellh.com.gitclub.presentation.view.adapter.CommonViewPagerAdapter;
 import tellh.com.gitclub.presentation.view.fragment.explore.ExploreFragment;
 import tellh.com.gitclub.presentation.view.fragment.home.HomePageFragment;
@@ -26,6 +31,7 @@ public class HomeActivity extends BaseActivity {
     private AHBottomNavigation navBar;
 
     Subscription subscriptionQuickReturn;
+    private Subscription subscriptionLaunchActivity;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -39,6 +45,25 @@ public class HomeActivity extends BaseActivity {
                             navBar.hideBottomNavigation(true);
                         else
                             navBar.restoreBottomNavigation(true);
+                    }
+                });
+
+        subscriptionLaunchActivity = RxBus.getDefault().toObservable(LaunchActivityEvent.class)
+                .subscribe(new Action1<LaunchActivityEvent>() {
+                    @Override
+                    public void call(LaunchActivityEvent launchActivityEvent) {
+                        switch (launchActivityEvent.targetActivity) {
+                            case LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY:
+                                PersonalHomePageActivity.launch(HomeActivity.this, launchActivityEvent.params.get(ExtraKey.USER_NAME));
+                                break;
+                            case LaunchActivityEvent.BROWSER_ACTIVITY:
+                                Intent intent = new Intent();
+                                intent.setAction(Intent.ACTION_VIEW);
+                                intent.setData(Uri.parse(launchActivityEvent.params.get(ExtraKey.NAME_BLOG)));
+                                intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
+                                startActivity(intent);
+                                break;
+                        }
                     }
                 });
     }
@@ -87,6 +112,7 @@ public class HomeActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         subscriptionQuickReturn.unsubscribe();
+        subscriptionLaunchActivity.unsubscribe();
     }
 
     @Override

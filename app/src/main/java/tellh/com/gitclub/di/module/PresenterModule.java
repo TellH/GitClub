@@ -46,8 +46,8 @@ public class PresenterModule {
     }
 
     @Provides
-    public Presenter provideHomePagePresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource, Context ctx) {
-        return new PersonalPagePresenter(repositoryDataSource, userDataSource, ctx);
+    public Presenter provideHomePagePresenter(UserDataSource userDataSource, Context ctx) {
+        return new PersonalPagePresenter(userDataSource, ctx);
     }
 
     @Provides

@@ -71,7 +71,7 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
                             @Override
                             protected void onError(String errorStr) {
                                 getView().showOnError(Utils.getString(R.string.error_get_trending) + errorStr,
-                                        ExploreContract.ListType.TRENDING);
+                                        ExploreContract.TRENDING);
                             }
                         })
         );
@@ -97,7 +97,7 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
                             @Override
                             protected void onError(String errorStr) {
                                 getView().showOnError(Utils.getString(R.string.error_get_showcases) + errorStr,
-                                        ExploreContract.ListType.SHOWCASES);
+                                        ExploreContract.SHOWCASES);
                             }
                         })
         );

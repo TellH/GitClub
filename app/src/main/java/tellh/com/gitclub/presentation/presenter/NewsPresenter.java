@@ -58,7 +58,7 @@ public class NewsPresenter extends BasePresenter<NewsContract.View> implements N
                 }));
     }
 
-    protected boolean checkLogin(UserInfo user, UpdateType updateType) {
+    protected boolean checkLogin(UserInfo user, @UpdateType int updateType) {
         if (user == null) {
             getView().showOnError(mCtx.getString(R.string.error_not_login), updateType);
             getView().showLoginDialog();

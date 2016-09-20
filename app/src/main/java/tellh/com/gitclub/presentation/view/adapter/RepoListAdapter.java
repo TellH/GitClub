@@ -5,17 +5,21 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import tellh.com.gitclub.R;
+import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.utils.Utils;
-import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
-import tellh.com.gitclub.presentation.widget.IconToggleHelper;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
+import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
+import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.presenter.IRepoListPresenter;
+import tellh.com.gitclub.presentation.widget.IconToggleHelper;
 
 /**
  * Created by tlh on 2016/8/31 :)
@@ -65,8 +69,9 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         ivOwner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 2016/8/31 go to UserInfo Activity
-                Note.show("ivOwner");
+                HashMap<String, String> params = new HashMap<>(1);
+                params.put(ExtraKey.USER_NAME, item.getOwner().getLogin());
+                RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY);
             }
         });
 

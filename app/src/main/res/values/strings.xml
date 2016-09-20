@@ -40,8 +40,8 @@
     <string name="error_fork_repo">Fail to fork repo:</string>
     <string name="Forking">Forking </string>
     <string name="follow">Follow</string>
-    <string name="success_follow_repo">succeed to follow</string>
-    <string name="error_follow_repo">Fail to follow</string>
+    <string name="success_follow_user">succeed to follow</string>
+    <string name="error_follow_user">Fail to follow</string>
     <string name="profile">Home</string>
     <string name="explore">Explore</string>
     <string name="news">News</string>
@@ -85,4 +85,7 @@
     <string name="success_sign_out">Succeed to sign out!</string>
     <string name="confirm_sign_out">Are you sure to sign out?</string>
     <string name="Confirm">Confirm</string>
+    <string name="error_self_follow">User can\'t not self-follow</string>
+    <string name="no_description">No description</string>
+    <string name="open_in_browser">Open in browser</string>
 </resources>
