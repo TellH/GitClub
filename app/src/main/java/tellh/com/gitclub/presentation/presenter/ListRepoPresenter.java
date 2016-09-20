@@ -223,6 +223,6 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
     }
 
     public interface ListRepoView extends BaseView, ShowError {
-        void onGetRepoList(List<RepositoryInfo> list, UpdateType updateType);
+        void onGetRepoList(List<RepositoryInfo> list, @UpdateType int updateType);
     }
 }

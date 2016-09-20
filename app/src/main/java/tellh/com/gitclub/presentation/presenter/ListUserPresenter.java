@@ -221,6 +221,6 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
     }
 
     public interface ListUserView extends BaseView, ShowError {
-        void onGetUserList(List<UserEntity> list, UpdateType updateType);
+        void onGetUserList(List<UserEntity> list, @UpdateType int updateType);
     }
 }

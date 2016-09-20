@@ -30,13 +30,13 @@ public interface SearchContract {
     }
 
     interface View extends BaseView {
-        void onGetRepos(int total_count, List<RepositoryInfo> items, UpdateType updateType);
+        void onGetRepos(int total_count, List<RepositoryInfo> items, @UpdateType int updateType);
 
-        void onGetUsers(int total_count, List<UserEntity> items, UpdateType updateType);
+        void onGetUsers(int total_count, List<UserEntity> items, @UpdateType int updateType);
 
         void showListRefreshLoading(@ListType int listType);
 
-        void showOnError(String msg, @ListType int type, UpdateType updateType);
+        void showOnError(String msg, @ListType int type, @UpdateType int updateType);
     }
 
     interface Presenter extends MvpPresenter<View>, IRepoListPresenter, IUserListPresenter {
@@ -71,12 +71,12 @@ public interface SearchContract {
     }
 
     interface OnGetReposListener extends ListLoadingListener {
-        void onGetRepos(int total_count, List<RepositoryInfo> items, UpdateType updateType);
+        void onGetRepos(int total_count, List<RepositoryInfo> items, @UpdateType int updateType);
     }
 
     interface OnGetUserListener extends ListLoadingListener {
 
-        void onGetUser(int total_count, List<UserEntity> items, UpdateType updateType);
+        void onGetUser(int total_count, List<UserEntity> items, @UpdateType int updateType);
     }
 
     class SearchEntity {
@@ -90,6 +90,7 @@ public interface SearchContract {
         public String keyWord;
         public SortType sortType;
         public String language;
-        public UpdateType updateType;
+        @UpdateType
+        public int updateType;
     }
 }

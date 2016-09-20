@@ -43,6 +43,7 @@ import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragm
 import static tellh.com.gitclub.presentation.contract.SearchContract.Presenter;
 import static tellh.com.gitclub.presentation.contract.SearchContract.REPO;
 import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
 
 public class SearchFragment extends LazyFragment
         implements SearchContract.View, OnListFragmentInteractListener {
@@ -168,16 +169,16 @@ public class SearchFragment extends LazyFragment
     }
 
     @Override
-    public void onGetRepos(int total_count, List<RepositoryInfo> items, UpdateType updateType) {
+    public void onGetRepos(int total_count, List<RepositoryInfo> items, @UpdateType int updateType) {
         reposListListener.onGetRepos(total_count, items, updateType);
-        if (updateType == UpdateType.REFRESH)
+        if (updateType == REFRESH)
             reposListListener.hideLoading();
     }
 
     @Override
-    public void onGetUsers(int total_count, List<UserEntity> items, UpdateType updateType) {
+    public void onGetUsers(int total_count, List<UserEntity> items, @UpdateType int updateType) {
         userListListener.onGetUser(total_count, items, updateType);
-        if (updateType == UpdateType.REFRESH)
+        if (updateType == REFRESH)
             userListListener.hideLoading();
     }
 
@@ -190,7 +191,7 @@ public class SearchFragment extends LazyFragment
     }
 
     @Override
-    public void showOnError(String msg, @ListType int type, UpdateType updateType) {
+    public void showOnError(String msg, @ListType int type, @UpdateType int updateType) {
         showOnError(msg);
         //hide loading
         switch (type) {
@@ -205,8 +206,8 @@ public class SearchFragment extends LazyFragment
         }
     }
 
-    private void showErrorView(String msg, final ListFragment listFragment, UpdateType updateType) {
-        if (updateType == UpdateType.REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
+    private void showErrorView(String msg, final ListFragment listFragment, @UpdateType int updateType) {
+        if (updateType == REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
             listFragment.showErrorView();
         }
     }

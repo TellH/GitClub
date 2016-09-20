@@ -1,11 +1,14 @@
 package tellh.com.gitclub.presentation.view.adapter;
 
+import android.support.annotation.IntDef;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import tellh.com.gitclub.R;
@@ -15,23 +18,33 @@ import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 
 public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper {
     private int curPage;
+    //UpdateType
+    public static final int REFRESH = 401;
+    public static final int LOAD_MORE = 140;
 
-    public enum UpdateType {
-        REFRESH, LOAD_MORE
+    //FooterState
+    public static final int PULL_TO_LOAD_MORE = 501;
+    public static final int LOADING = 323;
+    public static final int NO_MORE = 313;
+
+    @IntDef({REFRESH, LOAD_MORE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface UpdateType {
     }
 
-    public enum FooterState {
-        PULL_TO_LOAD_MORE,
-        LOADING,
-        NO_MORE,
+    @IntDef({PULL_TO_LOAD_MORE, LOADING, NO_MORE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface FooterState {
     }
 
-    private FooterState mFooterStatus = FooterState.PULL_TO_LOAD_MORE;
+    @FooterState
+    private int mFooterStatus = PULL_TO_LOAD_MORE;
     private String toLoadText = Utils.getString(R.string.pull_to_load_more);
     private String noMoreText = Utils.getString(R.string.no_more);
     private String loadingText = Utils.getString(R.string.loading);
 
-    public FooterState getFooterStatus() {
+    @FooterState
+    public int getFooterStatus() {
         return mFooterStatus;
     }
 
@@ -83,9 +96,9 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
                 if (!isReachBottom(recyclerView, newState) || mItems.size() == 0)
                     return;
                 RxBusPostman.postQuickReturnEvent(true);
-                if (mFooterStatus != FooterState.LOADING
-                        && mFooterStatus != FooterState.NO_MORE) {
-                    setFooterStatus(FooterState.LOADING);
+                if (mFooterStatus != LOADING
+                        && mFooterStatus != NO_MORE) {
+                    setFooterStatus(LOADING);
                     listener.onToLoadMore(curPage);
                 }
             }
@@ -93,13 +106,14 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
     }
 
 
-    public void setFooterStatus(FooterState status) {
+    public void setFooterStatus(@FooterState int status) {
         mFooterStatus = status;
         notifyDataSetChanged();
     }
 
     public boolean isReachBottom(RecyclerView recyclerView, int newState) {
-        return recyclerView != null && newState == RecyclerView.SCROLL_STATE_IDLE && ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition() == recyclerView.getAdapter().getItemCount() - 1;
+        return recyclerView != null && newState == RecyclerView.SCROLL_STATE_IDLE &&
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition() == recyclerView.getAdapter().getItemCount() - 1;
     }
 
     public interface OnReachFooterListener {
@@ -119,19 +133,19 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
         this.loadingText = loadingText;
     }
 
-    public void OnGetData(List data, UpdateType updateType) {
-        if (updateType == UpdateType.REFRESH) {
+    public void OnGetData(List data, @UpdateType int updateType) {
+        if (updateType == REFRESH) {
             refresh(data);
             curPage = 1;
-            setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+            setFooterStatus(PULL_TO_LOAD_MORE);
         } else {
             if (data.isEmpty()) {
-                setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.NO_MORE);
+                setFooterStatus(NO_MORE);
                 return;
             }
             addAll(data);
             curPage++;
-            setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+            setFooterStatus(PULL_TO_LOAD_MORE);
         }
     }
 

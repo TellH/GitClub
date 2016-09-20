@@ -24,9 +24,13 @@ import tellh.com.gitclub.presentation.view.adapter.NewsListAdapter;
 import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.*;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
+
 public class NewsFragment extends LazyFragment
         implements NewsContract.View, SwipeRefreshLayout.OnRefreshListener,
-        FooterLoadMoreAdapterWrapper.OnReachFooterListener, LoginFragment.LoginCallback {
+        OnReachFooterListener, LoginFragment.LoginCallback {
     @Inject
     NewsContract.Presenter presenter;
     private FooterLoadMoreAdapterWrapper loadMoreWrapper;
@@ -92,7 +96,7 @@ public class NewsFragment extends LazyFragment
     }
 
     @Override
-    public void OnGetNews(List<Event> newsList, UpdateType updateType) {
+    public void OnGetNews(List<Event> newsList, @UpdateType int updateType) {
         loadMoreWrapper.OnGetData(newsList, updateType);
         refreshLayout.setRefreshing(false);
     }
@@ -104,19 +108,19 @@ public class NewsFragment extends LazyFragment
 
     @Override
     public void onToLoadMore(int curPage) {
-        loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.LOADING);
+        loadMoreWrapper.setFooterStatus(LOADING);
         presenter.listNews(curPage + 1);
     }
 
     @Override
-    public void showOnError(String s, UpdateType updateType) {
+    public void showOnError(String s, @UpdateType int updateType) {
         showOnError(s);
-        if (updateType == UpdateType.REFRESH)
+        if (updateType == REFRESH)
             refreshLayout.setRefreshing(false);
         else
-            loadMoreWrapper.setFooterStatus(FooterLoadMoreAdapterWrapper.FooterState.PULL_TO_LOAD_MORE);
+            loadMoreWrapper.setFooterStatus(PULL_TO_LOAD_MORE);
 
-        if (updateType == UpdateType.REFRESH && !s.equals(Utils.getString(R.string.reqest_flying))) {
+        if (updateType == REFRESH && !s.equals(Utils.getString(R.string.reqest_flying))) {
             errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
                 @Override
                 public void reload() {

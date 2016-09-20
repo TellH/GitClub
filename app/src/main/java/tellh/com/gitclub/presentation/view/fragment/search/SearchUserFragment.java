@@ -14,8 +14,9 @@ import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnGetUserListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.FooterState;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
 import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
 
 public class SearchUserFragment extends ListFragment
         implements OnGetUserListener, OnReachFooterListener {
@@ -52,7 +53,7 @@ public class SearchUserFragment extends ListFragment
     }
 
     @Override
-    public void onGetUser(int total_count, List<UserEntity> items, UpdateType updateType) {
+    public void onGetUser(int total_count, List<UserEntity> items, @UpdateType int updateType) {
         loadMoreWrapper.OnGetData(items, updateType);
     }
 
@@ -68,7 +69,7 @@ public class SearchUserFragment extends ListFragment
     @Override
     public void hideLoading() {
         super.hideLoading();
-        if (loadMoreWrapper.getFooterStatus() == FooterState.LOADING)
-            loadMoreWrapper.setFooterStatus(FooterState.PULL_TO_LOAD_MORE);
+        if (loadMoreWrapper.getFooterStatus() == LOADING)
+            loadMoreWrapper.setFooterStatus(PULL_TO_LOAD_MORE);
     }
 }

@@ -42,7 +42,7 @@ public abstract class ListRepoActivity extends BaseListActivity
     }
 
     @Override
-    public void onGetRepoList(List<RepositoryInfo> list, UpdateType updateType) {
+    public void onGetRepoList(List<RepositoryInfo> list, @UpdateType int updateType) {
         loadMoreWrapper.OnGetData(list, updateType);
         refreshLayout.setRefreshing(false);
     }

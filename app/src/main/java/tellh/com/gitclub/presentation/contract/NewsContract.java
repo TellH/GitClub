@@ -9,7 +9,7 @@ import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.
 
 public interface NewsContract {
     interface View extends BaseView,ShowError {
-        void OnGetNews(List<Event> newsList, UpdateType updateType);
+        void OnGetNews(List<Event> newsList, @UpdateType int updateType);
 
         void showLoginDialog();
     }

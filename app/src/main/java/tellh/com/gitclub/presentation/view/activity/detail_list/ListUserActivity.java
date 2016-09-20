@@ -9,7 +9,7 @@ import tellh.com.gitclub.di.component.DaggerListItemComponent;
 import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.presentation.presenter.ListUserPresenter;
 import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
+import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 import tellh.com.gitclub.presentation.view.adapter.UserListAdapter;
 
 /**
@@ -40,7 +40,7 @@ public abstract class ListUserActivity extends BaseListActivity implements ListU
     }
 
     @Override
-    public void onGetUserList(List<UserEntity> list, FooterLoadMoreAdapterWrapper.UpdateType updateType) {
+    public void onGetUserList(List<UserEntity> list, @UpdateType int updateType) {
         loadMoreWrapper.OnGetData(list, updateType);
         refreshLayout.setRefreshing(false);
     }

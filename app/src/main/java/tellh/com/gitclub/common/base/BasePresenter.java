@@ -1,7 +1,5 @@
 package tellh.com.gitclub.common.base;
 
-import android.support.annotation.NonNull;
-
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import tellh.com.gitclub.R;
@@ -9,7 +7,10 @@ import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
+import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOAD_MORE;
+import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
 
 public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
 
@@ -71,8 +72,8 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
         return true;
     }
 
-    @NonNull
-    protected FooterLoadMoreAdapterWrapper.UpdateType getUpdateType(int page) {
-        return page == 1 ? FooterLoadMoreAdapterWrapper.UpdateType.REFRESH : FooterLoadMoreAdapterWrapper.UpdateType.LOAD_MORE;
+    @UpdateType
+    protected int getUpdateType(int page) {
+        return page == 1 ? REFRESH : LOAD_MORE;
     }
 }
