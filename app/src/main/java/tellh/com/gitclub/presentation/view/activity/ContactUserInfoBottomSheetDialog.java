@@ -18,8 +18,7 @@ import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
-
-import static tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent.TargetActivity.BrowserActivity;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 
 /**
  * Created by tlh on 2016/9/19 :)
@@ -76,7 +75,7 @@ public class ContactUserInfoBottomSheetDialog extends BottomSheetDialog implemen
                     break;
                 Map<String, String> params = new HashMap<>(1);
                 params.put(ExtraKey.NAME_BLOG, mUser.getBlog());
-                RxBusPostman.postLaunchActivityEvent(params, BrowserActivity);
+                RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.BROWSER_ACTIVITY);
                 break;
             case R.id.tv_email:
                 if (mUser == null || TextUtils.isEmpty(mUser.getEmail()))

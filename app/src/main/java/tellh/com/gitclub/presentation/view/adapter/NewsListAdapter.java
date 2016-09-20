@@ -8,15 +8,20 @@ import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tellh.com.gitclub.R;
+import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.DateUtils;
 import tellh.com.gitclub.common.utils.LogUtils;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.Event;
+import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 
 import static tellh.com.gitclub.common.config.Constant.EventType;
 
@@ -123,19 +128,6 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
         }
     }
 
-//    private SpannableString createUserSpan(final String showText) {
-//        SpannableString spanString = new SpannableString(showText);
-//        spanString.setSpan(showText, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        spanString.setSpan(new ClickableSpan() {
-//            @Override
-//            public void onClick(View widget) {
-//                // TODO: 2016/9/9 start the user info activity
-//                gotoUserInfoActivity(showText);
-//            }
-//        }, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//        return spanString;
-//    }
-
     private SpannableString createReposSpan(final String showText) {
         SpannableString spanString = new SpannableString(showText);
         spanString.setSpan(showText, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -160,6 +152,9 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
     }
 
     protected void gotoUserInfoActivity(String user) {
+        Map<String, String> params = new HashMap<>(1);
+        params.put(ExtraKey.USER_NAME, user);
+        RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY);
         Note.show("start the user info activity");
     }
 }

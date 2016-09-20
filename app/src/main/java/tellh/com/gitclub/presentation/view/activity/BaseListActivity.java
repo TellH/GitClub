@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewStub;
 
 import tellh.com.gitclub.R;
@@ -34,7 +35,6 @@ public abstract class BaseListActivity extends BaseActivity
     protected SwipeRefreshLayout refreshLayout;
     protected ErrorViewHelper errorView;
     protected RecyclerView recyclerView;
-    private Toolbar toolbar;
     protected FooterLoadMoreAdapterWrapper loadMoreWrapper;
     protected String user;
 
@@ -57,10 +57,15 @@ public abstract class BaseListActivity extends BaseActivity
         recyclerView = (RecyclerView) findViewById(R.id.list);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
         errorView = new ErrorViewHelper((ViewStub) findViewById(R.id.vs_error));
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getToolbarTitle());
         setSupportActionBar(toolbar);
-
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         loadMoreWrapper = new FooterLoadMoreAdapterWrapper(getListAdapter());
         loadMoreWrapper.addFooter(R.layout.footer_load_more);

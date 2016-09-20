@@ -17,10 +17,9 @@ import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.presenter.IRepoListPresenter;
 import tellh.com.gitclub.presentation.widget.IconToggleHelper;
-
-import static tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent.TargetActivity.PersonalHomePageActivity;
 
 /**
  * Created by tlh on 2016/8/31 :)
@@ -72,7 +71,7 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
             public void onClick(View view) {
                 HashMap<String, String> params = new HashMap<>(1);
                 params.put(ExtraKey.USER_NAME, item.getOwner().getLogin());
-                RxBusPostman.postLaunchActivityEvent(params, PersonalHomePageActivity);
+                RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY);
             }
         });
 

@@ -52,10 +52,10 @@ public class HomeActivity extends BaseActivity {
                     @Override
                     public void call(LaunchActivityEvent launchActivityEvent) {
                         switch (launchActivityEvent.targetActivity) {
-                            case PersonalHomePageActivity:
+                            case LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY:
                                 PersonalHomePageActivity.launch(HomeActivity.this, launchActivityEvent.params.get(ExtraKey.USER_NAME));
                                 break;
-                            case BrowserActivity:
+                            case LaunchActivityEvent.BROWSER_ACTIVITY:
                                 Intent intent = new Intent();
                                 intent.setAction(Intent.ACTION_VIEW);
                                 intent.setData(Uri.parse(launchActivityEvent.params.get(ExtraKey.NAME_BLOG)));

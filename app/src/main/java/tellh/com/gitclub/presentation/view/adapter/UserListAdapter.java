@@ -12,14 +12,13 @@ import java.util.List;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.config.ExtraKey;
-import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
-import tellh.com.gitclub.presentation.widget.ButtonToggleHelper;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.model.entity.UserEntity;
+import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
+import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.presenter.IUserListPresenter;
-
-import static tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent.TargetActivity.PersonalHomePageActivity;
+import tellh.com.gitclub.presentation.widget.ButtonToggleHelper;
 
 /**
  * Created by tlh on 2016/8/31 :)
@@ -83,7 +82,7 @@ public class UserListAdapter extends BaseRecyclerAdapter<UserEntity> {
             public void onClick(View view) {
                 HashMap<String, String> params = new HashMap<>(1);
                 params.put(ExtraKey.USER_NAME, item.getLogin());
-                RxBusPostman.postLaunchActivityEvent(params, PersonalHomePageActivity);
+                RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY);
             }
         });
     }
