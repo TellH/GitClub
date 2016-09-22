@@ -1,5 +1,6 @@
 package tellh.com.gitclub.common.wrapper;
 
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
@@ -23,7 +24,13 @@ public class Note {
     }
 
     public static void showBar(String msg, View view) {
-        Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
+        getSnackbar(msg, view)
+                .show();
+    }
+
+    @NonNull
+    public static Snackbar getSnackbar(String msg, View view) {
+        return Snackbar.make(view, msg, Snackbar.LENGTH_SHORT)
                 .setCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
@@ -36,7 +43,6 @@ public class Note {
                         super.onShown(snackbar);
                         RxBusPostman.postQuickReturnEvent(false);
                     }
-                })
-                .show();
+                });
     }
 }

@@ -25,7 +25,7 @@ task clean(type: Delete) {
 }
 
 project.ext {
-    supportVersion = "24.2.0"
+    supportVersion = "24.2.1"
 
     retrofitVersion = "2.1.0"
 

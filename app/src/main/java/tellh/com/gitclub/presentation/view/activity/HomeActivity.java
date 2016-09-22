@@ -3,6 +3,7 @@ package tellh.com.gitclub.presentation.view.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
@@ -12,6 +13,7 @@ import rx.functions.Action1;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BaseActivity;
 import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.presentation.contract.bus.RxBus;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
@@ -32,6 +34,7 @@ public class HomeActivity extends BaseActivity {
 
     Subscription subscriptionQuickReturn;
     private Subscription subscriptionLaunchActivity;
+    private long exitTime;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -121,6 +124,17 @@ public class HomeActivity extends BaseActivity {
         RxBusPostman.postOnBackPressEvent(event);
         if (event.hasConsume)
             return;
-        super.onBackPressed();
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Note.getSnackbar("Are you sure to exit GitClub?", navBar)
+                    .setAction("Exit", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
