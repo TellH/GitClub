@@ -97,10 +97,12 @@ public class PersonalHomePageActivity extends BaseActivity
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        DaggerHomePageComponent.builder()
-                .appComponent(AndroidApplication.getInstance().getAppComponent())
-                .build().inject(this);
-        presenter.attachView(this);
+        if (presenter == null) {
+            DaggerHomePageComponent.builder()
+                    .appComponent(AndroidApplication.getInstance().getAppComponent())
+                    .build().inject(this);
+            presenter.attachView(this);
+        }
         Intent intent = getIntent();
         if (intent != null) {
             mUserName = intent.getStringExtra(ExtraKey.USER_NAME);
