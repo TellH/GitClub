@@ -11,6 +11,7 @@ import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 import tellh.com.gitclub.presentation.contract.ExploreContract;
 import tellh.com.gitclub.presentation.contract.LoginContract;
 import tellh.com.gitclub.presentation.contract.NewsContract;
+import tellh.com.gitclub.presentation.contract.RepoPageContract;
 import tellh.com.gitclub.presentation.contract.SearchContract;
 import tellh.com.gitclub.presentation.presenter.ExplorePresenter;
 import tellh.com.gitclub.presentation.presenter.PersonalPagePresenter;
@@ -18,6 +19,7 @@ import tellh.com.gitclub.presentation.presenter.ListRepoPresenter;
 import tellh.com.gitclub.presentation.presenter.ListUserPresenter;
 import tellh.com.gitclub.presentation.presenter.LoginPresenter;
 import tellh.com.gitclub.presentation.presenter.NewsPresenter;
+import tellh.com.gitclub.presentation.presenter.RepoPagePresenter;
 import tellh.com.gitclub.presentation.presenter.SearchPresenter;
 import tellh.com.gitclub.presentation.contract.PersonalPageContract.Presenter;
 
@@ -58,5 +60,10 @@ public class PresenterModule {
     @Provides
     public ListUserPresenter provideListUserPresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource) {
         return new ListUserPresenter(repositoryDataSource, userDataSource);
+    }
+
+    @Provides
+    public RepoPageContract.Presenter provideRepoPagePresenter(RepositoryDataSource repositoryDataSource) {
+        return new RepoPagePresenter(repositoryDataSource);
     }
 }

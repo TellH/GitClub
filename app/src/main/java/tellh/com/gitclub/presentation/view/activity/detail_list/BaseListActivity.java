@@ -41,12 +41,14 @@ public abstract class BaseListActivity extends BaseActivity
     protected RecyclerView recyclerView;
     protected FooterLoadMoreAdapterWrapper loadMoreWrapper;
     protected String user;
+    protected String repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent != null) {
             user = intent.getStringExtra(ExtraKey.USER_NAME);
+            repo = intent.getStringExtra(ExtraKey.REPO_NAME);
         }
         super.onCreate(savedInstanceState);
     }

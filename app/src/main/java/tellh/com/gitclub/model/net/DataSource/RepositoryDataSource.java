@@ -69,7 +69,7 @@ public class RepositoryDataSource {
     }
 
     public Observable<Boolean> unStar(String owner, String repo) {
-        return repositoryApi.toWatch(owner, repo)
+        return repositoryApi.unStar(owner, repo)
                 .compose(RxJavaUtils.<Response<ResponseBody>>applySchedulers())
                 .compose(RxJavaUtils.checkIfSuccessCode());
     }

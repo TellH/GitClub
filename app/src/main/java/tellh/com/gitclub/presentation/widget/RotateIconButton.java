@@ -50,7 +50,7 @@ public class RotateIconButton extends Button {
                 mDrawable.setLevel(value);
             }
         });
-        animator.setDuration(300);
+        animator.setDuration(100);
         animator.start();
     }
 
