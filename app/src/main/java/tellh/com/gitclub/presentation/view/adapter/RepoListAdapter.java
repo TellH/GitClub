@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.config.ExtraKey;
@@ -85,8 +86,10 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         holder.getView(R.id.item_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 2016/8/31 go to repo detail activity
-                Note.show("item_container");
+                Map<String, String> params = new HashMap<>(1);
+                params.put(ExtraKey.USER_NAME, item.getOwner().getLogin());
+                params.put(ExtraKey.REPO_NAME, item.getName());
+                RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.REPO_PAGE_ACTIVITY);
             }
         });
         ivFork.setOnClickListener(new View.OnClickListener() {

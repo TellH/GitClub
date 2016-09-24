@@ -95,7 +95,7 @@
                     android:background="@color/white"
                     android:gravity="center_vertical"
                     android:text="@string/btn_login"
-                    android:textColor="@drawable/selector_blue"
+                    android:textColor="@color/blue"
                     android:textSize="20sp" />
             </FrameLayout>
 
@@ -110,7 +110,7 @@
                 android:paddingRight="8dp"
                 android:text="@string/btn_cancel"
                 android:gravity="center_vertical"
-                android:textColor="@drawable/selector_blue"
+                android:textColor="@color/blue"
                 android:textSize="20sp" />
         </RelativeLayout>
     </LinearLayout>

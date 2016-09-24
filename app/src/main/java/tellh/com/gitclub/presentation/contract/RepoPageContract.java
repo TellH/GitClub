@@ -12,6 +12,8 @@ public interface RepoPageContract {
         void onCheckStarred(Boolean result);
 
         void onCheckWatch(Boolean result);
+
+        void onGetReadMe(String html_url);
     }
 
     interface Presenter extends MvpPresenter<View> {
@@ -31,5 +33,7 @@ public interface RepoPageContract {
         void checkStarred(String owner, String repo);
 
         void checkWatch(String owner, String repo);
+
+        void getReadMe(String owner, String repo);
     }
 }

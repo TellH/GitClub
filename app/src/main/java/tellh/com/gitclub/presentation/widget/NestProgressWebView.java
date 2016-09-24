@@ -27,6 +27,12 @@ public class NestProgressWebView extends WebView implements NestedScrollingChild
 
     private NestedScrollingChildHelper mChildHelper;
     private ProgressBar progressbar;
+    private int mLastMotionY;
+
+    private final int[] mScrollOffset = new int[2];
+    private final int[] mScrollConsumed = new int[2];
+
+    private int mNestedYOffset;
 
     public NestProgressWebView(Context context) {
         this(context, null);
@@ -34,10 +40,8 @@ public class NestProgressWebView extends WebView implements NestedScrollingChild
 
     public NestProgressWebView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        //nest scroll
         mChildHelper = new NestedScrollingChildHelper(this);
         setNestedScrollingEnabled(true);
-
         //progress bar
         progressbar = new ProgressBar(context, null, android.R.attr.progressBarStyleHorizontal);
         progressbar.setProgressDrawable(ContextCompat.getDrawable(getContext(), R.drawable.progressbar));
@@ -63,6 +67,7 @@ public class NestProgressWebView extends WebView implements NestedScrollingChild
                 }
             }
         });
+
 
         //Client
         setWebViewClient(new WebViewClient() {
@@ -112,6 +117,62 @@ public class NestProgressWebView extends WebView implements NestedScrollingChild
             goBack();
     }
 
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        boolean result = false;
+//
+//        MotionEvent trackedEvent = MotionEvent.obtain(event);
+//
+//        final int action = MotionEventCompat.getActionMasked(event);
+//
+//        if (action == MotionEvent.ACTION_DOWN) {
+//            mNestedYOffset = 0;
+//        }
+//
+//        int y = (int) event.getY();
+//
+//        event.offsetLocation(0, mNestedYOffset);
+//
+//        switch (action) {
+//            case MotionEvent.ACTION_DOWN:
+//                mLastMotionY = y;
+//                startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
+//                result = super.onTouchEvent(event);
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                int deltaY = mLastMotionY - y;
+//
+//                if (dispatchNestedPreScroll(0, deltaY, mScrollConsumed, mScrollOffset)) {
+//                    deltaY -= mScrollConsumed[1];
+//                    trackedEvent.offsetLocation(0, mScrollOffset[1]);
+//                    mNestedYOffset += mScrollOffset[1];
+//                }
+//
+//                int oldY = getScrollY();
+//                mLastMotionY = y - mScrollOffset[1];
+//                if (deltaY < 0) {
+//                    int newScrollY = Math.max(0, oldY + deltaY);
+//                    deltaY -= newScrollY - oldY;
+//                    if (dispatchNestedScroll(0, newScrollY - deltaY, 0, deltaY, mScrollOffset)) {
+//                        mLastMotionY -= mScrollOffset[1];
+//                        trackedEvent.offsetLocation(0, mScrollOffset[1]);
+//                        mNestedYOffset += mScrollOffset[1];
+//                    }
+//                }
+//
+//                trackedEvent.recycle();
+//                result = super.onTouchEvent(trackedEvent);
+//                break;
+//            case MotionEvent.ACTION_POINTER_DOWN:
+//            case MotionEvent.ACTION_UP:
+//            case MotionEvent.ACTION_CANCEL:
+//                stopNestedScroll();
+//                result = super.onTouchEvent(event);
+//                break;
+//        }
+//        return result;
+//    }
+
     @Override
     public void setNestedScrollingEnabled(boolean enabled) {
         mChildHelper.setNestedScrollingEnabled(enabled);
@@ -138,8 +199,7 @@ public class NestProgressWebView extends WebView implements NestedScrollingChild
     }
 
     @Override
-    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed,
-                                        int[] offsetInWindow) {
+    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow) {
         return mChildHelper.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 

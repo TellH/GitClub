@@ -6,6 +6,7 @@ import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
+import tellh.com.gitclub.model.entity.ReadMe;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.presentation.contract.RepoPageContract;
@@ -182,4 +183,21 @@ public class RepoPagePresenter extends BasePresenter<RepoPageContract.View> impl
         );
     }
 
+    @Override
+    public void getReadMe(String owner, String repo) {
+        addSubscription(
+                mRepositoryDataSource.getReadMe(owner, repo)
+                        .subscribe(new DefaultSubscriber<ReadMe>() {
+                            @Override
+                            public void onNext(ReadMe readMe) {
+                                getView().onGetReadMe(readMe.getHtml_url());
+                            }
+
+                            @Override
+                            protected void onError(String errorStr) {
+                                getView().showOnError("Fail to get ReadMe File");
+                            }
+                        })
+        );
+    }
 }
