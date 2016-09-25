@@ -12,8 +12,9 @@ import java.util.Map;
 public class LaunchActivityEvent {
     public static final int PERSONAL_HOME_PAGE_ACTIVITY = 357;
     public static final int BROWSER_ACTIVITY = 987;
+    public static final int REPO_PAGE_ACTIVITY = 544;
 
-    @IntDef({PERSONAL_HOME_PAGE_ACTIVITY, BROWSER_ACTIVITY})
+    @IntDef({PERSONAL_HOME_PAGE_ACTIVITY, BROWSER_ACTIVITY, REPO_PAGE_ACTIVITY})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TargetActivity {
     }

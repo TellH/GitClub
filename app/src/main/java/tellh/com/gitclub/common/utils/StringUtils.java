@@ -37,4 +37,10 @@ public class StringUtils {
             return String.valueOf(num);
         return append(String.format("%.1f", (float) num / 1000f), "k");
     }
+
+    public static String checkRepoNameLength(String fullName, String repoName) {
+        if (fullName.length() < 25)
+            return fullName;
+        return StringUtils.append("…/", repoName);
+    }
 }

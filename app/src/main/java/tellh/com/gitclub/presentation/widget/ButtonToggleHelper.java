@@ -13,19 +13,21 @@ import android.widget.Button;
  */
 public class ButtonToggleHelper implements ToggleHelper<Button> {
 
-    int color_default;
-    int color_pressed;
+    private int color_default;
+    private int color_pressed;
 
-    String text_default;
-    String text_pressed;
+    private String text_default;
+    private String text_pressed;
 
-    int txt_default;
-    int txt_pressed;
+    private int txt_default;
+    private int txt_pressed;
 
-    int txt_color_default;
-    int txt_color_pressed;
+    private int txt_color_default;
+    private int txt_color_pressed;
     private int drawable_Default;
     private int drawable_Pressed;
+    private int icon_left_default;
+    private int icon_left_pressed;
 
     private ButtonToggleHelper() {
     }
@@ -42,21 +44,6 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
             button.setTag(false);
             state = false;
         }
-//        if (color_pressed != 0 && color_default != 0) {
-//            int color = state ? color_default : color_pressed;
-//            button.setBackgroundColor(ContextCompat.getColor(button.getContext(), color));
-//        }
-//        if (!TextUtils.isEmpty(text_default) && !TextUtils.isEmpty(text_pressed)) {
-//            int textResId = state ? txt_default : txt_pressed;
-//            button.setText(textResId);
-//        } else if (txt_default != 0 && txt_pressed != 0) {
-//            String text = !state ? text_pressed : text_default;
-//            button.setText(text);
-//        }
-//        if (txt_color_default != 0 && txt_color_pressed != 0) {
-//            int color = state ? txt_color_default : txt_color_pressed;
-//            button.setTextColor(ContextCompat.getColor(button.getContext(), color));
-//        }
         setState(button, !state);
         return !state;
     }
@@ -67,6 +54,12 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
             int drawableRes = !state ? drawable_Default : drawable_Pressed;
             button.setBackgroundResource(drawableRes);
         }
+        if (icon_left_default != 0 && icon_left_pressed != 0) {
+            int drawableRes = !state ? icon_left_default : icon_left_pressed;
+            button.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(button.getContext(), drawableRes),
+                    null, null, null);
+        }
+
         if (color_pressed != 0 && color_default != 0) {
             int color = !state ? color_default : color_pressed;
             button.setBackgroundColor(ContextCompat.getColor(button.getContext(), color));
@@ -117,6 +110,8 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
         private int txt_color_default;
         private int drawable_Pressed;
         private int drawable_Default;
+        private int icon_left_default;
+        private int icon_left_pressed;
 
         private Builder() {
         }
@@ -151,6 +146,12 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
             return this;
         }
 
+        public Builder setDrawableLeft(@DrawableRes int drawable_Default, @DrawableRes int drawable_Pressed) {
+            icon_left_default = drawable_Default;
+            icon_left_pressed = drawable_Pressed;
+            return this;
+        }
+
         public ButtonToggleHelper build() {
             ButtonToggleHelper helper = new ButtonToggleHelper();
             helper.color_default = color_default;
@@ -163,6 +164,8 @@ public class ButtonToggleHelper implements ToggleHelper<Button> {
             helper.txt_color_pressed = txt_color_pressed;
             helper.drawable_Default = drawable_Default;
             helper.drawable_Pressed = drawable_Pressed;
+            helper.icon_left_default = icon_left_default;
+            helper.icon_left_pressed = icon_left_pressed;
             return helper;
         }
 

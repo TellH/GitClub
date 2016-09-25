@@ -18,7 +18,6 @@ import tellh.com.gitclub.common.utils.DateUtils;
 import tellh.com.gitclub.common.utils.LogUtils;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
-import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.Event;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
@@ -151,7 +150,6 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
         spanString.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                // TODO: 2016/9/9 start the repo info activity
                 gotoRepoActivity(showText);
             }
         }, 0, showText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -159,19 +157,20 @@ public class NewsListAdapter extends BaseRecyclerAdapter<Event> {
     }
 
     private void gotoRepoActivity(String repoFullName) {
-        // TODO: 2016/9/9 start the repository info activity
         String[] pair = TextUtils.split(repoFullName, "/");
         if (pair.length != 2) {
             LogUtils.e("error in parse repo full name.");
             return;
         }
-        Note.show("start the repository info activity");
+        Map<String, String> params = new HashMap<>(1);
+        params.put(ExtraKey.USER_NAME, pair[0]);
+        params.put(ExtraKey.REPO_NAME, pair[1]);
+        RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.REPO_PAGE_ACTIVITY);
     }
 
-    protected void gotoUserInfoActivity(String user) {
+    private void gotoUserInfoActivity(String user) {
         Map<String, String> params = new HashMap<>(1);
         params.put(ExtraKey.USER_NAME, user);
         RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY);
-        Note.show("start the user info activity");
     }
 }

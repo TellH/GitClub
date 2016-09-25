@@ -7,6 +7,7 @@ import android.widget.ImageView;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.config.ExtraKey;
@@ -75,7 +76,7 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
             }
         });
 
-        holder.setText(R.id.tv_repo, checkRepoNameLength(item))
+        holder.setText(R.id.tv_repo, StringUtils.checkRepoNameLength(item.getFull_name(), item.getName()))
                 .setText(R.id.tv_desc, item.getDescription())
                 .setText(R.id.tv_language, item.getLanguage() != null ? item.getLanguage() : "")
                 .setText(R.id.tv_star_count, String.valueOf(item.getStars()))
@@ -85,8 +86,10 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         holder.getView(R.id.item_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: 2016/8/31 go to repo detail activity
-                Note.show("item_container");
+                Map<String, String> params = new HashMap<>(1);
+                params.put(ExtraKey.USER_NAME, item.getOwner().getLogin());
+                params.put(ExtraKey.REPO_NAME, item.getName());
+                RxBusPostman.postLaunchActivityEvent(params, LaunchActivityEvent.REPO_PAGE_ACTIVITY);
             }
         });
         ivFork.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +123,7 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
 
     }
 
-    protected boolean checkLogin() {
+    private boolean checkLogin() {
         if (!AccountPrefs.isLogin(mContext)) {
             Note.show(Utils.getString(R.string.note_to_login));
             return false;
@@ -128,10 +131,5 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         return true;
     }
 
-    private String checkRepoNameLength(RepositoryInfo item) {
-        String name = item.getFull_name();
-        if (name.length() < 25)
-            return name;
-        return StringUtils.append("…/", item.getName());
-    }
+
 }

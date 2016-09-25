@@ -3,20 +3,24 @@ package tellh.com.gitclub.presentation.view.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationViewPager;
+
+import java.util.Map;
 
 import rx.Subscription;
 import rx.functions.Action1;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BaseActivity;
-import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.presentation.contract.bus.RxBus;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.QuickReturnEvent;
+import tellh.com.gitclub.presentation.view.activity.repo_page.RepoPageActivity;
 import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
 import tellh.com.gitclub.presentation.view.adapter.CommonViewPagerAdapter;
 import tellh.com.gitclub.presentation.view.fragment.explore.ExploreFragment;
@@ -25,6 +29,10 @@ import tellh.com.gitclub.presentation.view.fragment.news.NewsFragment;
 import tellh.com.gitclub.presentation.view.fragment.search.SearchFragment;
 import tellh.com.gitclub.presentation.widget.AHBottomNavigation;
 
+import static tellh.com.gitclub.common.config.ExtraKey.NAME_BLOG;
+import static tellh.com.gitclub.common.config.ExtraKey.REPO_NAME;
+import static tellh.com.gitclub.common.config.ExtraKey.USER_NAME;
+
 public class HomeActivity extends BaseActivity {
 
     private AHBottomNavigationViewPager viewPager;
@@ -32,6 +40,7 @@ public class HomeActivity extends BaseActivity {
 
     Subscription subscriptionQuickReturn;
     private Subscription subscriptionLaunchActivity;
+    private long exitTime;
 
     @Override
     public void initData(Bundle savedInstanceState) {
@@ -52,16 +61,20 @@ public class HomeActivity extends BaseActivity {
                 .subscribe(new Action1<LaunchActivityEvent>() {
                     @Override
                     public void call(LaunchActivityEvent launchActivityEvent) {
+                        Map<String, String> params = launchActivityEvent.params;
                         switch (launchActivityEvent.targetActivity) {
                             case LaunchActivityEvent.PERSONAL_HOME_PAGE_ACTIVITY:
-                                PersonalHomePageActivity.launch(HomeActivity.this, launchActivityEvent.params.get(ExtraKey.USER_NAME));
+                                PersonalHomePageActivity.launch(HomeActivity.this, params.get(USER_NAME));
                                 break;
                             case LaunchActivityEvent.BROWSER_ACTIVITY:
                                 Intent intent = new Intent();
                                 intent.setAction(Intent.ACTION_VIEW);
-                                intent.setData(Uri.parse(launchActivityEvent.params.get(ExtraKey.NAME_BLOG)));
+                                intent.setData(Uri.parse(params.get(NAME_BLOG)));
                                 intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
                                 startActivity(intent);
+                                break;
+                            case LaunchActivityEvent.REPO_PAGE_ACTIVITY:
+                                RepoPageActivity.launch(HomeActivity.this, params.get(USER_NAME), params.get(REPO_NAME));
                                 break;
                         }
                     }
@@ -121,6 +134,17 @@ public class HomeActivity extends BaseActivity {
         RxBusPostman.postOnBackPressEvent(event);
         if (event.hasConsume)
             return;
-        super.onBackPressed();
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Note.getSnackbar("Are you sure to exit GitClub?", navBar)
+                    .setAction("Exit", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    }).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+            super.onBackPressed();
+        }
     }
 }

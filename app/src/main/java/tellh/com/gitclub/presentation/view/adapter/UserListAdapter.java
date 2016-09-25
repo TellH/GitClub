@@ -31,7 +31,7 @@ public class UserListAdapter extends BaseRecyclerAdapter<UserEntity> {
         super(ctx, list);
         this.presenter = presenter;
         btnToggleHelper = ButtonToggleHelper.builder()
-                .setBackgroundColor(R.color.light_green, R.color.gray)
+                .setBackgroundDrawable(R.drawable.selector_button_green, R.drawable.selector_button_gray)
                 .setTextColor(R.color.white, R.color.gray_text)
                 .setText(R.string.follow, R.string.unfollow)
                 .build();

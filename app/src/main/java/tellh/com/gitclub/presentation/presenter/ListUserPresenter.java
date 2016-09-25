@@ -25,6 +25,8 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
     private final IUserListPresenter userListPresenter;
     private final UserDataSource mUserDataSource;
     private boolean isFlying;
+    private String owner;
+    private String repo;
 
     public ListUserPresenter(RepositoryDataSource repositoryDataSource, UserDataSource userDataSource) {
         this.mRepositoryDataSource = repositoryDataSource;
@@ -32,7 +34,15 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
         userListPresenter = new UserListPresenter(this, userDataSource);
     }
 
-    public void listForks(String owner, String repo, final int page) {
+    public void setRepo(String owner, String repo) {
+        this.owner = owner;
+        this.repo = repo;
+    }
+
+    public void listForks(final int page) {
+        if (owner == null || repo == null) {
+            return;
+        }
         if (isFlying) {
             getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
             return;
@@ -65,7 +75,10 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
         );
     }
 
-    public void listWatchers(String owner, String repo, final int page) {
+    public void listWatchers(final int page) {
+        if (owner == null || repo == null) {
+            return;
+        }
         if (isFlying) {
             getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
             return;
@@ -94,7 +107,10 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
         );
     }
 
-    public void listStargazers(String owner, String repo, final int page) {
+    public void listStargazers(final int page) {
+        if (owner == null || repo == null) {
+            return;
+        }
         if (isFlying) {
             getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
             return;
@@ -123,7 +139,10 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
         );
     }
 
-    public void listContributors(String owner, String repo, final int page) {
+    public void listContributors(final int page) {
+        if (owner == null || repo == null) {
+            return;
+        }
         if (isFlying) {
             getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
             return;

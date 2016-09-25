@@ -1,7 +1,5 @@
 package tellh.com.gitclub.presentation.view.activity.detail_list;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,10 +11,8 @@ import android.view.ViewStub;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BaseActivity;
-import tellh.com.gitclub.common.base.BaseView;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.Utils;
-import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.presentation.contract.ShowError;
 import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
@@ -32,30 +28,27 @@ import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterW
  * Created by tlh on 2016/9/16 :)
  */
 public abstract class BaseListActivity extends BaseActivity
-        implements BaseView, SwipeRefreshLayout.OnRefreshListener, ListLoadingListener, ShowError,
+        implements SwipeRefreshLayout.OnRefreshListener, ListLoadingListener, ShowError,
         FooterLoadMoreAdapterWrapper.OnReachFooterListener {
-    protected ProgressDialog progressDialog;
-
     protected SwipeRefreshLayout refreshLayout;
     protected ErrorViewHelper errorView;
     protected RecyclerView recyclerView;
     protected FooterLoadMoreAdapterWrapper loadMoreWrapper;
     protected String user;
+    protected String repo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         if (intent != null) {
             user = intent.getStringExtra(ExtraKey.USER_NAME);
+            repo = intent.getStringExtra(ExtraKey.REPO_NAME);
         }
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public void initView() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCanceledOnTouchOutside(false);
-
         initDagger();
 
         recyclerView = (RecyclerView) findViewById(R.id.list);
@@ -75,7 +68,6 @@ public abstract class BaseListActivity extends BaseActivity
         loadMoreWrapper.addFooter(R.layout.footer_load_more);
         loadMoreWrapper.setOnReachFooterListener(recyclerView, this);
         recyclerView.setAdapter(loadMoreWrapper);
-
         //swipe refresh layout
         refreshLayout.setProgressViewOffset(false, -100, 230);
         refreshLayout.setColorSchemeResources(R.color.blue, R.color.brown, R.color.purple, R.color.green);
@@ -97,25 +89,6 @@ public abstract class BaseListActivity extends BaseActivity
     public void initData(Bundle savedInstanceState) {
         refreshLayout.setRefreshing(true);
         onRefresh();
-    }
-
-
-    @Override
-    public void showOnError(String s) {
-        progressDialog.dismiss();
-        Note.show(s);
-    }
-
-    @Override
-    public void showOnLoading() {
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-    }
-
-    @Override
-    public void showOnSuccess() {
-        progressDialog.dismiss();
-        Note.show(getString(R.string.success_loading));
     }
 
     @Override
@@ -171,8 +144,4 @@ public abstract class BaseListActivity extends BaseActivity
         }
     }
 
-    @Override
-    public Context getViewContext() {
-        return this;
-    }
 }

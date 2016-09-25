@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_reload"
+        android:icon="@drawable/ic_refresh"
+        app:showAsAction="always"
+        app:title="ReLoad"
+        android:visible="true" />
+    <item
+        android:id="@+id/action_drawer"
+        android:icon="@drawable/ic_more_vert"
+        android:visible="true"
+        app:showAsAction="always"
+        app:title="More" />
+</menu>

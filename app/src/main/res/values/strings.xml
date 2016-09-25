@@ -40,14 +40,14 @@
     <string name="error_fork_repo">Fail to fork repo:</string>
     <string name="Forking">Forking </string>
     <string name="follow">Follow</string>
-    <string name="success_follow_user">succeed to follow</string>
-    <string name="error_follow_user">Fail to follow</string>
+    <string name="success_follow_user">succeed to follow </string>
+    <string name="error_follow_user">Fail to follow </string>
     <string name="profile">Home</string>
     <string name="explore">Explore</string>
     <string name="news">News</string>
 
-    <string name="success_unfollow_user">Succeed to unfollow</string>
-    <string name="error_unfollow_user">Fail to unfollow:</string>
+    <string name="success_unfollow_user">Succeed to unfollow </string>
+    <string name="error_unfollow_user">Fail to unfollow </string>
     <string name="unfollow">UnFollow</string>
     <string name="default_bio">This gay is lazy,left nothing behind.</string>
     <string name="empty">No Data!</string>

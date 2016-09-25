@@ -34,7 +34,7 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
 
     @IntDef({PULL_TO_LOAD_MORE, LOADING, NO_MORE})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface FooterState {
+    @interface FooterState {
     }
 
     @FooterState
@@ -111,7 +111,7 @@ public class FooterLoadMoreAdapterWrapper extends HeaderAndFooterAdapterWrapper 
         notifyDataSetChanged();
     }
 
-    public boolean isReachBottom(RecyclerView recyclerView, int newState) {
+    private boolean isReachBottom(RecyclerView recyclerView, int newState) {
         return recyclerView != null && newState == RecyclerView.SCROLL_STATE_IDLE &&
                 ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition() == recyclerView.getAdapter().getItemCount() - 1;
     }

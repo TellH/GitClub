@@ -9,6 +9,7 @@ import retrofit2.Response;
 import rx.Observable;
 import tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
+import tellh.com.gitclub.model.entity.ReadMe;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.SearchResult;
 import tellh.com.gitclub.model.entity.UserEntity;
@@ -69,7 +70,7 @@ public class RepositoryDataSource {
     }
 
     public Observable<Boolean> unStar(String owner, String repo) {
-        return repositoryApi.toWatch(owner, repo)
+        return repositoryApi.unStar(owner, repo)
                 .compose(RxJavaUtils.<Response<ResponseBody>>applySchedulers())
                 .compose(RxJavaUtils.checkIfSuccessCode());
     }
@@ -116,5 +117,10 @@ public class RepositoryDataSource {
                     .compose(RxJavaUtils.<SearchResult<RepositoryInfo>>applySchedulers());
         return repositoryApi.search(keyWord, sort.val(), page, PER_PAGE)
                 .compose(RxJavaUtils.<SearchResult<RepositoryInfo>>applySchedulers());
+    }
+
+    public Observable<ReadMe> getReadMe(String owner, String repo) {
+        return repositoryApi.getReadMe(owner, repo)
+                .compose(RxJavaUtils.<ReadMe>applySchedulers());
     }
 }

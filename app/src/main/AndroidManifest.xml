@@ -31,7 +31,11 @@
         <activity android:name=".presentation.view.activity.detail_list.ListFollowersActivity" />
         <activity android:name=".presentation.view.activity.detail_list.ListFollowingUserActivity" />
         <activity android:name=".presentation.view.activity.detail_list.ListOwnRepoActivity" />
-        <activity android:name=".presentation.view.activity.user_personal_page.PersonalHomePageActivity"></activity>
+        <activity android:name=".presentation.view.activity.user_personal_page.PersonalHomePageActivity" />
+        <activity android:name=".presentation.view.activity.repo_page.RepoPageActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListStargazerActivity"/>
+        <activity android:name=".presentation.view.activity.detail_list.ListContributorActivity"/>
+        <activity android:name=".presentation.view.activity.detail_list.ListForkerActivity"/>
+        <activity android:name=".presentation.view.activity.detail_list.ListWatcherActivity"/>
     </application>
-
 </manifest>

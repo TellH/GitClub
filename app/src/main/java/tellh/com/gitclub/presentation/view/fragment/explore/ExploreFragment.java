@@ -225,7 +225,6 @@ public class ExploreFragment extends LazyFragment
 
     @Override
     public void onGetShowcasesDetail(ShowCaseInfo showCaseInfo) {
-        // TODO: 2016/9/6 show showcase detail
         if (showcaseListDialog == null)
             showcaseListDialog = new ShowcaseListBottomSheetDialog(getContext(), presenter);
         showcaseListDialog.refreshAndShow(showCaseInfo);

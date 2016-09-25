@@ -30,6 +30,7 @@ public abstract class ListUserActivity extends BaseListActivity implements ListU
                 .appComponent(AndroidApplication.getInstance().getAppComponent())
                 .build().inject(this);
         presenter.attachView(this);
+        presenter.setRepo(user, repo);
     }
 
     @Override
