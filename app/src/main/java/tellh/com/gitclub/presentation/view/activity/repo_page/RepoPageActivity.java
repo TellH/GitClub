@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.sackcentury.shinebuttonlib.ShineButton;
+
 import javax.inject.Inject;
 
 import tellh.com.gitclub.R;
@@ -66,6 +68,7 @@ public class RepoPageActivity extends BaseActivity
     private TextView tvLang;
     private ButtonToggleHelper btnStarToggleHelper;
     private ButtonToggleHelper btnWatchToggleHelper;
+    private ShineButton btnShineStar;
 
     public static void launch(Activity srcActivity, String owner, String repo) {
         Intent intent = new Intent(srcActivity, RepoPageActivity.class);
@@ -119,6 +122,8 @@ public class RepoPageActivity extends BaseActivity
         btnFork.setOnClickListener(this);
         btnStar = (Button) findViewById(R.id.btn_star);
         btnStar.setOnClickListener(this);
+        btnShineStar = (ShineButton) findViewById(R.id.btn_toStar);
+        btnShineStar.setOnClickListener(this);
         btnSource = (Button) findViewById(R.id.btn_source);
         btnSource.setOnClickListener(this);
         btnSource = (Button) findViewById(R.id.btn_source_code);
@@ -196,6 +201,7 @@ public class RepoPageActivity extends BaseActivity
     @Override
     public void onCheckStarred(Boolean result) {
         btnStarToggleHelper.setState(btnStar, result);
+        btnShineStar.setChecked(result, false);
     }
 
     @Override
@@ -221,7 +227,13 @@ public class RepoPageActivity extends BaseActivity
                 presenter.toFork(mOwner, mRepo);
                 break;
             case R.id.btn_star:
-                presenter.toStar(mOwner, mRepo, btnStarToggleHelper.toggle(btnStar));
+                boolean checked = btnStarToggleHelper.toggle(btnStar);
+                presenter.toStar(mOwner, mRepo, checked);
+                btnShineStar.setChecked(checked, true);
+                break;
+            case R.id.btn_toStar:
+                presenter.toStar(mOwner, mRepo, btnShineStar.isChecked());
+                btnStarToggleHelper.setState(btnStar, btnShineStar.isChecked());
                 break;
             case R.id.btn_source:
             case R.id.btn_source_code:

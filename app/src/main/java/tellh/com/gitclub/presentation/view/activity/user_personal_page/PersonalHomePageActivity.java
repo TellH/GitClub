@@ -17,11 +17,11 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import javax.inject.Inject;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.BaseActivity;
@@ -49,7 +49,7 @@ public class PersonalHomePageActivity extends BaseActivity
     PersonalPageContract.Presenter presenter;
     private Toolbar toolbar;
     private TextView tvBio;
-    private CircleImageView ivUser;
+    private ImageView ivUser;
     private PersonalPageTextView tvFollowers;
     private PersonalPageTextView tvFollowing;
     private PersonalPageTextView tvRepo;
@@ -132,7 +132,7 @@ public class PersonalHomePageActivity extends BaseActivity
 
         mainContent = (NestedScrollView) findViewById(R.id.main_content);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ivUser = (CircleImageView) findViewById(R.id.iv_user);
+        ivUser = (ImageView) findViewById(R.id.iv_user);
         tvFollowers = (PersonalPageTextView) findViewById(R.id.tv_followers);
         tvFollowing = (PersonalPageTextView) findViewById(R.id.tv_following);
         tvRepo = (PersonalPageTextView) findViewById(R.id.tv_repo);

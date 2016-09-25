@@ -95,20 +95,37 @@
                             android:id="@+id/tv_desc"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:ellipsize="end"
                             android:gravity="center_vertical"
-                            android:maxLines="3"
                             android:padding="10dp"
                             tools:text="Server-side Swift. The Perfect library, application server, connectors and example apps. (For mobile back-end development, website and web app development, and more...)" />
 
-                        <TextView
-                            android:id="@+id/tv_language"
+                        <FrameLayout
+                            android:layout_marginBottom="5dp"
                             android:layout_width="match_parent"
-                            android:layout_height="30dp"
-                            android:gravity="center_vertical"
-                            android:paddingLeft="10dp"
-                            android:textStyle="bold"
-                            tools:text="Java" />
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tv_language"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:layout_marginLeft="10dp"
+                                android:gravity="center_vertical"
+                                android:textStyle="bold"
+                                tools:text="Java" />
+
+                            <com.sackcentury.shinebuttonlib.ShineButton
+                                android:id="@+id/btn_toStar"
+                                android:layout_gravity="end"
+                                android:layout_marginRight="18dp"
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:src="@android:color/darker_gray"
+                                app:allow_random_color="false"
+                                app:btn_color="@android:color/darker_gray"
+                                app:btn_fill_color="@android:color/holo_orange_light"
+                                app:siShape="@raw/star" />
+                        </FrameLayout>
+
                     </LinearLayout>
 
                     <TextView
