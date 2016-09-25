@@ -66,6 +66,8 @@ public class WebViewHelper {
         this.url = url;
         webView.loadUrl(url);
         progressBar.setVisibility(VISIBLE);
+        if (subscribe != null)
+            subscribe.unsubscribe();
         subscribe = Observable
                 .interval(1, TimeUnit.SECONDS)
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -126,7 +128,6 @@ public class WebViewHelper {
                 progressBar.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d("Progress", "onPageFinished() called" + " newProgress = [" + progressBar.getProgress() + "]");
                         progressBar.setVisibility(INVISIBLE);
                         progressBar.setProgress(0);
                     }
@@ -138,12 +139,9 @@ public class WebViewHelper {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 super.onProgressChanged(view, newProgress);
-                Log.d("Progress", "onProgressChanged() called" + " newProgress = [" + newProgress + "]");
                 if (progressBar.getVisibility() == INVISIBLE)
                     progressBar.setVisibility(VISIBLE);
-                if (newProgress == 100) {
-//                    progressBar.setProgress(90);
-                } else {
+                if (newProgress != 100) {
                     progressBar.setProgress(newProgress);
                 }
             }

@@ -24,6 +24,7 @@ import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.BaseActivity;
 import tellh.com.gitclub.common.config.ExtraKey;
+import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.di.component.DaggerRepoPageComponent;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
@@ -33,13 +34,13 @@ import tellh.com.gitclub.presentation.view.activity.detail_list.ListForkerActivi
 import tellh.com.gitclub.presentation.view.activity.detail_list.ListStargazerActivity;
 import tellh.com.gitclub.presentation.view.activity.detail_list.ListWatcherActivity;
 import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
+import tellh.com.gitclub.presentation.widget.ButtonToggleHelper;
 import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 import tellh.com.gitclub.presentation.widget.WebViewHelper;
 
 /**
  * Created by tlh on 2016/9/22 :)
  */
-// TODO: 2016/9/24 selector for bottom button
 // TODO: 2016/9/24 Source code activity
 // TODO: 2016/9/24 load header picture
 public class RepoPageActivity extends BaseActivity
@@ -48,7 +49,6 @@ public class RepoPageActivity extends BaseActivity
     RepoPageContract.Presenter presenter;
     private String mOwner;
     private String mRepo;
-    private ImageView ivHeader;
     private Toolbar toolbar;
     private Button btnWatch;
     private Button btnFork;
@@ -57,15 +57,15 @@ public class RepoPageActivity extends BaseActivity
     private ImageView ivOwner;
     private TextView tvRepo;
     private TextView tvDesc;
-    private WebView webView;
     private NestedScrollView mainContent;
-    private ProgressBar progressBar;
     private WebViewHelper webViewHelper;
     private ErrorViewHelper errorView;
     private DrawerLayout drawerLayout;
     private View drawerView;
-    private Button btnBrowser;
     private RepositoryInfo repo;
+    private TextView tvLang;
+    private ButtonToggleHelper btnStarToggleHelper;
+    private ButtonToggleHelper btnWatchToggleHelper;
 
     public static void launch(Activity srcActivity, String owner, String repo) {
         Intent intent = new Intent(srcActivity, RepoPageActivity.class);
@@ -111,7 +111,7 @@ public class RepoPageActivity extends BaseActivity
         }
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         drawerView = findViewById(R.id.drawer_view);
-        ivHeader = (ImageView) findViewById(R.id.iv_header);
+//        ImageView ivHeader = (ImageView) findViewById(R.id.iv_header);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnWatch = (Button) findViewById(R.id.btn_watch);
         btnWatch.setOnClickListener(this);
@@ -123,7 +123,7 @@ public class RepoPageActivity extends BaseActivity
         btnSource.setOnClickListener(this);
         btnSource = (Button) findViewById(R.id.btn_source_code);
         btnSource.setOnClickListener(this);
-        btnBrowser = (Button) findViewById(R.id.btn_open_in_browser);
+        Button btnBrowser = (Button) findViewById(R.id.btn_open_in_browser);
         btnBrowser.setOnClickListener(this);
         Button btnContributors = (Button) findViewById(R.id.btn_contributors);
         btnContributors.setOnClickListener(this);
@@ -138,10 +138,11 @@ public class RepoPageActivity extends BaseActivity
         ivOwner.setOnClickListener(this);
         tvRepo = (TextView) findViewById(R.id.tv_repo);
         tvDesc = (TextView) findViewById(R.id.tv_desc);
+        tvLang = (TextView) findViewById(R.id.tv_language);
         tvDesc.setOnClickListener(this);
-        webView = (WebView) findViewById(R.id.web_view);
+        WebView webView = (WebView) findViewById(R.id.web_view);
         mainContent = (NestedScrollView) findViewById(R.id.main_content);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBar);
 
         webViewHelper = new WebViewHelper(webView, progressBar);
         webViewHelper.setCallback(new WebViewHelper.WebViewCallback() {
@@ -161,6 +162,17 @@ public class RepoPageActivity extends BaseActivity
                 finish();
             }
         });
+
+        btnStarToggleHelper = ButtonToggleHelper.builder()
+                .setBackgroundDrawable(R.drawable.button_white, R.drawable.button_blue)
+                .setTextColor(R.color.gray_text, R.color.white)
+                .setDrawableLeft(R.drawable.ic_star_18dp, R.drawable.ic_star_white_18dp)
+                .build();
+        btnWatchToggleHelper = ButtonToggleHelper.builder()
+                .setBackgroundDrawable(R.drawable.button_white, R.drawable.button_blue)
+                .setTextColor(R.color.gray_text, R.color.white)
+                .setDrawableLeft(R.drawable.ic_watch_18dp, R.drawable.ic_watch_white_18dp)
+                .build();
     }
 
     @Override
@@ -174,20 +186,21 @@ public class RepoPageActivity extends BaseActivity
         tvRepo.setText(repositoryInfo.getFull_name());
         ImageLoader.load(repositoryInfo.getOwner().getAvatar_url(), ivOwner);
         tvDesc.setText(TextUtils.isEmpty(repositoryInfo.getDescription()) ? "No Description." : repositoryInfo.getDescription());
-        btnStar.setText(String.valueOf(repositoryInfo.getStars()));
-        btnFork.setText(String.valueOf(repositoryInfo.getForks()));
-        btnWatch.setText(String.valueOf(repositoryInfo.getSubscribers_count()));
+        tvLang.setText(repositoryInfo.getLanguage());
+        btnStar.setText(StringUtils.formatNumber2Thousand(repositoryInfo.getStars()));
+        btnFork.setText(StringUtils.formatNumber2Thousand(repositoryInfo.getForks()));
+        btnWatch.setText(StringUtils.formatNumber2Thousand(repositoryInfo.getSubscribers_count()));
         toolbar.setTitle(repositoryInfo.getFull_name());
     }
 
     @Override
     public void onCheckStarred(Boolean result) {
-
+        btnStarToggleHelper.setState(btnStar, result);
     }
 
     @Override
     public void onCheckWatch(Boolean result) {
-
+        btnWatchToggleHelper.setState(btnWatch, result);
     }
 
     @Override
@@ -202,12 +215,14 @@ public class RepoPageActivity extends BaseActivity
                 PersonalHomePageActivity.launch(this, repo.getOwner().getLogin());
                 break;
             case R.id.btn_watch:
+                btnWatchToggleHelper.toggle(btnWatch);
                 presenter.toWatch(mOwner, mRepo);
                 break;
             case R.id.btn_fork:
                 presenter.toFork(mOwner, mRepo);
                 break;
             case R.id.btn_star:
+                btnStarToggleHelper.toggle(btnStar);
                 presenter.toStar(mOwner, mRepo);
                 break;
             case R.id.btn_source:
@@ -215,6 +230,7 @@ public class RepoPageActivity extends BaseActivity
                 // TODO: 2016/9/24 To start Source code activity
                 break;
             case R.id.btn_open_in_browser:
+                drawerLayout.closeDrawer(drawerView);
                 String url = webViewHelper.getUrl();
                 if (TextUtils.isEmpty(url))
                     break;
@@ -225,15 +241,19 @@ public class RepoPageActivity extends BaseActivity
                 startActivity(intent);
                 break;
             case R.id.btn_contributors:
+                drawerLayout.closeDrawer(drawerView);
                 ListContributorActivity.launch(repo.getOwner().getLogin(), repo.getName(), this);
                 break;
             case R.id.btn_stargazers:
+                drawerLayout.closeDrawer(drawerView);
                 ListStargazerActivity.launch(repo.getOwner().getLogin(), repo.getName(), this);
                 break;
             case R.id.btn_watchers:
+                drawerLayout.closeDrawer(drawerView);
                 ListWatcherActivity.launch(repo.getOwner().getLogin(), repo.getName(), this);
                 break;
             case R.id.btn_forkers:
+                drawerLayout.closeDrawer(drawerView);
                 ListForkerActivity.launch(repo.getOwner().getLogin(), repo.getName(), this);
                 break;
         }
@@ -260,6 +280,9 @@ public class RepoPageActivity extends BaseActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_drawer) {
             drawerLayout.openDrawer(drawerView);
+            return true;
+        }else if (item.getItemId()==R.id.action_reload){
+            reload();
             return true;
         }
         return super.onOptionsItemSelected(item);

@@ -34,7 +34,7 @@
                     android:layout_height="match_parent"
                     android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/hello_world_java"
+                    android:src="@drawable/lakeside"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.7" />
 
@@ -51,9 +51,9 @@
         <ViewStub
             android:id="@+id/vs_error"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout="@layout/error_view"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:layout_height="300dp"
+            android:layout_gravity="bottom"
+            android:layout="@layout/error_view" />
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/main_content"
@@ -85,16 +85,31 @@
                         android:layout_marginLeft="10dp"
                         android:src="@mipmap/ic_launcher" />
 
-                    <TextView
-                        android:id="@+id/tv_desc"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="30dp"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="3"
-                        android:padding="10dp"
-                        android:text="Server-side Swift. The Perfect library, application server, connectors and example apps. (For mobile back-end development, website and web app development, and more...)" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tv_desc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="3"
+                            android:padding="10dp"
+                            tools:text="Server-side Swift. The Perfect library, application server, connectors and example apps. (For mobile back-end development, website and web app development, and more...)" />
+
+                        <TextView
+                            android:id="@+id/tv_language"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:textStyle="bold"
+                            tools:text="Java" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_repo"
@@ -105,9 +120,9 @@
                         android:gravity="center_vertical"
                         android:scrollHorizontally="true"
                         android:singleLine="true"
-                        android:text="apple/swift"
                         android:textColor="@color/blue"
-                        android:textSize="18sp" />
+                        android:textSize="18sp"
+                        tools:text="apple/swift" />
 
                 </android.support.v7.widget.CardView>
 
@@ -132,26 +147,26 @@
             android:layout_gravity="bottom"
             android:background="@color/white"
             android:gravity="center_vertical"
-            android:paddingBottom="12dp"
+            android:paddingBottom="11dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:paddingTop="12dp"
+            android:paddingTop="11dp"
             android:weightSum="1"
             app:layout_behavior="@string/quick_return_bottom_behavior"
             app:quick_return_style="translate">
 
             <Button
                 android:id="@+id/btn_watch"
-                android:layout_width="60dp"
+                android:layout_width="64dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/button_white"
                 android:drawableLeft="@drawable/ic_watch_18dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="50k"
                 android:textColor="@color/gray_text"
-                android:textSize="10sp" />
+                android:textSize="12sp"
+                tools:text="50k" />
 
             <Button
                 android:id="@+id/btn_source"
@@ -168,30 +183,30 @@
                 android:textSize="10sp" />
 
             <Button
-                android:id="@+id/btn_star"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="150dp"
-                android:background="@drawable/button_white"
-                android:drawableLeft="@drawable/ic_star_18dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="50k"
-                android:textColor="@color/gray_text"
-                android:textSize="10sp" />
-
-            <Button
                 android:id="@+id/btn_fork"
-                android:layout_width="60dp"
+                android:layout_width="64dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="80dp"
+                android:layout_marginLeft="85dp"
                 android:background="@drawable/button_white"
                 android:drawableLeft="@drawable/ic_fork"
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
-                android:text="50k"
                 android:textColor="@color/gray_text"
-                android:textSize="10sp" />
+                android:textSize="12sp"
+                tools:text="50k" />
+
+            <Button
+                android:id="@+id/btn_star"
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="160dp"
+                android:background="@drawable/button_white"
+                android:drawableLeft="@drawable/ic_star_18dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:textColor="@color/gray_text"
+                android:textSize="12sp"
+                tools:text="50k" />
 
         </FrameLayout>
 
