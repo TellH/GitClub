@@ -1,36 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_container"
+    android:background="@color/white"
+    android:layout_marginTop="1dp"
+    android:layout_marginBottom="1dp"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginBottom="2dp"
-    android:layout_marginTop="2dp"
-    app:cardCornerRadius="4dp">
+    android:layout_height="70dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/iv_user"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
             tools:background="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/tv_name"
-            android:maxWidth="160dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:ellipsize="end"
             android:maxLines="1"
-            android:textSize="20sp"
+            android:maxWidth="160dp"
+            android:textSize="18sp"
+            android:textStyle="bold"
             tools:text="TellH" />
 
         <ImageView
@@ -38,29 +38,28 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:background="@drawable/ic_person" />
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_follow"
-        android:layout_width="64dp"
-        android:layout_height="32dp"
+        android:layout_width="62dp"
+        android:layout_height="30dp"
         android:layout_gravity="center_vertical|right"
         android:layout_marginRight="16dp"
-        android:background="@color/light_green"
+        android:background="@drawable/selector_button_green"
         android:text="@string/follow"
-        android:textAllCaps="false"
-         />
+        android:textAllCaps="false" />
 
     <TextView
         android:id="@+id/tv_bio"
         android:layout_width="200dp"
-        android:layout_height="30dp"
+        android:layout_height="28dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="18dp"
         android:ellipsize="end"
         android:gravity="center"
         android:maxLines="1"
         android:text="@string/default_bio" />
-</android.support.v7.widget.CardView>
+</FrameLayout>

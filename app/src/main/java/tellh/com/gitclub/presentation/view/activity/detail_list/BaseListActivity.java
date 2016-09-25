@@ -68,7 +68,6 @@ public abstract class BaseListActivity extends BaseActivity
         loadMoreWrapper.addFooter(R.layout.footer_load_more);
         loadMoreWrapper.setOnReachFooterListener(recyclerView, this);
         recyclerView.setAdapter(loadMoreWrapper);
-
         //swipe refresh layout
         refreshLayout.setProgressViewOffset(false, -100, 230);
         refreshLayout.setColorSchemeResources(R.color.blue, R.color.brown, R.color.purple, R.color.green);

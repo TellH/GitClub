@@ -76,7 +76,7 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
             }
         });
 
-        holder.setText(R.id.tv_repo, checkRepoNameLength(item))
+        holder.setText(R.id.tv_repo, StringUtils.checkRepoNameLength(item.getFull_name(), item.getName()))
                 .setText(R.id.tv_desc, item.getDescription())
                 .setText(R.id.tv_language, item.getLanguage() != null ? item.getLanguage() : "")
                 .setText(R.id.tv_star_count, String.valueOf(item.getStars()))
@@ -123,7 +123,7 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
 
     }
 
-    protected boolean checkLogin() {
+    private boolean checkLogin() {
         if (!AccountPrefs.isLogin(mContext)) {
             Note.show(Utils.getString(R.string.note_to_login));
             return false;
@@ -131,10 +131,5 @@ public class RepoListAdapter extends BaseRecyclerAdapter<RepositoryInfo> {
         return true;
     }
 
-    private String checkRepoNameLength(RepositoryInfo item) {
-        String name = item.getFull_name();
-        if (name.length() < 25)
-            return name;
-        return StringUtils.append("…/", item.getName());
-    }
+
 }

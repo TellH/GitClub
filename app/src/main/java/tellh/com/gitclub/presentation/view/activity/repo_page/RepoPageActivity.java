@@ -164,12 +164,12 @@ public class RepoPageActivity extends BaseActivity
         });
 
         btnStarToggleHelper = ButtonToggleHelper.builder()
-                .setBackgroundDrawable(R.drawable.button_white, R.drawable.button_blue)
+                .setBackgroundDrawable(R.drawable.selector_button_white, R.drawable.selector_button_blue)
                 .setTextColor(R.color.gray_text, R.color.white)
                 .setDrawableLeft(R.drawable.ic_star_18dp, R.drawable.ic_star_white_18dp)
                 .build();
         btnWatchToggleHelper = ButtonToggleHelper.builder()
-                .setBackgroundDrawable(R.drawable.button_white, R.drawable.button_blue)
+                .setBackgroundDrawable(R.drawable.selector_button_white, R.drawable.selector_button_blue)
                 .setTextColor(R.color.gray_text, R.color.white)
                 .setDrawableLeft(R.drawable.ic_watch_18dp, R.drawable.ic_watch_white_18dp)
                 .build();
@@ -183,7 +183,7 @@ public class RepoPageActivity extends BaseActivity
     @Override
     public void onGetRepositoryInfo(RepositoryInfo repositoryInfo) {
         this.repo = repositoryInfo;
-        tvRepo.setText(repositoryInfo.getFull_name());
+        tvRepo.setText(StringUtils.checkRepoNameLength(repositoryInfo.getFull_name(), repositoryInfo.getName()));
         ImageLoader.load(repositoryInfo.getOwner().getAvatar_url(), ivOwner);
         tvDesc.setText(TextUtils.isEmpty(repositoryInfo.getDescription()) ? "No Description." : repositoryInfo.getDescription());
         tvLang.setText(repositoryInfo.getLanguage());
@@ -215,15 +215,13 @@ public class RepoPageActivity extends BaseActivity
                 PersonalHomePageActivity.launch(this, repo.getOwner().getLogin());
                 break;
             case R.id.btn_watch:
-                btnWatchToggleHelper.toggle(btnWatch);
-                presenter.toWatch(mOwner, mRepo);
+                presenter.toWatch(mOwner, mRepo, btnWatchToggleHelper.toggle(btnWatch));
                 break;
             case R.id.btn_fork:
                 presenter.toFork(mOwner, mRepo);
                 break;
             case R.id.btn_star:
-                btnStarToggleHelper.toggle(btnStar);
-                presenter.toStar(mOwner, mRepo);
+                presenter.toStar(mOwner, mRepo, btnStarToggleHelper.toggle(btnStar));
                 break;
             case R.id.btn_source:
             case R.id.btn_source_code:
@@ -281,7 +279,7 @@ public class RepoPageActivity extends BaseActivity
         if (item.getItemId() == R.id.action_drawer) {
             drawerLayout.openDrawer(drawerView);
             return true;
-        }else if (item.getItemId()==R.id.action_reload){
+        } else if (item.getItemId() == R.id.action_reload) {
             reload();
             return true;
         }

@@ -114,7 +114,7 @@ public class RepoListPresenter implements IRepoListPresenter {
 
     }
 
-    protected void handleStarError(RepositoryInfo repo) {
+    private void handleStarError(RepositoryInfo repo) {
         Note.show(Utils.getString(R.string.error_star_repo) + repo.getFull_name());
         repo.setStars(repo.getStars() - 1);
     }

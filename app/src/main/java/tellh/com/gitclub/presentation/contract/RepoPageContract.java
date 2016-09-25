@@ -22,13 +22,9 @@ public interface RepoPageContract {
 
         void toFork(String owner, String repo);
 
-        void toStar(String owner, String repo);
+        void toStar(String owner, String repo, boolean checked);
 
-        void toWatch(String owner, String repo);
-
-        void unStar(String owner, String repo);
-
-        void unWatch(String owner, String repo);
+        void toWatch(String owner, String repo, boolean checked);
 
         void checkStarred(String owner, String repo);
 

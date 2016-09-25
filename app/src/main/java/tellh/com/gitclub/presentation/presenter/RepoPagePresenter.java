@@ -66,95 +66,101 @@ public class RepoPagePresenter extends BasePresenter<RepoPageContract.View> impl
     }
 
     @Override
-    public void toStar(String owner, final String repo) {
-        addSubscription(
-                mRepositoryDataSource.toStar(owner, repo)
-                        .subscribe(new DefaultSubscriber<Boolean>() {
-                            @Override
-                            public void onNext(Boolean result) {
-                                if (result) {
-                                    getView().showOnSuccess();
-                                    Note.show(Utils.getString(R.string.success_star_repo) + repo);
-                                } else {
-                                    getView().showOnError(Utils.getString(R.string.error_star_repo) + repo);
-                                }
-                            }
+    public void toStar(String owner, final String repo, boolean checked) {
+        //to star
+        if (checked) {
+            addSubscription(
+                    mRepositoryDataSource.toStar(owner, repo)
+                            .subscribe(new DefaultSubscriber<Boolean>() {
+                                           @Override
+                                           public void onNext(Boolean result) {
+                                               if (result) {
+                                                   Note.show(Utils.getString(R.string.success_star_repo) + repo);
+                                               } else {
+                                                   Note.show(Utils.getString(R.string.error_star_repo) + repo);
+                                               }
+                                           }
 
-                            @Override
-                            protected void onError(String errorStr) {
-                                getView().showOnError(Utils.getString(R.string.error_star_repo) + repo);
-                            }
-                        })
-        );
+                                           @Override
+                                           protected void onError(String errorStr) {
+                                               super.onError(errorStr);
+                                               Note.show(Utils.getString(R.string.error_star_repo) + repo);
+                                           }
+                                       }
+                            )
+            );
+        } else {//unStar
+            addSubscription(
+                    mRepositoryDataSource.unStar(owner, repo)
+                            .subscribe(
+                                    new DefaultSubscriber<Boolean>() {
+                                        @Override
+                                        public void onNext(Boolean result) {
+                                            if (result) {
+                                                Note.show(Utils.getString(R.string.success_unstar_repo) + repo);
+                                            } else {
+                                                Note.show(Utils.getString(R.string.error_unstar_repo) + repo);
+                                            }
+                                        }
+
+                                        @Override
+                                        protected void onError(String errorStr) {
+                                            super.onError(errorStr);
+                                            Note.show(Utils.getString(R.string.error_unstar_repo) + repo);
+                                        }
+                                    }
+                            )
+            );
+        }
     }
 
     @Override
-    public void toWatch(String owner, final String repo) {
-        addSubscription(
-                mRepositoryDataSource.toWatch(owner, repo)
-                        .subscribe(new DefaultSubscriber<Boolean>() {
-                            @Override
-                            public void onNext(Boolean result) {
-                                if (result) {
-                                    getView().showOnSuccess();
-                                    Note.show(Utils.getString(R.string.success_watch_repo) + repo);
-                                } else {
-                                    getView().showOnError(Utils.getString(R.string.error_watch_repo) + repo);
-                                }
-                            }
+    public void toWatch(String owner, final String repo, boolean checked) {
+        if (checked) {
+            addSubscription(
+                    mRepositoryDataSource.toWatch(owner, repo)
+                            .subscribe(
+                                    new DefaultSubscriber<Boolean>() {
+                                        @Override
+                                        public void onNext(Boolean result) {
+                                            if (result) {
+                                                Note.show(Utils.getString(R.string.success_watch_repo) + repo);
+                                            } else {
+                                                Note.show(Utils.getString(R.string.error_watch_repo) + repo);
+                                            }
+                                        }
 
-                            @Override
-                            protected void onError(String errorStr) {
-                                getView().showOnError(Utils.getString(R.string.error_watch_repo) + repo);
-                            }
-                        })
-        );
-    }
+                                        @Override
+                                        protected void onError(String errorStr) {
+                                            super.onError(errorStr);
+                                            Note.show(Utils.getString(R.string.error_watch_repo) + repo);
+                                        }
+                                    }
+                            )
+            );
+        } else {//to unWatch
+            addSubscription(
+                    mRepositoryDataSource.unWatch(owner, repo)
+                            .subscribe(
+                                    new DefaultSubscriber<Boolean>() {
+                                        @Override
+                                        public void onNext(Boolean result) {
+                                            if (result) {
+                                                Note.show(Utils.getString(R.string.success_unwatch_repo) + repo);
+                                            } else {
+                                                Note.show(Utils.getString(R.string.error_unwatch_repo) + repo);
+                                            }
+                                        }
 
-    @Override
-    public void unStar(String owner, final String repo) {
-        addSubscription(
-                mRepositoryDataSource.unStar(owner, repo)
-                        .subscribe(new DefaultSubscriber<Boolean>() {
-                            @Override
-                            public void onNext(Boolean result) {
-                                if (result) {
-                                    getView().showOnSuccess();
-                                    Note.show(Utils.getString(R.string.success_unstar_repo) + repo);
-                                } else {
-                                    getView().showOnError(Utils.getString(R.string.error_unstar_repo) + repo);
-                                }
-                            }
-
-                            @Override
-                            protected void onError(String errorStr) {
-                                getView().showOnError(Utils.getString(R.string.error_unstar_repo) + repo);
-                            }
-                        })
-        );
-    }
-
-    @Override
-    public void unWatch(String owner, final String repo) {
-        addSubscription(
-                mRepositoryDataSource.unWatch(owner, repo)
-                        .subscribe(new DefaultSubscriber<Boolean>() {
-                            @Override
-                            public void onNext(Boolean result) {
-                                if (result) {
-                                    getView().showOnSuccess();
-                                    Note.show(Utils.getString(R.string.success_unwatch_repo) + repo);
-                                } else {
-                                    getView().showOnError(Utils.getString(R.string.error_unwatch_repo) + repo);
-                                }
-                            }
-
-                            @Override
-                            protected void onError(String errorStr) {
-                                getView().showOnError(Utils.getString(R.string.error_unwatch_repo) + repo);
-                            }
-                        })
-        );
+                                        @Override
+                                        protected void onError(String errorStr) {
+                                            super.onError(errorStr);
+                                            Note.show(Utils.getString(R.string.error_unwatch_repo) + repo);
+                                        }
+                                    }
+                            )
+            );
+        }
     }
 
     @Override
