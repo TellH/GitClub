@@ -7,12 +7,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <!--umeng ShareSDK-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -23,11 +20,6 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
-
-    <meta-data
-        android:name="UMENG_APPKEY"
-        android:value="57e78a1e67e58eae61001b26" >
-    </meta-data>
 
     <application
         android:name=".common.AndroidApplication"
@@ -56,16 +48,39 @@
         <activity android:name=".presentation.view.activity.detail_list.ListOwnRepoActivity" />
         <activity android:name=".presentation.view.activity.user_personal_page.PersonalHomePageActivity" />
         <activity android:name=".presentation.view.activity.repo_page.RepoPageActivity" />
-        <activity android:name=".presentation.view.activity.detail_list.ListStargazerActivity"/>
-        <activity android:name=".presentation.view.activity.detail_list.ListContributorActivity"/>
-        <activity android:name=".presentation.view.activity.detail_list.ListForkerActivity"/>
-        <activity android:name=".presentation.view.activity.detail_list.ListWatcherActivity"/>
+        <activity android:name=".presentation.view.activity.detail_list.ListStargazerActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListContributorActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListForkerActivity" />
+        <activity android:name=".presentation.view.activity.detail_list.ListWatcherActivity" />
 
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
+            android:exported="true" />
+        <activity
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:excludeFromRecents="true"
+            android:theme="@style/Theme.UMDefault" />
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent100424468" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="57e78a1e67e58eae61001b26" />
     </application>
 </manifest>
