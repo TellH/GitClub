@@ -38,7 +38,7 @@ public class AndroidApplication extends Application {
         appComponent = DaggerAppComponent.builder().build();
 
         //ShareSDk
-        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+        PlatformConfig.setWeixin("wx3fd4de2af1ff6e1e", "fc734e6e848cb6c47b06d0c0e9159c99");
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
     }
 
