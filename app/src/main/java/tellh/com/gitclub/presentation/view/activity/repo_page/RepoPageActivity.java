@@ -18,6 +18,11 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.sackcentury.shinebuttonlib.ShineButton;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+
 import javax.inject.Inject;
 
 import tellh.com.gitclub.R;
@@ -26,6 +31,7 @@ import tellh.com.gitclub.common.base.BaseActivity;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
+import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.di.component.DaggerRepoPageComponent;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.presentation.contract.RepoPageContract;
@@ -36,6 +42,7 @@ import tellh.com.gitclub.presentation.view.activity.detail_list.ListWatcherActiv
 import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
 import tellh.com.gitclub.presentation.widget.ButtonToggleHelper;
 import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
+import tellh.com.gitclub.presentation.widget.UmengShareCallback;
 import tellh.com.gitclub.presentation.widget.WebViewHelper;
 
 /**
@@ -66,6 +73,7 @@ public class RepoPageActivity extends BaseActivity
     private TextView tvLang;
     private ButtonToggleHelper btnStarToggleHelper;
     private ButtonToggleHelper btnWatchToggleHelper;
+    private ShineButton btnShineStar;
 
     public static void launch(Activity srcActivity, String owner, String repo) {
         Intent intent = new Intent(srcActivity, RepoPageActivity.class);
@@ -119,10 +127,14 @@ public class RepoPageActivity extends BaseActivity
         btnFork.setOnClickListener(this);
         btnStar = (Button) findViewById(R.id.btn_star);
         btnStar.setOnClickListener(this);
+        btnShineStar = (ShineButton) findViewById(R.id.btn_toStar);
+        btnShineStar.setOnClickListener(this);
         btnSource = (Button) findViewById(R.id.btn_source);
         btnSource.setOnClickListener(this);
         btnSource = (Button) findViewById(R.id.btn_source_code);
         btnSource.setOnClickListener(this);
+        Button btnShare = (Button) findViewById(R.id.btn_share);
+        btnShare.setOnClickListener(this);
         Button btnBrowser = (Button) findViewById(R.id.btn_open_in_browser);
         btnBrowser.setOnClickListener(this);
         Button btnContributors = (Button) findViewById(R.id.btn_contributors);
@@ -196,6 +208,7 @@ public class RepoPageActivity extends BaseActivity
     @Override
     public void onCheckStarred(Boolean result) {
         btnStarToggleHelper.setState(btnStar, result);
+        btnShineStar.setChecked(result, false);
     }
 
     @Override
@@ -221,11 +234,33 @@ public class RepoPageActivity extends BaseActivity
                 presenter.toFork(mOwner, mRepo);
                 break;
             case R.id.btn_star:
-                presenter.toStar(mOwner, mRepo, btnStarToggleHelper.toggle(btnStar));
+                boolean checked = btnStarToggleHelper.toggle(btnStar);
+                presenter.toStar(mOwner, mRepo, checked);
+                btnShineStar.setChecked(checked, true);
+                break;
+            case R.id.btn_toStar:
+                presenter.toStar(mOwner, mRepo, btnShineStar.isChecked());
+                btnStarToggleHelper.setState(btnStar, btnShineStar.isChecked());
                 break;
             case R.id.btn_source:
             case R.id.btn_source_code:
                 // TODO: 2016/9/24 To start Source code activity
+                break;
+            case R.id.btn_share:
+                drawerLayout.closeDrawer(drawerView);
+                if (repo == null) {
+                    Note.show("Fail to get Repository info, please load again.");
+                    return;
+                }
+                new ShareAction(RepoPageActivity.this)
+                        .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
+                                SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.EVERNOTE,
+                                SHARE_MEDIA.POCKET, SHARE_MEDIA.FACEBOOK, SHARE_MEDIA.EMAIL, SHARE_MEDIA.YNOTE, SHARE_MEDIA.MORE)
+                        .withTitle("Repository from Github")
+                        .withText("Repository from Github: " + repo.getHtml_url())
+                        .withTargetUrl(repo.getHtml_url())
+                        .setCallback(new UmengShareCallback())
+                        .open();
                 break;
             case R.id.btn_open_in_browser:
                 drawerLayout.closeDrawer(drawerView);
@@ -280,9 +315,19 @@ public class RepoPageActivity extends BaseActivity
             drawerLayout.openDrawer(drawerView);
             return true;
         } else if (item.getItemId() == R.id.action_reload) {
-            reload();
+            if (repo == null) {
+                reload();
+                return true;
+            }
+            presenter.getReadMe(mOwner, mRepo);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -5,4 +5,8 @@
         android:id="@+id/action_open_in_browser"
         android:title="@string/open_in_browser"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_share"
+        app:showAsAction="never"
+        android:title="@string/share" />
 </menu>

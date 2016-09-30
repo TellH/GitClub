@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.LazyFragment;
 import tellh.com.gitclub.common.config.ExtraKey;
@@ -28,7 +28,7 @@ import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
 
 public class HomePageFragment extends LazyFragment
         implements LoginFragment.LoginCallback, View.OnClickListener {
-    private CircleImageView ivUser;
+    private ImageView ivUser;
     private TextView tvUser;
 
     private UserInfo loginUser;
@@ -61,7 +61,7 @@ public class HomePageFragment extends LazyFragment
 
     @Override
     public void initView() {
-        ivUser = (CircleImageView) mRootView.findViewById(R.id.iv_user);
+        ivUser = (ImageView) mRootView.findViewById(R.id.iv_user);
         tvUser = (TextView) mRootView.findViewById(R.id.tv_user);
         FrameLayout flPersonalPage = (FrameLayout) mRootView.findViewById(R.id.fl_personal_page);
         FrameLayout flStars = (FrameLayout) mRootView.findViewById(R.id.fl_stars);

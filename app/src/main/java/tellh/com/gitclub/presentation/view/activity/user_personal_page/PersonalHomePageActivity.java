@@ -17,11 +17,14 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import javax.inject.Inject;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.BaseActivity;
@@ -41,6 +44,7 @@ import tellh.com.gitclub.presentation.view.activity.detail_list.ListWatchingActi
 import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 import tellh.com.gitclub.presentation.widget.PersonalPageTextView;
 import tellh.com.gitclub.presentation.widget.RotateIconButton;
+import tellh.com.gitclub.presentation.widget.UmengShareCallback;
 
 public class PersonalHomePageActivity extends BaseActivity
         implements View.OnClickListener, PersonalPageContract.View {
@@ -49,7 +53,7 @@ public class PersonalHomePageActivity extends BaseActivity
     PersonalPageContract.Presenter presenter;
     private Toolbar toolbar;
     private TextView tvBio;
-    private CircleImageView ivUser;
+    private ImageView ivUser;
     private PersonalPageTextView tvFollowers;
     private PersonalPageTextView tvFollowing;
     private PersonalPageTextView tvRepo;
@@ -132,7 +136,7 @@ public class PersonalHomePageActivity extends BaseActivity
 
         mainContent = (NestedScrollView) findViewById(R.id.main_content);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        ivUser = (CircleImageView) findViewById(R.id.iv_user);
+        ivUser = (ImageView) findViewById(R.id.iv_user);
         tvFollowers = (PersonalPageTextView) findViewById(R.id.tv_followers);
         tvFollowing = (PersonalPageTextView) findViewById(R.id.tv_following);
         tvRepo = (PersonalPageTextView) findViewById(R.id.tv_repo);
@@ -262,6 +266,16 @@ public class PersonalHomePageActivity extends BaseActivity
             intent.setClassName("com.android.browser", "com.android.browser.BrowserActivity");
             startActivity(intent);
             return true;
+        } else if (item.getItemId() == R.id.action_share) {
+            new ShareAction(PersonalHomePageActivity.this)
+                    .setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,
+                            SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE, SHARE_MEDIA.EVERNOTE,
+                            SHARE_MEDIA.POCKET, SHARE_MEDIA.FACEBOOK, SHARE_MEDIA.EMAIL, SHARE_MEDIA.YNOTE, SHARE_MEDIA.MORE)
+                    .withTitle("Users from Github")
+                    .withText("Users from Github: " + mUserName)
+                    .withTargetUrl(mUserInfo.getHtml_url())
+                    .setCallback(new UmengShareCallback())
+                    .open();
         }
         return super.onOptionsItemSelected(item);
     }

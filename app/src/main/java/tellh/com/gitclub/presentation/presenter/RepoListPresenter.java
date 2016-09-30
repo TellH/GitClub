@@ -17,18 +17,18 @@ import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 /**
  * Created by tlh on 2016/8/31 :)
  */
-public class RepoListPresenter implements IRepoListPresenter {
-    protected final RepositoryDataSource mRepositoryDataSource;
+class RepoListPresenter implements IRepoListPresenter {
+    private final RepositoryDataSource mRepositoryDataSource;
     private final BasePresenter mPresenter;
 
-    public RepoListPresenter(BasePresenter presenter, RepositoryDataSource repositoryDataSource) {
+    RepoListPresenter(BasePresenter presenter, RepositoryDataSource repositoryDataSource) {
         this.mRepositoryDataSource = repositoryDataSource;
         this.mPresenter = presenter;
     }
 
     @Override
     public void checkState(final int position, final BaseRecyclerAdapter<RepositoryInfo> adapter) {
-        if (!mPresenter.checkNetwork()|| !mPresenter.checkLogin())
+        if (!mPresenter.checkNetwork() || !mPresenter.checkLogin())
             return;
         List<RepositoryInfo> items = adapter.getItems();
         final RepositoryInfo repositoryInfo = items.get(position);
