@@ -8,6 +8,20 @@
     android:paddingTop="30dp">
 
     <Button
+        android:id="@+id/btn_share"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/selector_button_boundless_white"
+        android:drawableLeft="@drawable/ic_share"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="30dp"
+        android:text="@string/share"
+        android:textAllCaps="false"
+        android:textColor="@color/gray_text"
+        android:textSize="18sp" />
+
+    <Button
         android:id="@+id/btn_open_in_browser"
         android:layout_width="match_parent"
         android:layout_height="50dp"

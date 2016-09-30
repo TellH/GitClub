@@ -88,4 +88,8 @@
     <string name="error_self_follow">User can\'t not self-follow</string>
     <string name="no_description">No description</string>
     <string name="open_in_browser">Open in browser</string>
+    <string name="share">Share</string>
+    <string name="error_share">"Failed to share in "</string>
+    <string name="success_share">"Succeed to share in "</string>
+    <string name="cancel_share">Share was canceled.</string>
 </resources>
