@@ -10,10 +10,12 @@ import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.utils.LogUtils;
+import tellh.com.gitclub.model.entity.Branch;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.SearchResult;
 import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
+import tellh.com.recyclertreeview_lib.TreeNode;
 
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo.STARS;
 
@@ -22,8 +24,8 @@ import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo.ST
  */
 public class RepositoryDataSourceTestActivity extends AppCompatActivity {
     RepositoryDataSource dataSource;
-    String owner = "google";
-    final String repo = "dagger";
+    String owner = "tellh";
+    final String repo = "autogo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,8 @@ public class RepositoryDataSourceTestActivity extends AppCompatActivity {
 //        testUnWatch();
 
 //        testSearch();
-        testSearch1();
+//        testSearch1();
+        testGetContent();
     }
 
     public void testGetRepoInfo() {
@@ -192,6 +195,21 @@ public class RepositoryDataSourceTestActivity extends AppCompatActivity {
                     @Override
                     public void onNext(SearchResult<RepositoryInfo> repositoryInfoSearchResult) {
                         LogUtils.d(repositoryInfoSearchResult.getItems().get(0).getFull_name());
+                    }
+                });
+    }
+
+    public void testGetContent() {
+        Branch branch = new Branch();
+        branch.setName("master");
+        Branch.CommitEntity commitEntity = new Branch.CommitEntity();
+        commitEntity.setSha("dbc27ba20c6aba34ff148598a370f6c27e06c468");
+        branch.setCommit(commitEntity);
+        dataSource.getContent(owner, repo, branch)
+                .subscribe(new DefaultSubscriber<List<TreeNode>>() {
+                    @Override
+                    public void onNext(List<TreeNode> treeNodes) {
+                        LogUtils.d(treeNodes.toString());
                     }
                 });
     }
