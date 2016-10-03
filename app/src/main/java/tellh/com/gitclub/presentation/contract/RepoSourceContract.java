@@ -21,7 +21,7 @@ public interface RepoSourceContract {
 
         void initSourceTree(String owner, String repo);
 
-        void getSouceTree(String owner, String repo, Branch branch);
+        void getSourceTree(String owner, String repo, Branch branch);
 
         void getReadMe(String owner, String repo);
     }

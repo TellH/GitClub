@@ -110,7 +110,8 @@ public class RepositoryDataSource {
     }
 
     public Observable<List<Branch>> listBranches(String owner, String repo) {
-        return repositoryApi.listBranches(owner, repo);
+        return repositoryApi.listBranches(owner, repo)
+                .compose(RxJavaUtils.<List<Branch>>applySchedulers());
     }
 
     public Observable<List<TreeNode>> getContent(final String owner, final String repo, final Branch branch) {

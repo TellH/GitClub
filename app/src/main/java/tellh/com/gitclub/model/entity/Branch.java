@@ -1,10 +1,16 @@
 package tellh.com.gitclub.model.entity;
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import tellh.com.gitclub.presentation.view.adapter.EasySpinnerAdapter;
+
 /**
  * Created by tlh on 2016/10/2 :)
  */
 
-public class Branch {
+public class Branch implements EasySpinnerAdapter.SpinnerEntity {
 
     /**
      * name : master
@@ -54,5 +60,12 @@ public class Branch {
         public void setUrl(String url) {
             this.url = url;
         }
+    }
+
+    @Override
+    public View createEntityView(int position, ViewGroup parent) {
+        TextView textView = new TextView(parent.getContext());
+        textView.setText(name);
+        return textView;
     }
 }

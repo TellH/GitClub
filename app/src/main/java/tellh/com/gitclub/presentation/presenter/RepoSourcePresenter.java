@@ -24,24 +24,10 @@ public class RepoSourcePresenter extends BasePresenter<RepoSourceContract.View> 
         this.mRepositoryDataSource = repositoryDataSource;
     }
 
-//    public void listBranches(String owner, String repo) {
-//        addSubscription(
-//                mRepositoryDataSource.listBranches(owner, repo)
-//                        .compose(RxJavaUtils.<List<Branch>>setLoadingListener(getView()))
-//                        .subscribe(new DefaultSubscriber<List<Branch>>() {
-//                            @Override
-//                            public void onNext(List<Branch> branches) {
-//                                getView().onGetBranchList(branches);
-//                            }
-//                        })
-//        );
-//    }
-
     @Override
     public void initSourceTree(final String owner, final String repo) {
         addSubscription(
                 mRepositoryDataSource.listBranches(owner, repo)
-                        .compose(RxJavaUtils.<List<Branch>>setLoadingListener(getView()))
                         .flatMap(new Func1<List<Branch>, Observable<List<TreeNode>>>() {
                             @Override
                             public Observable<List<TreeNode>> call(List<Branch> branches) {
@@ -67,10 +53,9 @@ public class RepoSourcePresenter extends BasePresenter<RepoSourceContract.View> 
     }
 
     @Override
-    public void getSouceTree(String owner, String repo, Branch branch) {
+    public void getSourceTree(String owner, String repo, Branch branch) {
         addSubscription(
                 mRepositoryDataSource.getContent(owner, repo, branch)
-                        .compose(RxJavaUtils.<List<TreeNode>>setLoadingListener(getView()))
                         .subscribe(new DefaultSubscriber<List<TreeNode>>() {
                             @Override
                             public void onNext(List<TreeNode> treeNodes) {
@@ -90,9 +75,11 @@ public class RepoSourcePresenter extends BasePresenter<RepoSourceContract.View> 
     public void getReadMe(String owner, String repo) {
         addSubscription(
                 mRepositoryDataSource.getReadMe(owner, repo)
+                        .compose(RxJavaUtils.<ReadMe>setLoadingListener(getView()))
                         .subscribe(new DefaultSubscriber<ReadMe>() {
                             @Override
                             public void onNext(ReadMe readMe) {
+                                getView().showOnSuccess();
                                 getView().onGetReadMe(readMe.getHtml_url());
                             }
 
