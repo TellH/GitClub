@@ -25,7 +25,7 @@ import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo.ST
 public class RepositoryDataSourceTestActivity extends AppCompatActivity {
     RepositoryDataSource dataSource;
     String owner = "tellh";
-    final String repo = "autogo";
+    final String repo = "gitclub";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,9 +201,9 @@ public class RepositoryDataSourceTestActivity extends AppCompatActivity {
 
     public void testGetContent() {
         Branch branch = new Branch();
-        branch.setName("master");
+        branch.setName("dev");
         Branch.CommitEntity commitEntity = new Branch.CommitEntity();
-        commitEntity.setSha("dbc27ba20c6aba34ff148598a370f6c27e06c468");
+        commitEntity.setSha("17afdf50c370095f259802bd8e812164da5a6f24");
         branch.setCommit(commitEntity);
         dataSource.getContent(owner, repo, branch)
                 .subscribe(new DefaultSubscriber<List<TreeNode>>() {

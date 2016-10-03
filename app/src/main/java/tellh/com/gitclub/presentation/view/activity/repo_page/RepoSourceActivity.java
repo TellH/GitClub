@@ -111,6 +111,7 @@ public class RepoSourceActivity extends BaseActivity implements RepoSourceContra
 
         btnSourceTreeRefresh.setOnClickListener(this);
 
+        webView.setVerticalScrollBarEnabled(false);
         webViewHelper = new WebViewHelper(webView, webViewProgressBar);
 
         branchSpinnerAdapter = new EasySpinnerAdapter<>(spinnerBranchList, new EasySpinnerAdapter.onItemSelectedListener<Branch>() {

@@ -158,19 +158,23 @@ public class RepositoryDataSource {
                     dirNode.addChild(new TreeNode<>(new File(nodeName, childEntity.getHtml_url(owner, repo, branchName))));
                     break;
             }
-            // Compress the tree high and sort the child node list.
-            List<TreeNode> childList = dirNode.getChildList();
-            TreeNode firstChild = childList.get(0);
-            LayoutItemType firstChildContent = firstChild.getContent();
-            if (childList.size() == 1 && firstChildContent instanceof Dir) {
-                Dir childDirNode = (Dir) firstChildContent;
-                dirNode.getContent().dirName = StringUtils.append(dirNode.getContent().dirName, "/", childDirNode.dirName);
-                childList.clear();
-                childList.addAll(firstChild.getChildList());
-            } else {
-                //push Dir node to the front and pull File node to the back.
-                sortNodeList(childList);
+        }
+        // Compress the tree high and sort the child node list.
+        List<TreeNode> childList = dirNode.getChildList();
+        TreeNode firstChild = childList.get(0);
+        LayoutItemType firstChildContent = firstChild.getContent();
+        if (childList.size() == 1 && firstChildContent instanceof Dir) {
+            Dir childDirNode = (Dir) firstChildContent;
+            dirNode.getContent().dirName = StringUtils.append(dirNode.getContent().dirName, "/", childDirNode.dirName);
+            childList.clear();
+            List<TreeNode> firstChildChildList = firstChild.getChildList();
+            for (TreeNode treeNode : firstChildChildList) {
+                treeNode.setParent(dirNode);
             }
+            childList.addAll(firstChildChildList);
+        } else {
+            //push Dir node to the front and pull File node to the back.
+            sortNodeList(childList);
         }
         return index;
     }

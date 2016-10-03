@@ -1,5 +1,6 @@
 package tellh.com.gitclub.model.entity;
 
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -65,7 +66,10 @@ public class Branch implements EasySpinnerAdapter.SpinnerEntity {
     @Override
     public View createEntityView(int position, ViewGroup parent) {
         TextView textView = new TextView(parent.getContext());
+//        textView.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.gray_text));
+        textView.setTextSize(22);
         textView.setText(name);
+        textView.setGravity(Gravity.CENTER);
         return textView;
     }
 }

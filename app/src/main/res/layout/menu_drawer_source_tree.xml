@@ -17,6 +17,7 @@
             android:id="@+id/spinner_branchList"
             android:layout_width="200dp"
             android:layout_height="match_parent"
+            android:dropDownVerticalOffset="30dp"
             android:layout_gravity="bottom"
             android:gravity="center_vertical" />
 
