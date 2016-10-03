@@ -2,6 +2,7 @@ package tellh.com.gitclub.presentation.widget;
 
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -59,6 +60,8 @@ public class WebViewHelper {
     }
 
     public void reLoad() {
+        if (TextUtils.isEmpty(url))
+            return;
         loadUrl(url);
     }
 

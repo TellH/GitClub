@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:padding="5dp">
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/spinner_branchList"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:dropDownVerticalOffset="30dp"
+            android:layout_gravity="bottom"
+            android:gravity="center_vertical" />
+
+        <FrameLayout
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="10dp">
+
+            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                android:id="@+id/treeView_progressBar"
+                style="@style/Widget.MaterialProgressBar.ProgressBar.Small"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:indeterminate="true"
+                app:mpb_progressStyle="circular" />
+
+            <ImageButton
+                android:id="@+id/btn_refresh_source_tree"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/ic_refresh"
+                android:visibility="invisible" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/treeView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

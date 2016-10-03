@@ -12,6 +12,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
+import tellh.com.gitclub.model.entity.Branch;
+import tellh.com.gitclub.model.entity.GitTree;
 import tellh.com.gitclub.model.entity.ReadMe;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.SearchResult;
@@ -78,6 +80,12 @@ public interface RepositoryService {
 
     @GET("repos/{owner}/{repo}/readme")
     Observable<ReadMe> getReadMe(@Path("owner") String owner, @Path("repo") String repo);
+
+    @GET("repos/{owner}/{repo}/branches")
+    Observable<List<Branch>> listBranches(@Path("owner") String owner, @Path("repo") String repo);
+
+    @GET("repos/{owner}/{repo}/git/trees/{sha}?recursive=1")
+    Observable<GitTree> getContent(@Path("owner") String owner, @Path("repo") String repo, @Path("sha") String sha);
 
     @GET("search/repositories")
         // set encoded = true to prevent from encoding the "+" in keyWord.
