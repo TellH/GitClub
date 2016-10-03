@@ -20,7 +20,7 @@ public abstract class DefaultSubscriber<T> extends Subscriber<T> {
 
     @Override
     public void onError(Throwable e) {
-        LogUtils.e(e.getMessage());
+        e.printStackTrace();
         if (e instanceof SocketTimeoutException) {
             onError(Utils.getString(R.string.error_time_out));
         } else if (e instanceof HttpException) {

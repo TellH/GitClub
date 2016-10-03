@@ -49,7 +49,6 @@ import tellh.com.gitclub.presentation.widget.WebViewHelper;
  * Created by tlh on 2016/9/22 :)
  */
 // TODO: 2016/9/24 Source code activity
-// TODO: 2016/9/24 load header picture
 public class RepoPageActivity extends BaseActivity
         implements RepoPageContract.View, View.OnClickListener, ErrorViewHelper.OnReLoadCallback {
     @Inject
@@ -119,7 +118,6 @@ public class RepoPageActivity extends BaseActivity
         }
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
         drawerView = findViewById(R.id.drawer_view);
-//        ImageView ivHeader = (ImageView) findViewById(R.id.iv_header);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         btnWatch = (Button) findViewById(R.id.btn_watch);
         btnWatch.setOnClickListener(this);

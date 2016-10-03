@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
-    <!--umeng ShareSDK-->
+    <!-- umeng ShareSDK -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -52,7 +52,6 @@
         <activity android:name=".presentation.view.activity.detail_list.ListContributorActivity" />
         <activity android:name=".presentation.view.activity.detail_list.ListForkerActivity" />
         <activity android:name=".presentation.view.activity.detail_list.ListWatcherActivity" />
-
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
@@ -82,5 +81,8 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="57e78a1e67e58eae61001b26" />
+
+        <activity android:name=".presentation.view.activity.repo_page.RepoSourceActivity"></activity>
     </application>
+
 </manifest>
