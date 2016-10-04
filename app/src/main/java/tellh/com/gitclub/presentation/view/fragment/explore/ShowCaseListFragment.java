@@ -4,12 +4,16 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+import com.tellh.nolistadapter.viewbinder.utils.EasyEmptyRecyclerViewBinder;
+
 import java.util.List;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.presentation.contract.ExploreContract;
-import tellh.com.gitclub.presentation.view.adapter.ShowcaseListAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ShowCaseListItemViewBinder;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFragmentInteractListener;
@@ -20,7 +24,7 @@ import static tellh.com.gitclub.presentation.contract.ExploreContract.SHOWCASES;
  */
 public class ShowCaseListFragment extends ListFragment implements ExploreContract.onGetShowcasesListener {
     private OnListFragmentInteractListener mListener;
-    private ShowcaseListAdapter adapter;
+    private RecyclerViewAdapter adapter;
 
     public static ShowCaseListFragment newInstance() {
         return new ShowCaseListFragment();
@@ -28,7 +32,11 @@ public class ShowCaseListFragment extends ListFragment implements ExploreContrac
 
     @Override
     protected RecyclerView.Adapter getListAdapter() {
-        adapter = new ShowcaseListAdapter(getContext(), null);
+        adapter = RecyclerViewAdapter.builder()
+                .addItemType(new ShowCaseListItemViewBinder())
+                .setErrorView(new ErrorViewBinder(this))
+                .setEmptyView(new EasyEmptyRecyclerViewBinder(R.layout.empty_view))
+                .build();
         return adapter;
     }
 
@@ -40,6 +48,7 @@ public class ShowCaseListFragment extends ListFragment implements ExploreContrac
     @Override
     public void onRefresh() {
         mListener.onFetchData(SHOWCASES);
+        adapter.hideErrorView(recyclerView);
     }
 
     void setListFragmentInteractListener(OnListFragmentInteractListener listener) {

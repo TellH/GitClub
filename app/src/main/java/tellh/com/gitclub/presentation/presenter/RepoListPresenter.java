@@ -1,5 +1,8 @@
 package tellh.com.gitclub.presentation.presenter;
 
+import com.tellh.nolistadapter.DataBean;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+
 import java.util.List;
 
 import rx.Observable;
@@ -12,7 +15,6 @@ import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 
 /**
  * Created by tlh on 2016/8/31 :)
@@ -27,11 +29,11 @@ class RepoListPresenter implements IRepoListPresenter {
     }
 
     @Override
-    public void checkState(final int position, final BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void checkState(final int position, final RecyclerViewAdapter adapter) {
         if (!mPresenter.checkNetwork() || !mPresenter.checkLogin())
             return;
-        List<RepositoryInfo> items = adapter.getItems();
-        final RepositoryInfo repositoryInfo = items.get(position);
+        List<DataBean> items = adapter.getDisplayList();
+        final RepositoryInfo repositoryInfo = (RepositoryInfo) items.get(position);
         String owner = repositoryInfo.getOwner().getLogin();
         String repo = repositoryInfo.getName();
         mPresenter.addSubscription(
@@ -60,10 +62,10 @@ class RepoListPresenter implements IRepoListPresenter {
     }
 
     @Override
-    public void starRepo(final int position, final BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void starRepo(final int position, final RecyclerViewAdapter adapter, boolean toggle) {
         if (!mPresenter.checkNetwork())
             return;
-        final RepositoryInfo repo = adapter.getItems().get(position);
+        final RepositoryInfo repo = (RepositoryInfo) adapter.getDisplayList().get(position);
         //to star
         if (toggle) {
             mPresenter.addSubscription(
@@ -120,10 +122,10 @@ class RepoListPresenter implements IRepoListPresenter {
     }
 
     @Override
-    public void watchRepo(final int position, final BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void watchRepo(final int position, final RecyclerViewAdapter adapter, boolean toggle) {
         if (!mPresenter.checkNetwork())
             return;
-        final RepositoryInfo repo = adapter.getItems().get(position);
+        final RepositoryInfo repo = (RepositoryInfo) adapter.getDisplayList().get(position);
         //to watch
         if (toggle) {
             mPresenter.addSubscription(
@@ -175,10 +177,10 @@ class RepoListPresenter implements IRepoListPresenter {
     }
 
     @Override
-    public void forkRepo(final int position, final BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void forkRepo(final int position, final RecyclerViewAdapter adapter) {
         if (!mPresenter.checkNetwork())
             return;
-        final RepositoryInfo repo = adapter.getItems().get(position);
+        final RepositoryInfo repo = (RepositoryInfo) adapter.getDisplayList().get(position);
         Note.show(Utils.getString(R.string.Forking) + repo.getFull_name());
         mPresenter.addSubscription(
                 mRepositoryDataSource.toFork(repo.getOwner().getLogin(), repo.getName())

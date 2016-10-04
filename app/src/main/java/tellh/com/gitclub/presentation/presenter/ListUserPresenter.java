@@ -1,5 +1,7 @@
 package tellh.com.gitclub.presentation.presenter;
 
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,8 +16,8 @@ import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 import tellh.com.gitclub.presentation.contract.ShowError;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 /**
  * Created by tlh on 2016/9/16 :)
@@ -230,12 +232,12 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
     }
 
     @Override
-    public void getUserInfo(int position, BaseRecyclerAdapter<UserEntity> adapter) {
+    public void getUserInfo(int position, RecyclerViewAdapter adapter) {
         userListPresenter.getUserInfo(position, adapter);
     }
 
     @Override
-    public void followUser(int position, BaseRecyclerAdapter<UserEntity> adapter, boolean toggle) {
+    public void followUser(int position, RecyclerViewAdapter adapter, boolean toggle) {
         userListPresenter.followUser(position, adapter, toggle);
     }
 

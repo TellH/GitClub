@@ -2,6 +2,9 @@ package tellh.com.gitclub.presentation.view.fragment.explore;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+import com.tellh.nolistadapter.viewbinder.utils.EasyEmptyRecyclerViewBinder;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +13,8 @@ import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.Trending;
 import tellh.com.gitclub.model.entity.UserEntity;
-import tellh.com.gitclub.presentation.view.adapter.RepoListAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.RepoListItemViewBinder;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnGetTrendingListener;
@@ -22,7 +26,7 @@ import static tellh.com.gitclub.presentation.contract.ExploreContract.TRENDING;
  */
 public class TrendingListFragment extends ListFragment implements OnGetTrendingListener {
     private OnListFragmentInteractListener mListener;
-    private RepoListAdapter adapter;
+    private RecyclerViewAdapter adapter;
 
     public static TrendingListFragment newInstance() {
         return new TrendingListFragment();
@@ -30,7 +34,11 @@ public class TrendingListFragment extends ListFragment implements OnGetTrendingL
 
     @Override
     protected RecyclerView.Adapter getListAdapter() {
-        adapter = new RepoListAdapter(getContext(), null, mListener.getPresenter());
+        adapter = RecyclerViewAdapter.builder()
+                .addItemType(new RepoListItemViewBinder(mListener.getPresenter()))
+                .setErrorView(new ErrorViewBinder(this))
+                .setEmptyView(new EasyEmptyRecyclerViewBinder(R.layout.empty_view))
+                .build();
         return adapter;
     }
 
@@ -41,6 +49,7 @@ public class TrendingListFragment extends ListFragment implements OnGetTrendingL
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         mListener.onFetchData(TRENDING);
     }
 

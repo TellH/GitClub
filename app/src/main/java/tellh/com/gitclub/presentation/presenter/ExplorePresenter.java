@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,14 +18,12 @@ import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.config.Constant.LangTrending;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
 import tellh.com.gitclub.common.utils.Utils;
-import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
 import tellh.com.gitclub.model.entity.Trending;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.presentation.contract.ExploreContract;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 
 import static tellh.com.gitclub.common.config.Constant.Since;
 
@@ -125,22 +124,22 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
     }
 
     @Override
-    public void checkState(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void checkState(int position, RecyclerViewAdapter adapter) {
         repoListPresenter.checkState(position, adapter);
     }
 
     @Override
-    public void starRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void starRepo(int position, RecyclerViewAdapter adapter, boolean toggle) {
         repoListPresenter.starRepo(position, adapter, toggle);
     }
 
     @Override
-    public void watchRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void watchRepo(int position, RecyclerViewAdapter adapter, boolean toggle) {
         repoListPresenter.watchRepo(position, adapter, toggle);
     }
 
     @Override
-    public void forkRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void forkRepo(int position, RecyclerViewAdapter adapter) {
         repoListPresenter.forkRepo(position, adapter);
     }
 

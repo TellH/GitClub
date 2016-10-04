@@ -24,6 +24,7 @@ public class ListContributorActivity extends ListUserActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listContributors(1);
     }
     @Override

@@ -208,9 +208,13 @@ public class ExploreFragment extends LazyFragment
     @Override
     public void showOnError(String msg, @ListType int type) {
         showOnError(msg);
-        if (type == ExploreContract.TRENDING)
+        if (type == ExploreContract.TRENDING) {
             trendingListFragment.hideLoading();
-        else showCaseListFragment.hideLoading();
+            trendingListFragment.showErrorView();
+        } else {
+            showCaseListFragment.hideLoading();
+            showCaseListFragment.showErrorView();
+        }
     }
 
     @Override

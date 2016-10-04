@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
 
 import java.util.Arrays;
 
@@ -26,7 +27,6 @@ import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 import tellh.com.gitclub.presentation.contract.SearchContract;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_Repo;
 import static tellh.com.gitclub.common.config.Constant.SortType.SortType_User;
@@ -189,22 +189,22 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
     }
 
     @Override
-    public void checkState(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void checkState(int position, RecyclerViewAdapter adapter) {
         repoListPresenter.checkState(position, adapter);
     }
 
     @Override
-    public void starRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void starRepo(int position, RecyclerViewAdapter adapter, boolean toggle) {
         repoListPresenter.starRepo(position, adapter, toggle);
     }
 
     @Override
-    public void watchRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void watchRepo(int position, RecyclerViewAdapter adapter, boolean toggle) {
         repoListPresenter.watchRepo(position, adapter, toggle);
     }
 
     @Override
-    public void forkRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void forkRepo(int position, RecyclerViewAdapter adapter) {
         repoListPresenter.forkRepo(position, adapter);
     }
 
@@ -214,12 +214,12 @@ public class SearchPresenter extends BasePresenter<SearchContract.View> implemen
     }
 
     @Override
-    public void getUserInfo(int position, BaseRecyclerAdapter<UserEntity> adapter) {
+    public void getUserInfo(int position, RecyclerViewAdapter adapter) {
         userListPresenter.getUserInfo(position, adapter);
     }
 
     @Override
-    public void followUser(int position, BaseRecyclerAdapter<UserEntity> adapter, boolean toggle) {
+    public void followUser(int position, RecyclerViewAdapter adapter, boolean toggle) {
         userListPresenter.followUser(position, adapter, toggle);
     }
 

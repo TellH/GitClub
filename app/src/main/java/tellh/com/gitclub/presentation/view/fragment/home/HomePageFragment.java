@@ -108,9 +108,11 @@ public class HomePageFragment extends LazyFragment
 
     @Override
     public void onClick(View view) {
-        if (view.getId() != R.id.fl_settings && loginUser == null) {
+        if (view.getId() != R.id.fl_settings && !AccountPrefs.isLogin(getContext())) {
             showLoginDialog();
             return;
+        } else if (loginUser == null) {
+            initData(null);
         }
         switch (view.getId()) {
             case R.id.fl_personal_page:

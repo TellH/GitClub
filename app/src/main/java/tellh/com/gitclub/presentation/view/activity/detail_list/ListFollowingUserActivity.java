@@ -23,6 +23,7 @@ public class ListFollowingUserActivity extends ListUserActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listFollowing(user, 1);
     }
 

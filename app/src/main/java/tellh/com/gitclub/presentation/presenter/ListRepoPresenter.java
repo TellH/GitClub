@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
 
 import java.util.List;
 
@@ -21,8 +22,8 @@ import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 import tellh.com.gitclub.presentation.contract.ShowError;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 /**
  * Created by tlh on 2016/9/11 :)
@@ -43,22 +44,22 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
     }
 
     @Override
-    public void checkState(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void checkState(int position, RecyclerViewAdapter adapter) {
         repoListPresenter.checkState(position, adapter);
     }
 
     @Override
-    public void starRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void starRepo(int position, RecyclerViewAdapter adapter, boolean toggle) {
         repoListPresenter.starRepo(position, adapter, toggle);
     }
 
     @Override
-    public void watchRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle) {
+    public void watchRepo(int position, RecyclerViewAdapter adapter, boolean toggle) {
         repoListPresenter.watchRepo(position, adapter, toggle);
     }
 
     @Override
-    public void forkRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter) {
+    public void forkRepo(int position, RecyclerViewAdapter adapter) {
         repoListPresenter.forkRepo(position, adapter);
     }
 

@@ -25,6 +25,7 @@ public class ListWatcherActivity extends ListUserActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listWatchers(1);
     }
 

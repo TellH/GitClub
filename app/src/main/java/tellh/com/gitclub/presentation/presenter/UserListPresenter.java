@@ -2,6 +2,8 @@ package tellh.com.gitclub.presentation.presenter;
 
 import android.text.TextUtils;
 
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+
 import rx.Observable;
 import rx.functions.Func2;
 import tellh.com.gitclub.R;
@@ -12,7 +14,6 @@ import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 
 /**
  * Created by tlh on 2016/9/1 :)
@@ -27,10 +28,10 @@ public class UserListPresenter implements IUserListPresenter {
     }
 
     @Override
-    public void getUserInfo(final int position, final BaseRecyclerAdapter<UserEntity> adapter) {
+    public void getUserInfo(final int position, final RecyclerViewAdapter adapter) {
         if (!mPresenter.checkNetwork())
             return;
-        final UserEntity userEntity = adapter.getItems().get(position);
+        final UserEntity userEntity = (UserEntity) adapter.getDisplayList().get(position);
         String user = userEntity.getLogin();
         mPresenter.addSubscription(
                 Observable.zip(
@@ -58,10 +59,10 @@ public class UserListPresenter implements IUserListPresenter {
     }
 
     @Override
-    public void followUser(final int position, final BaseRecyclerAdapter<UserEntity> adapter, boolean toggle) {
+    public void followUser(final int position, final RecyclerViewAdapter adapter, boolean toggle) {
         if (!mPresenter.checkNetwork() || !mPresenter.checkLogin())
             return;
-        final UserEntity userEntity = adapter.getItems().get(position);
+        final UserEntity userEntity = (UserEntity) adapter.getDisplayList().get(position);
         final String user = userEntity.getLogin();
         //to follow
         Observable<Boolean> observable;

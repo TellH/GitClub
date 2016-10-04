@@ -25,6 +25,7 @@ public class ListForkerActivity extends ListUserActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listForks(1);
     }
 

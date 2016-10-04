@@ -2,24 +2,28 @@ package tellh.com.gitclub.presentation.view.fragment.search;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper;
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+import com.tellh.nolistadapter.viewbinder.utils.EasyEmptyRecyclerViewBinder;
+
 import java.util.List;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
-import tellh.com.gitclub.presentation.view.adapter.RepoListAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.LoadMoreFooterViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.RepoListItemViewBinder;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.LOADING;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnGetReposListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.REPO;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
 
 public class SearchRepoFragment extends ListFragment
-        implements OnGetReposListener, OnReachFooterListener {
+        implements OnGetReposListener, FooterLoadMoreAdapterWrapper.OnReachFooterListener {
     private OnListFragmentInteractListener mListener;
     private FooterLoadMoreAdapterWrapper loadMoreWrapper;
 
@@ -30,9 +34,12 @@ public class SearchRepoFragment extends ListFragment
     @Override
     protected RecyclerView.Adapter getListAdapter() {
         assert mListener != null;
-        loadMoreWrapper = new FooterLoadMoreAdapterWrapper(new RepoListAdapter(getContext(), null, mListener.getPresenter()));
-        loadMoreWrapper.addFooter(R.layout.footer_load_more);
-        loadMoreWrapper.setOnReachFooterListener(recyclerView, this);
+        loadMoreWrapper = (FooterLoadMoreAdapterWrapper) RecyclerViewAdapter.builder()
+                .addItemType(new RepoListItemViewBinder(mListener.getPresenter()))
+                .setLoadMoreFooter(new LoadMoreFooterViewBinder(), recyclerView, this)
+                .setErrorView(new ErrorViewBinder(this))
+                .setEmptyView(new EasyEmptyRecyclerViewBinder(R.layout.empty_view))
+                .build();
         return loadMoreWrapper;
     }
 
@@ -64,6 +71,7 @@ public class SearchRepoFragment extends ListFragment
     @Override
     public void onRefresh() {
         mListener.onFetchPage(REPO, 1);
+        loadMoreWrapper.hideErrorView(recyclerView);
     }
 
     @Override
@@ -72,5 +80,4 @@ public class SearchRepoFragment extends ListFragment
         if (loadMoreWrapper.getFooterStatus() == LOADING)
             loadMoreWrapper.setFooterStatus(PULL_TO_LOAD_MORE);
     }
-
 }

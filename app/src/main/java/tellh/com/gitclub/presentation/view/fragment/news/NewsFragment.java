@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewStub;
+
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+import com.tellh.nolistadapter.viewbinder.utils.EasyEmptyRecyclerViewBinder;
 
 import java.util.List;
 
@@ -18,26 +21,27 @@ import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.di.component.DaggerNewsComponent;
 import tellh.com.gitclub.model.entity.Event;
 import tellh.com.gitclub.presentation.contract.NewsContract;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
-import tellh.com.gitclub.presentation.view.adapter.NewsListAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.LoadMoreFooterViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.NewsListItemViewBinder;
 import tellh.com.gitclub.presentation.view.fragment.login.LoginFragment;
-import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.*;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.LOADING;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 public class NewsFragment extends LazyFragment
         implements NewsContract.View, SwipeRefreshLayout.OnRefreshListener,
-        OnReachFooterListener, LoginFragment.LoginCallback {
+        LoginFragment.LoginCallback, OnReachFooterListener, ErrorViewBinder.OnReLoadCallback {
     @Inject
     NewsContract.Presenter presenter;
     private FooterLoadMoreAdapterWrapper loadMoreWrapper;
     private SwipeRefreshLayout refreshLayout;
 
     private LoginFragment loginFragment;
-    private ErrorViewHelper errorView;
+    private RecyclerView recyclerView;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -63,9 +67,8 @@ public class NewsFragment extends LazyFragment
         initDagger();
 
         //find view
-        RecyclerView list = (RecyclerView) mRootView.findViewById(R.id.list);
+        recyclerView = (RecyclerView) mRootView.findViewById(R.id.list);
         refreshLayout = (SwipeRefreshLayout) mRootView.findViewById(R.id.refreshLayout);
-        errorView = new ErrorViewHelper((ViewStub) mRootView.findViewById(R.id.vs_error));
 
         //swipe refresh layout
         refreshLayout.setProgressViewOffset(false, -100, 230);
@@ -73,13 +76,16 @@ public class NewsFragment extends LazyFragment
         refreshLayout.setOnRefreshListener(this);
 
         //adapter
-        loadMoreWrapper = new FooterLoadMoreAdapterWrapper(new NewsListAdapter(null, getContext()));
-        loadMoreWrapper.addFooter(R.layout.footer_load_more);
-        loadMoreWrapper.setOnReachFooterListener(list, this);
+        loadMoreWrapper = (FooterLoadMoreAdapterWrapper) RecyclerViewAdapter.builder()
+                .addItemType(new NewsListItemViewBinder())
+                .setLoadMoreFooter(new LoadMoreFooterViewBinder(), recyclerView, this)
+                .setErrorView(new ErrorViewBinder(this))
+                .setEmptyView(new EasyEmptyRecyclerViewBinder(R.layout.empty_view))
+                .build();
 
         //recycler view
-        list.setLayoutManager(new LinearLayoutManager(getContext()));
-        list.setAdapter(loadMoreWrapper);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(loadMoreWrapper);
     }
 
     private void initDagger() {
@@ -104,6 +110,7 @@ public class NewsFragment extends LazyFragment
     @Override
     public void onRefresh() {
         presenter.listNews(1);
+        loadMoreWrapper.hideErrorView(recyclerView);
     }
 
     @Override
@@ -121,13 +128,7 @@ public class NewsFragment extends LazyFragment
             loadMoreWrapper.setFooterStatus(PULL_TO_LOAD_MORE);
 
         if (updateType == REFRESH && !s.equals(Utils.getString(R.string.reqest_flying))) {
-            errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
-                @Override
-                public void reload() {
-                    refreshLayout.setRefreshing(true);
-                    presenter.listNews(1);
-                }
-            });
+            loadMoreWrapper.showErrorView(recyclerView);
         }
 
     }
@@ -150,7 +151,7 @@ public class NewsFragment extends LazyFragment
         loginFragment.setDismissable(true);
         loginFragment.dismiss();
         //hide error view
-        errorView.hideErrorView(refreshLayout);
+        loadMoreWrapper.hideErrorView(recyclerView);
         //load data
         refreshLayout.setRefreshing(true);
         presenter.listNews(1);
@@ -159,5 +160,12 @@ public class NewsFragment extends LazyFragment
     @Override
     public void onDismissLogin() {
         loginFragment = null;
+    }
+
+    @Override //Click ErrorView to reload data.
+    public void reload() {
+        refreshLayout.setRefreshing(true);
+        loadMoreWrapper.hideErrorView(recyclerView);
+        presenter.listNews(1);
     }
 }

@@ -23,6 +23,7 @@ public class ListOwnRepoActivity extends ListRepoActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listOwnRepo(1);
     }
 

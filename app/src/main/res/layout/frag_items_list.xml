@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.view.fragment.search.SearchRepoFragment"
-    tools:name="tellh.com.gitclub.presentation.view.SearchRepoFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <ViewStub
-        android:id="@+id/vs_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/error_view" />
+    android:layout_height="match_parent"
+    tools:context=".presentation.view.fragment.search.SearchRepoFragment"
+    tools:name="tellh.com.gitclub.presentation.view.SearchRepoFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"

@@ -1,6 +1,11 @@
 package tellh.com.gitclub.model.entity;
 
-public class UserEntity {
+import com.tellh.nolistadapter.DataBean;
+import com.tellh.nolistadapter.IListAdapter;
+
+import tellh.com.gitclub.R;
+
+public class UserEntity extends DataBean {
     private String login;
     private int id;
     private String avatar_url;
@@ -57,5 +62,10 @@ public class UserEntity {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    @Override
+    public int getItemLayoutId(IListAdapter iListAdapter) {
+        return R.layout.item_user;
     }
 }

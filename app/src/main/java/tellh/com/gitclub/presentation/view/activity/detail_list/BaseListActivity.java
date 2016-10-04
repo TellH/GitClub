@@ -7,31 +7,34 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewStub;
+
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+import com.tellh.nolistadapter.viewbinder.base.RecyclerViewBinder;
+import com.tellh.nolistadapter.viewbinder.utils.EasyEmptyRecyclerViewBinder;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BaseActivity;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.presentation.contract.ShowError;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.LoadMoreFooterViewBinder;
 import tellh.com.gitclub.presentation.view.fragment.search.ListLoadingListener;
-import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.LOADING;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 /**
  * Created by tlh on 2016/9/16 :)
  */
 public abstract class BaseListActivity extends BaseActivity
         implements SwipeRefreshLayout.OnRefreshListener, ListLoadingListener, ShowError,
-        FooterLoadMoreAdapterWrapper.OnReachFooterListener {
+        OnReachFooterListener, ErrorViewBinder.OnReLoadCallback {
     protected SwipeRefreshLayout refreshLayout;
-    protected ErrorViewHelper errorView;
     protected RecyclerView recyclerView;
     protected FooterLoadMoreAdapterWrapper loadMoreWrapper;
     protected String user;
@@ -53,7 +56,6 @@ public abstract class BaseListActivity extends BaseActivity
 
         recyclerView = (RecyclerView) findViewById(R.id.list);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refreshLayout);
-        errorView = new ErrorViewHelper((ViewStub) findViewById(R.id.vs_error));
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(getToolbarTitle());
         setSupportActionBar(toolbar);
@@ -63,18 +65,23 @@ public abstract class BaseListActivity extends BaseActivity
                 finish();
             }
         });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        loadMoreWrapper = new FooterLoadMoreAdapterWrapper(getListAdapter());
-        loadMoreWrapper.addFooter(R.layout.footer_load_more);
-        loadMoreWrapper.setOnReachFooterListener(recyclerView, this);
+        loadMoreWrapper = (FooterLoadMoreAdapterWrapper) RecyclerViewAdapter.builder()
+                .addItemType(getListItemViewBinder())
+                .setLoadMoreFooter(new LoadMoreFooterViewBinder(), recyclerView, this)
+                .setErrorView(new ErrorViewBinder(this))
+                .setEmptyView(new EasyEmptyRecyclerViewBinder(R.layout.empty_view))
+                .build();
         recyclerView.setAdapter(loadMoreWrapper);
+
         //swipe refresh layout
         refreshLayout.setProgressViewOffset(false, -100, 230);
         refreshLayout.setColorSchemeResources(R.color.blue, R.color.brown, R.color.purple, R.color.green);
         refreshLayout.setOnRefreshListener(this);
     }
 
-    protected abstract BaseRecyclerAdapter getListAdapter();
+    protected abstract RecyclerViewBinder getListItemViewBinder();
 
     protected abstract String getToolbarTitle();
 
@@ -107,13 +114,8 @@ public abstract class BaseListActivity extends BaseActivity
 
     @Override
     public void showErrorView() {
-        errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
-            @Override
-            public void reload() {
-                hideLoading();
-                onRefresh();
-            }
-        });
+        hideLoading();
+        loadMoreWrapper.showErrorView(recyclerView);
     }
 
     @Override
@@ -134,14 +136,14 @@ public abstract class BaseListActivity extends BaseActivity
             loadMoreWrapper.setFooterStatus(PULL_TO_LOAD_MORE);
 
         if (updateType == REFRESH && !msg.equals(Utils.getString(R.string.reqest_flying))) {
-            errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
-                @Override
-                public void reload() {
-                    refreshLayout.setRefreshing(true);
-                    onRefresh();
-                }
-            });
+            loadMoreWrapper.showErrorView(recyclerView);
         }
     }
 
+    @Override
+    public void reload() {
+        refreshLayout.setRefreshing(true);
+        loadMoreWrapper.hideErrorView(recyclerView);
+        onRefresh();
+    }
 }

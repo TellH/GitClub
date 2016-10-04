@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ViewStub
-        android:id="@+id/vs_error"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout="@layout/error_view" />
-
     <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -34,8 +28,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimary"
-        app:navigationIcon="@drawable/md_nav_back"
         app:layout_behavior="@string/quick_return_top_behavior"
+        app:navigationIcon="@drawable/md_nav_back"
         app:quick_return_style="translate"
         app:titleTextColor="@color/white" />
 </android.support.design.widget.CoordinatorLayout>

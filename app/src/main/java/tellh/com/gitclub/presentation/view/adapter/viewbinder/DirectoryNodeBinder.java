@@ -1,4 +1,4 @@
-package tellh.com.gitclub.presentation.view.adapter;
+package tellh.com.gitclub.presentation.view.adapter.viewbinder;
 
 import android.view.View;
 import android.widget.ImageView;
