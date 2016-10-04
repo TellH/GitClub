@@ -29,6 +29,7 @@ import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.BaseActivity;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.StringUtils;
+import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.di.component.DaggerRepoPageComponent;
 import tellh.com.gitclub.model.entity.Branch;
 import tellh.com.gitclub.model.entity.File;
@@ -216,4 +217,12 @@ public class RepoSourceActivity extends BaseActivity implements RepoSourceContra
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void showOnError(String s) {
+        super.showOnError(s);
+        if (s.startsWith(Utils.getString(R.string.error_get_source_tree))) {
+            btnSourceTreeRefresh.setVisibility(View.VISIBLE);
+            treeViewProgressBar.setVisibility(View.INVISIBLE);
+        }
+    }
 }

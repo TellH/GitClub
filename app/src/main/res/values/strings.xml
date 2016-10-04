@@ -92,4 +92,5 @@
     <string name="error_share">"Failed to share in "</string>
     <string name="success_share">"Succeed to share in "</string>
     <string name="cancel_share">Share was canceled.</string>
+    <string name="error_get_source_tree">"Failed to get source tree. "</string>
 </resources>

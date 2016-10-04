@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:layout_marginLeft="23dp"
+    android:background="@drawable/selector_white"
     android:drawableLeft="@drawable/ic_file"
     android:drawablePadding="10dp"
     android:gravity="center_vertical"
