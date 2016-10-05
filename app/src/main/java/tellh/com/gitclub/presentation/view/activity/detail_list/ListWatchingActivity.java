@@ -22,6 +22,7 @@ public class ListWatchingActivity extends ListRepoActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listWatchingRepo(1);
     }
 

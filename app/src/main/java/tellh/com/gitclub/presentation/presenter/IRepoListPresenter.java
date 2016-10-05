@@ -1,7 +1,8 @@
 package tellh.com.gitclub.presentation.presenter;
 
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+
 import tellh.com.gitclub.model.entity.RepositoryInfo;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
 
 /**
  * Created by tlh on 2016/9/1 :)
@@ -11,13 +12,13 @@ public interface IRepoListPresenter {
         void onGet(RepositoryInfo repositoryInfo);
     }
 
-    void checkState(int position, BaseRecyclerAdapter<RepositoryInfo> adapter);
+    void checkState(int position, RecyclerViewAdapter adapter);
 
-    void starRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle);
+    void starRepo(int position, RecyclerViewAdapter adapter, boolean toggle);
 
-    void watchRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter, boolean toggle);
+    void watchRepo(int position, RecyclerViewAdapter adapter, boolean toggle);
 
-    void forkRepo(int position, BaseRecyclerAdapter<RepositoryInfo> adapter);
+    void forkRepo(int position, RecyclerViewAdapter adapter);
 
     void getRepoInfo(String owner, String name, OnGetRepoCallback callback);
 }

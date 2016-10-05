@@ -2,21 +2,26 @@ package tellh.com.gitclub.presentation.view.fragment.search;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
+import com.tellh.nolistadapter.viewbinder.utils.EasyEmptyRecyclerViewBinder;
+
 import java.util.List;
 
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.model.entity.UserEntity;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
-import tellh.com.gitclub.presentation.view.adapter.UserListAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.LoadMoreFooterViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.UserListItemViewBinder;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.LOADING;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnGetUserListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOADING;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.OnReachFooterListener;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.PULL_TO_LOAD_MORE;
 
 public class SearchUserFragment extends ListFragment
         implements OnGetUserListener, OnReachFooterListener {
@@ -30,9 +35,13 @@ public class SearchUserFragment extends ListFragment
 
     @Override
     protected RecyclerView.Adapter getListAdapter() {
-        loadMoreWrapper = new FooterLoadMoreAdapterWrapper(new UserListAdapter(context, null, mListener.getPresenter()));
-        loadMoreWrapper.addFooter(R.layout.footer_load_more);
-        loadMoreWrapper.setOnReachFooterListener(recyclerView, this);
+        assert mListener != null;
+        loadMoreWrapper = (FooterLoadMoreAdapterWrapper) RecyclerViewAdapter.builder()
+                .addItemType(new UserListItemViewBinder(mListener.getPresenter()))
+                .setLoadMoreFooter(new LoadMoreFooterViewBinder(), recyclerView, this)
+                .setErrorView(new ErrorViewBinder(this))
+                .setEmptyView(new EasyEmptyRecyclerViewBinder(R.layout.empty_view))
+                .build();
         return loadMoreWrapper;
     }
 
@@ -64,6 +73,7 @@ public class SearchUserFragment extends ListFragment
     @Override
     public void onRefresh() {
         mListener.onFetchPage(USER, 1);
+        loadMoreWrapper.hideErrorView(recyclerView);
     }
 
     @Override

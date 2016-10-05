@@ -1,5 +1,8 @@
 package tellh.com.gitclub.presentation.view.activity.detail_list;
 
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+import com.tellh.nolistadapter.viewbinder.base.RecyclerViewBinder;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -8,9 +11,7 @@ import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.di.component.DaggerListItemComponent;
 import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.presentation.presenter.ListUserPresenter;
-import tellh.com.gitclub.presentation.view.adapter.BaseRecyclerAdapter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
-import tellh.com.gitclub.presentation.view.adapter.UserListAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.UserListItemViewBinder;
 
 /**
  * Created by tlh on 2016/9/16 :)
@@ -20,8 +21,8 @@ public abstract class ListUserActivity extends BaseListActivity implements ListU
     ListUserPresenter presenter;
 
     @Override
-    protected BaseRecyclerAdapter getListAdapter() {
-        return new UserListAdapter(this, null, presenter);
+    protected RecyclerViewBinder getListItemViewBinder() {
+        return new UserListItemViewBinder(presenter);
     }
 
     @Override
@@ -44,5 +45,10 @@ public abstract class ListUserActivity extends BaseListActivity implements ListU
     public void onGetUserList(List<UserEntity> list, @UpdateType int updateType) {
         loadMoreWrapper.OnGetData(list, updateType);
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        loadMoreWrapper.hideErrorView(recyclerView);
     }
 }

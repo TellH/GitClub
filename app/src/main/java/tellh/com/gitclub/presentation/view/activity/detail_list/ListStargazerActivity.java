@@ -25,6 +25,7 @@ public class ListStargazerActivity extends ListUserActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listStargazers(1);
     }
 

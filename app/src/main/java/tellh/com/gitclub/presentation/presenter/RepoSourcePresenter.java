@@ -4,9 +4,11 @@ import java.util.List;
 
 import rx.Observable;
 import rx.functions.Func1;
+import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BasePresenter;
 import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
+import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.model.entity.Branch;
 import tellh.com.gitclub.model.entity.ReadMe;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
@@ -46,7 +48,7 @@ public class RepoSourcePresenter extends BasePresenter<RepoSourceContract.View> 
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError("Failed to get source tree. " + errorStr);
+                                getView().showOnError(Utils.getString(R.string.error_get_source_tree) + errorStr);
                             }
                         })
         );
@@ -65,7 +67,7 @@ public class RepoSourcePresenter extends BasePresenter<RepoSourceContract.View> 
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError("Failed to get source tree. " + errorStr);
+                                getView().showOnError(Utils.getString(R.string.error_get_source_tree) + errorStr);
                             }
                         })
         );

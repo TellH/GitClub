@@ -32,6 +32,7 @@ public class ListStarredRepoActivity extends ListRepoActivity {
 
     @Override
     public void onRefresh() {
+        super.onRefresh();
         presenter.listStarredRepo(1);
     }
 

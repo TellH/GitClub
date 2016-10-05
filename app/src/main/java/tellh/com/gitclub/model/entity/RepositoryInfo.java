@@ -1,11 +1,15 @@
 package tellh.com.gitclub.model.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.tellh.nolistadapter.DataBean;
+import com.tellh.nolistadapter.IListAdapter;
+
+import tellh.com.gitclub.R;
 
 /**
  * Created by tlh on 2016/8/26 :)
  */
-public class RepositoryInfo {
+public class RepositoryInfo extends DataBean {
 
     public boolean hasCheckState = false;
     public boolean hasStarred = false;
@@ -295,5 +299,10 @@ public class RepositoryInfo {
                 ", updated_at='" + updated_at + '\'' +
                 ", subscribers_count=" + subscribers_count +
                 '}';
+    }
+
+    @Override
+    public int getItemLayoutId(IListAdapter iListAdapter) {
+        return R.layout.item_repo;
     }
 }

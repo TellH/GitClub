@@ -11,16 +11,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
+
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
 
 import tellh.com.gitclub.R;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
 import tellh.com.gitclub.presentation.view.fragment.search.ListLoadingListener;
-import tellh.com.gitclub.presentation.widget.ErrorViewHelper;
 
 public abstract class ListFragment extends Fragment
-        implements SwipeRefreshLayout.OnRefreshListener, ListLoadingListener {
+        implements SwipeRefreshLayout.OnRefreshListener, ListLoadingListener, ErrorViewBinder.OnReLoadCallback {
     protected SwipeRefreshLayout refreshLayout;
-    protected ErrorViewHelper errorView;
+    private RecyclerViewAdapter listAdapter;
 
     @Override
     public void showLoading() {
@@ -47,10 +48,10 @@ public abstract class ListFragment extends Fragment
         context = view.getContext();
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         refreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refreshLayout);
-        errorView = new ErrorViewHelper((ViewStub) view.findViewById(R.id.vs_error));
 
         recyclerView.setLayoutManager(getLayoutManager());
-        recyclerView.setAdapter(getListAdapter());
+        listAdapter = (RecyclerViewAdapter) getListAdapter();
+        recyclerView.setAdapter(listAdapter);
 
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setProgressViewOffset(false, -100, 80);
@@ -65,13 +66,7 @@ public abstract class ListFragment extends Fragment
 
     @Override
     public void showErrorView() {
-        errorView.showErrorView(refreshLayout, new ErrorViewHelper.OnReLoadCallback() {
-            @Override
-            public void reload() {
-                hideLoading();
-                onRefresh();
-            }
-        });
+        listAdapter.showErrorView(recyclerView);
     }
 
     protected abstract RecyclerView.Adapter getListAdapter();
@@ -81,5 +76,16 @@ public abstract class ListFragment extends Fragment
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void reload() {
+        hideLoading();
+        onRefresh();
+    }
+
+    @Override
+    public void onRefresh() {
+        listAdapter.hideErrorView(recyclerView);
     }
 }

@@ -1,5 +1,7 @@
 package tellh.com.gitclub.common.base;
 
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import tellh.com.gitclub.R;
@@ -7,10 +9,9 @@ import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.LOAD_MORE;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.LOAD_MORE;
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
 
 public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
 

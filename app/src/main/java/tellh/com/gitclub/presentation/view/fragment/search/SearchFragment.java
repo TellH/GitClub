@@ -15,6 +15,7 @@ import android.widget.ImageView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -34,16 +35,15 @@ import tellh.com.gitclub.presentation.contract.bus.RxBus;
 import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnClickOutsideToHideEvent;
 import tellh.com.gitclub.presentation.view.adapter.CommonViewPagerAdapter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 import tellh.com.gitclub.presentation.view.fragment.ListFragment;
 import tellh.com.gitclub.presentation.widget.OnPageChangeListenerAdapter;
 
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
 import static tellh.com.gitclub.presentation.contract.SearchContract.ListType;
 import static tellh.com.gitclub.presentation.contract.SearchContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.SearchContract.Presenter;
 import static tellh.com.gitclub.presentation.contract.SearchContract.REPO;
 import static tellh.com.gitclub.presentation.contract.SearchContract.USER;
-import static tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
 
 public class SearchFragment extends LazyFragment
         implements SearchContract.View, OnListFragmentInteractListener {

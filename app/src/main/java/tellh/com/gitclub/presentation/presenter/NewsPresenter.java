@@ -15,7 +15,8 @@ import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.contract.NewsContract;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 public class NewsPresenter extends BasePresenter<NewsContract.View> implements NewsContract.Presenter {
     private final UserDataSource mUserDataSource;

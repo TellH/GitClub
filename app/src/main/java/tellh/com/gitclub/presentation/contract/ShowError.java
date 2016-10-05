@@ -1,6 +1,7 @@
 package tellh.com.gitclub.presentation.contract;
 
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
+
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 /**
  * Created by tlh on 2016/9/16 :)

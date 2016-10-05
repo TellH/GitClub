@@ -8,25 +8,25 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
+
+import com.tellh.nolistadapter.adapter.HeaderAndFooterAdapterWrapper;
+import com.tellh.nolistadapter.adapter.RecyclerViewAdapter;
 
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
 import tellh.com.gitclub.presentation.presenter.IRepoListPresenter;
-import tellh.com.gitclub.presentation.view.adapter.HeaderAndFooterAdapterWrapper;
-import tellh.com.gitclub.presentation.view.adapter.RecyclerViewHolder;
-import tellh.com.gitclub.presentation.view.adapter.RepoListAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.RepoListItemViewBinder;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.ShowCaseHeaderViewBinder;
 
 /**
  * Created by tlh on 2016/9/8 :)
  */
 public class ShowcaseListBottomSheetDialog extends BottomSheetDialog {
     private IRepoListPresenter presenter;
-    private ShowCaseInfo showcase;
     private HeaderAndFooterAdapterWrapper adapterWrapper;
     private BottomSheetBehavior<View> bottomSheetBehavior;
     private RecyclerView recyclerView;
+    private ShowCaseHeaderViewBinder viewBinder;
 
     public ShowcaseListBottomSheetDialog(@NonNull Context context, IRepoListPresenter presenter) {
         super(context);
@@ -38,18 +38,14 @@ public class ShowcaseListBottomSheetDialog extends BottomSheetDialog {
         //init recycler view
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_list, null, false);
         setContentView(view);
+
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapterWrapper = new HeaderAndFooterAdapterWrapper(new RepoListAdapter(getContext(), null, presenter)) {
-            @Override
-            protected void onBindHeader(RecyclerViewHolder holder, int position) {
-                ImageView ivHeader = holder.getImageView(R.id.iv_header);
-                ImageLoader.loadAndCrop(showcase.getImage(), ivHeader);
-                holder.setText(R.id.tv_desc, showcase.getDescription())
-                        .setText(R.id.tv_name, showcase.getName());
-            }
-        };
-        adapterWrapper.addHeader(R.layout.item_showcase);
+        viewBinder = new ShowCaseHeaderViewBinder();
+        adapterWrapper = (HeaderAndFooterAdapterWrapper) RecyclerViewAdapter.builder()
+                .addItemType(new RepoListItemViewBinder(presenter))
+                .addHeader(viewBinder)
+                .build();
         recyclerView.setAdapter(adapterWrapper);
 
         //set bottom sheet behaviour
@@ -72,7 +68,7 @@ public class ShowcaseListBottomSheetDialog extends BottomSheetDialog {
     }
 
     public void refreshAndShow(ShowCaseInfo showCaseInfo) {
-        this.showcase = showCaseInfo;
+        viewBinder.setShowcase(showCaseInfo);
         adapterWrapper.refresh(showCaseInfo.getRepositories());
         show();
     }

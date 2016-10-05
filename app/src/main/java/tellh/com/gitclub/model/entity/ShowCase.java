@@ -1,9 +1,14 @@
 package tellh.com.gitclub.model.entity;
 
+import com.tellh.nolistadapter.DataBean;
+import com.tellh.nolistadapter.IListAdapter;
+
+import tellh.com.gitclub.R;
+
 /**
  * Created by tlh on 2016/8/26 :)
  */
-public class ShowCase {
+public class ShowCase extends DataBean {
     /**
      * name : Made in Africa
      * slug : made-in-africa
@@ -46,5 +51,10 @@ public class ShowCase {
 
     public void setImage_url(String image_url) {
         this.image_url = image_url;
+    }
+
+    @Override
+    public int getItemLayoutId(IListAdapter iListAdapter) {
+        return R.layout.item_showcase;
     }
 }

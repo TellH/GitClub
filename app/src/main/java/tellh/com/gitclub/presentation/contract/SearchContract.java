@@ -4,6 +4,7 @@ package tellh.com.gitclub.presentation.contract;
 import android.support.annotation.IntDef;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,7 +16,6 @@ import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.presentation.presenter.IRepoListPresenter;
 import tellh.com.gitclub.presentation.presenter.IUserListPresenter;
-import tellh.com.gitclub.presentation.view.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 import tellh.com.gitclub.presentation.view.fragment.search.ListLoadingListener;
 
 import static tellh.com.gitclub.common.config.Constant.SortType;

@@ -1,13 +1,16 @@
 package tellh.com.gitclub.model.entity;
 
 import com.google.gson.annotations.SerializedName;
+import com.tellh.nolistadapter.DataBean;
+import com.tellh.nolistadapter.IListAdapter;
 
+import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.config.IEventType;
 
 /**
  * Created by tlh on 2016/8/26 :)
  */
-public class Event {
+public class Event extends DataBean {
 
     /**
      * id : 4474452714
@@ -108,6 +111,11 @@ public class Event {
 
     public void setCreated_at(String created_at) {
         this.created_at = created_at;
+    }
+
+    @Override
+    public int getItemLayoutId(IListAdapter iListAdapter) {
+        return R.layout.item_news;
     }
 
     public static class ActorEntity {
