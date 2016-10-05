@@ -48,8 +48,6 @@ public class RepoSourceActivity extends BaseActivity implements RepoSourceContra
     private String mOwner;
     private String mRepo;
     private WebViewHelper webViewHelper;
-
-    private Toolbar toolbar;
     private MaterialProgressBar treeViewProgressBar;
     private ImageButton btnSourceTreeRefresh;
     private DrawerLayout drawer;
@@ -62,13 +60,6 @@ public class RepoSourceActivity extends BaseActivity implements RepoSourceContra
         intent.putExtra(ExtraKey.USER_NAME, owner);
         intent.putExtra(ExtraKey.REPO_NAME, repo);
         srcActivity.startActivity(intent);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_repo_source);
-        initView();
     }
 
     @Override
@@ -100,7 +91,7 @@ public class RepoSourceActivity extends BaseActivity implements RepoSourceContra
                     .build().inject(this);
             presenter.attachView(this);
         }
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         final WebView webView = (WebView) findViewById(R.id.web_view);
         ProgressBar webViewProgressBar = (ProgressBar) findViewById(R.id.webView_progressBar);
         Spinner spinnerBranchList = (Spinner) findViewById(R.id.spinner_branchList);
@@ -163,6 +154,13 @@ public class RepoSourceActivity extends BaseActivity implements RepoSourceContra
                 finish();
             }
         });
+
+        drawer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                drawer.openDrawer(drawerSourceTree);
+            }
+        }, 800);
     }
 
     @Override
