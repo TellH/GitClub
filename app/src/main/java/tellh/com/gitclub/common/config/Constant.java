@@ -10,6 +10,7 @@ import java.util.List;
 public class Constant {
     public static final String URL_GITHUB = "https://api.github.com/";
     public static final String URL_EXPLORE = "http://trending.codehub-app.com/";
+    public static final String URL_GANK = "http://gank.io/api/data/all/";
     public static final int PER_PAGE = 10;
     public static final int PER_PAGE_NEWS = 15;
 
