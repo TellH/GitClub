@@ -51,7 +51,8 @@ public class StringUtils {
     public static String[] parseGithubUrl(String rawUrl) {
         Matcher m = Pattern
 //                .compile("https://github\\.com/(.*?)/(((.*?)/.*)|(.*))")
-                .compile("https://github\\.com/(.*?)/(?:(?:(.*?)/.*)|(.*))")
+//                .compile("https://github\\.com/(.*?)/(?:(?:(.*?)/.*)|(.*))")
+                .compile("https://github\\.com/([^/]*)/([^/]*)")
                 .matcher(rawUrl);
         String[] result = new String[2];
         if (m.find()) {
@@ -61,8 +62,6 @@ public class StringUtils {
                 else return null;
                 if (!TextUtils.isEmpty(m.group(2)))
                     result[1] = m.group(2);
-                else if (!TextUtils.isEmpty(m.group(3)))
-                    result[1] = m.group(3);
                 else return null;
             } catch (Exception e) {
                 return null;
