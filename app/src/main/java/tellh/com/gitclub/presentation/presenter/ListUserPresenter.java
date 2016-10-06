@@ -46,7 +46,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
             return;
         }
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -71,7 +71,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );
@@ -82,7 +82,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
             return;
         }
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -103,7 +103,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );
@@ -114,7 +114,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
             return;
         }
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -135,7 +135,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );
@@ -146,7 +146,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
             return;
         }
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -167,7 +167,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );
@@ -175,7 +175,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
     public void listFollowers(String userName, final int page) {
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -196,7 +196,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );
@@ -204,7 +204,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
     public void listFollowing(String userName, final int page) {
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -225,7 +225,7 @@ public class ListUserPresenter extends BasePresenter<ListUserPresenter.ListUserV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );

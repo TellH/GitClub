@@ -120,7 +120,7 @@ public class NewsFragment extends LazyFragment
     }
 
     @Override
-    public void showOnError(String s, @UpdateType int updateType) {
+    public void showOnError(@UpdateType int updateType, String s) {
         showOnError(s);
         if (updateType == REFRESH)
             refreshLayout.setRefreshing(false);

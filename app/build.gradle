@@ -42,10 +42,12 @@ dependencies {
     compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
 
 
+    //leakcanary
     debugCompile "com.squareup.leakcanary:leakcanary-android:${rootProject.ext.leakcanaryVersion}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakcanaryVersion}"
     testCompile "com.squareup.leakcanary:leakcanary-android-no-op:${rootProject.ext.leakcanaryVersion}"
 
+    //network
     compile "com.squareup.okhttp3:okhttp:${rootProject.ext.okhttpVersion}"
     compile "com.squareup.okhttp3:logging-interceptor:${rootProject.ext.okhttpVersion}"
 
@@ -53,25 +55,26 @@ dependencies {
     compile "com.squareup.retrofit2:converter-gson:${rootProject.ext.retrofitVersion}"
     compile "com.squareup.retrofit2:adapter-rxjava:${rootProject.ext.retrofitVersion}"
 
-    //UI
-    compile 'com.orhanobut:logger:1.15'
     compile 'com.facebook.stetho:stetho:1.3.1'
     compile 'com.facebook.stetho:stetho-okhttp3:1.3.1'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //logger
+    compile 'com.orhanobut:logger:1.15'
+
+    //rx
     compile 'io.reactivex:rxjava:1.1.9'
     compile 'io.reactivex:rxandroid:1.2.1'
+
+    //UI
     compile 'com.afollestad.material-dialogs:core:0.9.0.1'
     compile 'com.aurelhubert:ahbottomnavigation:1.3.3'
     compile 'me.zhanghai.android.materialprogressbar:library:1.1.7'
     compile 'com.getbase:floatingactionbutton:1.10.1'
-
     compile 'de.hdodenhof:circleimageview:2.1.0'
-
     compile 'com.github.paolorotolo:appintro:4.0.0'
-
     compile 'com.sackcentury:shinebutton:0.1.6'
-
     compile 'com.github.TellH:RecyclerTreeView:1.1.4'
     compile 'com.github.TellH.NoListAdapter:nolistadapter-rv:1.0.4'
 }

@@ -8,6 +8,7 @@ import dagger.Component;
 import tellh.com.gitclub.di.module.ContextModule;
 import tellh.com.gitclub.di.module.NetModule;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
+import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 
@@ -21,4 +22,6 @@ public interface AppComponent {
     RepositoryDataSource repositoryDataSource();
 
     UserDataSource userDataSource();
+
+    GankDataSource gankDataSource();
 }

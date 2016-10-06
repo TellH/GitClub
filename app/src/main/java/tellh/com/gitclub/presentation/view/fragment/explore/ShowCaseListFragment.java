@@ -47,7 +47,7 @@ public class ShowCaseListFragment extends ListFragment implements ExploreContrac
 
     @Override
     public void onRefresh() {
-        mListener.onFetchData(SHOWCASES);
+        mListener.onFetchData(SHOWCASES, 1);
         adapter.hideErrorView(recyclerView);
     }
 

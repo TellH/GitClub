@@ -85,7 +85,7 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
 
     public void listStarredRepo(final int page) {
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         if (listStarredRepoRequest == null)
@@ -110,7 +110,7 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );
@@ -121,7 +121,7 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
             return;
         }
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -142,7 +142,7 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );
@@ -150,7 +150,7 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
 
     public void listOwnRepo(final int page) {
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         isFlying = true;
@@ -171,7 +171,7 @@ public class ListRepoPresenter extends BasePresenter<ListRepoPresenter.ListRepoV
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(errorStr, getUpdateType(page));
+                                getView().showOnError(getUpdateType(page), errorStr);
                             }
                         })
         );

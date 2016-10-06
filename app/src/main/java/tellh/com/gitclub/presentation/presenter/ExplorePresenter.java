@@ -12,16 +12,19 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import rx.functions.Action0;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.base.BasePresenter;
 import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.config.Constant.LangTrending;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
 import tellh.com.gitclub.common.utils.Utils;
+import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
 import tellh.com.gitclub.model.entity.Trending;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
+import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.presentation.contract.ExploreContract;
 
@@ -30,6 +33,9 @@ import static tellh.com.gitclub.common.config.Constant.Since;
 public class ExplorePresenter extends BasePresenter<ExploreContract.View>
         implements ExploreContract.Presenter {
     private final ExploreDataSource mExploreDataSource;
+    private final GankDataSource mGankDataSource;
+
+    private boolean isFlying;
 
     private LangTrending curLanguage;
     private Since curSince;
@@ -39,8 +45,10 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
 
     private DialogManager dialogManager;
 
-    public ExplorePresenter(ExploreDataSource exploreDataSource, RepositoryDataSource repositoryDataSource) {
+    public ExplorePresenter(ExploreDataSource exploreDataSource, RepositoryDataSource repositoryDataSource,
+                            GankDataSource gankDataSource) {
         mExploreDataSource = exploreDataSource;
+        mGankDataSource = gankDataSource;
         repoListPresenter = new RepoListPresenter(this, repositoryDataSource);
 
         curLanguage = LangTrending.ALL;
@@ -118,6 +126,36 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
                             @Override
                             protected void onError(String errorStr) {
                                 getView().showOnError(Utils.getString(R.string.error_get_showcases) + errorStr);
+                            }
+                        })
+        );
+    }
+
+    @Override
+    public void listGankData(final int page) {
+        if (isFlying) {
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
+            return;
+        }
+        isFlying = true;
+        addSubscription(
+                mGankDataSource.getRepositories(page)
+                        .doOnTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                isFlying = false;
+                            }
+                        })
+                        .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
+                            @Override
+                            public void onNext(List<RepositoryInfo> repositoryList) {
+                                getView().onGetGankData(repositoryList, getUpdateType(page));
+                                getView().showOnSuccess();
+                            }
+
+                            @Override
+                            protected void onError(String errorStr) {
+                                getView().showOnError(getUpdateType(page), Utils.getString(R.string.error_gank_data));
                             }
                         })
         );

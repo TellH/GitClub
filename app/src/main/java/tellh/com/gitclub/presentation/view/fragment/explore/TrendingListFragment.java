@@ -50,7 +50,7 @@ public class TrendingListFragment extends ListFragment implements OnGetTrendingL
     @Override
     public void onRefresh() {
         super.onRefresh();
-        mListener.onFetchData(TRENDING);
+        mListener.onFetchData(TRENDING, 1);
     }
 
     void setListFragmentInteractListener(OnListFragmentInteractListener listener) {

@@ -6,6 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 import tellh.com.gitclub.di.DiView;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
+import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
 import tellh.com.gitclub.presentation.contract.ExploreContract;
@@ -40,8 +41,9 @@ public class PresenterModule {
 
     @Provides
     @DiView
-    public ExploreContract.Presenter provideExplorePresenter(ExploreDataSource exploreDataSource, RepositoryDataSource repositoryDataSource) {
-        return new ExplorePresenter(exploreDataSource, repositoryDataSource);
+    public ExploreContract.Presenter provideExplorePresenter(ExploreDataSource exploreDataSource, RepositoryDataSource repositoryDataSource,
+                                                             GankDataSource gankDataSource) {
+        return new ExplorePresenter(exploreDataSource, repositoryDataSource, gankDataSource);
     }
 
     @Provides
