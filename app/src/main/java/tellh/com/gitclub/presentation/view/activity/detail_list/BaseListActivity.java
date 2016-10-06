@@ -124,7 +124,7 @@ public abstract class BaseListActivity extends BaseActivity
     }
 
     @Override
-    public void showOnError(String msg, @UpdateType int updateType) {
+    public void showOnError(@UpdateType int updateType, String msg) {
         showOnError(msg);
         handleError(msg, updateType);
     }

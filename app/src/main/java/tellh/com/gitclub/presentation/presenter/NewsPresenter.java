@@ -32,7 +32,7 @@ public class NewsPresenter extends BasePresenter<NewsContract.View> implements N
     @Override
     public void listNews(final int page) {
         if (isFlying) {
-            getView().showOnError(Utils.getString(R.string.reqest_flying), getUpdateType(page));
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
         UserInfo user = AccountPrefs.getLoginUser(mCtx);
@@ -54,14 +54,14 @@ public class NewsPresenter extends BasePresenter<NewsContract.View> implements N
 
                     @Override
                     protected void onError(String errorStr) {
-                        getView().showOnError(StringUtils.append(mCtx.getString(R.string.error_get_news), errorStr), getUpdateType(page));
+                        getView().showOnError(getUpdateType(page), StringUtils.append(mCtx.getString(R.string.error_get_news), errorStr));
                     }
                 }));
     }
 
     protected boolean checkLogin(UserInfo user, @UpdateType int updateType) {
         if (user == null) {
-            getView().showOnError(mCtx.getString(R.string.error_not_login), updateType);
+            getView().showOnError(updateType, mCtx.getString(R.string.error_not_login));
             getView().showLoginDialog();
             return false;
         }

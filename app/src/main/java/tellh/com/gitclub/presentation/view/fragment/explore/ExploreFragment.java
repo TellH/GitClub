@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.di.component.DaggerExploreComponent;
+import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
 import tellh.com.gitclub.model.entity.Trending;
@@ -38,6 +40,8 @@ import tellh.com.gitclub.presentation.widget.FabAnimationHelper;
 import tellh.com.gitclub.presentation.widget.OnPageChangeListenerAdapter;
 import tellh.com.gitclub.presentation.widget.ShowcaseListBottomSheetDialog;
 
+import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.GANK_IO;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.ListType;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFragmentInteractListener;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.Presenter;
@@ -51,6 +55,7 @@ public class ExploreFragment extends LazyFragment
     private ViewPager mViewPager;
     private ShowCaseListFragment showCaseListFragment;
     private TrendingListFragment trendingListFragment;
+    private GankDataListFragment gankDataListFragment;
     private FloatingActionButton fabLang;
     private FloatingActionButton fabSince;
     private FloatingActionsMenu fabMenu;
@@ -70,8 +75,10 @@ public class ExploreFragment extends LazyFragment
     public void initData(Bundle savedInstanceState) {
         presenter.listTrending();
         presenter.listShowCase();
+        presenter.listGankData(1);
         trendingListFragment.showLoading();
         showCaseListFragment.showLoading();
+        gankDataListFragment.showLoading();
         addSubscription(RxBus.getDefault().toObservable(GetShowcaseDetailEvent.class)
                 .subscribe(new Action1<GetShowcaseDetailEvent>() {
                     @Override
@@ -166,6 +173,10 @@ public class ExploreFragment extends LazyFragment
         showCaseListFragment = ShowCaseListFragment.newInstance();
         showCaseListFragment.setListFragmentInteractListener(this);
         viewPagerAdapter.addFragment("ShowCases", showCaseListFragment);
+        gankDataListFragment = GankDataListFragment.newInstance();
+        gankDataListFragment.setListFragmentInteractListener(this);
+        viewPagerAdapter.addFragment("Gank.IO", gankDataListFragment);
+        mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(viewPagerAdapter);
         mViewPager.addOnPageChangeListener(new OnPageChangeListenerAdapter() {
             @Override
@@ -180,9 +191,19 @@ public class ExploreFragment extends LazyFragment
                             fabMenu.setVisibility(View.VISIBLE);
                         }
                     });
-                } else {
+                } else if (position == 1) {
                     collapsingLayout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.orange_red));
                     Utils.setImageWithFade(ivHeader, R.drawable.sun);
+                    FabAnimationHelper.hide(fabMenu, new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            fabMenu.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                } else if (position == 2) {
+                    collapsingLayout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_blue));
+                    Utils.setImageWithFade(ivHeader, R.drawable.sky);
                     FabAnimationHelper.hide(fabMenu, new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -203,17 +224,25 @@ public class ExploreFragment extends LazyFragment
             presenter.detachView();
         showCaseListFragment = null;
         trendingListFragment = null;
+        gankDataListFragment = null;
     }
 
     @Override
     public void showOnError(String msg, @ListType int type) {
         showOnError(msg);
-        if (type == ExploreContract.TRENDING) {
-            trendingListFragment.hideLoading();
-            trendingListFragment.showErrorView();
-        } else {
-            showCaseListFragment.hideLoading();
-            showCaseListFragment.showErrorView();
+        switch (type) {
+            case GANK_IO:
+                gankDataListFragment.hideLoading();
+                gankDataListFragment.showErrorView();
+                break;
+            case SHOWCASES:
+                showCaseListFragment.hideLoading();
+                showCaseListFragment.showErrorView();
+                break;
+            case TRENDING:
+                trendingListFragment.hideLoading();
+                trendingListFragment.showErrorView();
+                break;
         }
     }
 
@@ -228,6 +257,13 @@ public class ExploreFragment extends LazyFragment
     }
 
     @Override
+    public void onGetGankData(List<RepositoryInfo> repositoryList, @UpdateType int updateType) {
+        gankDataListFragment.onGet(repositoryList, updateType);
+        if (updateType == REFRESH)
+            gankDataListFragment.hideLoading();
+    }
+
+    @Override
     public void onGetShowcasesDetail(ShowCaseInfo showCaseInfo) {
         if (showcaseListDialog == null)
             showcaseListDialog = new ShowcaseListBottomSheetDialog(getContext(), presenter);
@@ -235,13 +271,16 @@ public class ExploreFragment extends LazyFragment
     }
 
     @Override
-    public void onFetchData(@ListType int type) {
+    public void onFetchData(@ListType int type, int page) {
         switch (type) {
             case SHOWCASES:
                 presenter.listShowCase();
                 break;
             case TRENDING:
                 presenter.listTrending();
+                break;
+            case GANK_IO:
+                presenter.listGankData(page);
                 break;
         }
     }
@@ -254,5 +293,11 @@ public class ExploreFragment extends LazyFragment
     @Override //the first page will not be lazy loaded.
     protected boolean shouldLazyLoad() {
         return false;
+    }
+
+    @Override
+    public void showOnError(@UpdateType int updateType, String msg) {
+        showOnError(msg);
+        gankDataListFragment.showOnError(msg, updateType);
     }
 }
