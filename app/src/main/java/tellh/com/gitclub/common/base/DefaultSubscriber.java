@@ -42,7 +42,7 @@ public abstract class DefaultSubscriber<T> extends Subscriber<T> {
         }
     }
 
-    protected void onError(String errorStr) {
+    public void onError(String errorStr) {
         LogUtils.e(errorStr);
     }
 

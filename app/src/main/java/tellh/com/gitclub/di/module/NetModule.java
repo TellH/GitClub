@@ -84,7 +84,7 @@ public class NetModule {
 
     @Provides
     @Singleton
-    public GankDataSource provideGankDataSource(GankService gankService) {
-        return new GankDataSource(gankService);
+    public GankDataSource provideGankDataSource(GankService gankService, RepositoryService repositoryService) {
+        return new GankDataSource(gankService, repositoryService);
     }
 }
