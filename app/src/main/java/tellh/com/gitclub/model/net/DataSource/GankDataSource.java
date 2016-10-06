@@ -6,10 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscription;
+import rx.Subscriber;
 import rx.functions.Action0;
 import rx.functions.Func1;
-import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.model.entity.GankResponse;
@@ -56,32 +55,41 @@ public class GankDataSource {
                                 continue;
                             observableList.add(repositoryService.getRepoInfo(result[0], result[1]));
                         }
-                        return Observable.mergeDelayError(observableList);
+                        return Observable.mergeDelayError(observableList).compose(RxJavaUtils.<RepositoryInfo>applySchedulers());
                     }
                 });
     }
 
-    public Subscription getRepositories(int page, final DefaultSubscriber<List<RepositoryInfo>> subscriber) {
+    public Observable<List<RepositoryInfo>> getRepositories(final int page) {
         final List<RepositoryInfo> repositories = new ArrayList<>(20);
-        return getRepository(page)
-                .doOnTerminate(new Action0() {
-                    @Override
-                    public void call() {
-                        subscriber.onNext(repositories);
-                    }
-                })
-                .subscribe(new DefaultSubscriber<RepositoryInfo>() {
-                    @Override
-                    public void onNext(RepositoryInfo repositoryInfo) {
-                        repositories.add(repositoryInfo);
-                    }
+        return Observable.create(new Observable.OnSubscribe<List<RepositoryInfo>>() {
+            @Override
+            public void call(final Subscriber<? super List<RepositoryInfo>> subscriber) {
+                getRepository(page)
+                        .doOnTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                subscriber.onNext(repositories);
+                            }
+                        })
+                        .subscribe(new Subscriber<RepositoryInfo>() {
+                            @Override
+                            public void onCompleted() {
+                                subscriber.onCompleted();
+                            }
 
-                    @Override
-                    public void onError(String errorStr) {
-                        super.onError(errorStr);
-                        subscriber.onError(errorStr);
-                    }
-                });
+                            @Override
+                            public void onError(Throwable e) {
+                                subscriber.onError(e);
+                            }
+
+                            @Override
+                            public void onNext(RepositoryInfo repositoryInfo) {
+                                repositories.add(repositoryInfo);
+                            }
+                        });
+            }
+        });
     }
 
 

@@ -12,16 +12,20 @@ import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.DefaultSubscriber;
 import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.utils.LogUtils;
+import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
 import tellh.com.gitclub.model.entity.Trending;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
+import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 
 /**
  * Created by tlh on 2016/8/27 :)
  */
 public class ExploreDataSourceTestActivity extends AppCompatActivity {
     ExploreDataSource dataSource;
+
+    GankDataSource gankDataSource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,8 @@ public class ExploreDataSourceTestActivity extends AppCompatActivity {
 //        testListTrending1();
 //        testListTrending2();
 //        testListShowCase();
-        testGetShowCaseDetail();
+//        testGetShowCaseDetail();
+        testGetGankRepositoryList();
     }
 
     public void testListTrending() {
@@ -91,4 +96,14 @@ public class ExploreDataSourceTestActivity extends AppCompatActivity {
     }
 
 
+    public void testGetGankRepositoryList() {
+        gankDataSource = AndroidApplication.getInstance().getAppComponent().gankDataSource();
+        gankDataSource.getRepositories(1)
+                .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
+                    @Override
+                    public void onNext(List<RepositoryInfo> repositoryInfos) {
+                        LogUtils.d(repositoryInfos.toString());
+                    }
+                });
+    }
 }
