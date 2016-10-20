@@ -6,16 +6,19 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import tellh.com.gitclub.model.net.DataSource.ArsenalDataSource;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
 import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.model.net.DataSource.UserDataSource;
+import tellh.com.gitclub.model.net.client.ArsenalRetrofit;
 import tellh.com.gitclub.model.net.client.CacheOkHttpClient;
 import tellh.com.gitclub.model.net.client.GithubAuthRetrofit;
 import tellh.com.gitclub.model.net.client.GithubCommonRetrofit;
 import tellh.com.gitclub.model.net.client.GithubExploreRetrofit;
 import tellh.com.gitclub.model.net.client.GankRetrofit;
 import tellh.com.gitclub.model.net.client.GithubOkHttpClient;
+import tellh.com.gitclub.model.net.service.ArsenalService;
 import tellh.com.gitclub.model.net.service.ExploreService;
 import tellh.com.gitclub.model.net.service.GankService;
 import tellh.com.gitclub.model.net.service.RepositoryService;
@@ -45,6 +48,11 @@ public class NetModule {
     }
 
     @Provides
+    public ArsenalRetrofit provideArsenalRetrofit(CacheOkHttpClient client) {
+        return new ArsenalRetrofit(client);
+    }
+
+    @Provides
     public ExploreService provideExploreService(GithubExploreRetrofit githubExploreRetrofit) {
         return githubExploreRetrofit.build().create(ExploreService.class);
     }
@@ -52,6 +60,11 @@ public class NetModule {
     @Provides
     public GankService provideGankService(GankRetrofit gankRetrofit) {
         return gankRetrofit.build().create(GankService.class);
+    }
+
+    @Provides
+    public ArsenalService provideArsenalService(ArsenalRetrofit arsenalRetrofit) {
+        return arsenalRetrofit.build().create(ArsenalService.class);
     }
 
     @Provides
@@ -86,5 +99,11 @@ public class NetModule {
     @Singleton
     public GankDataSource provideGankDataSource(GankService gankService, RepositoryService repositoryService) {
         return new GankDataSource(gankService, repositoryService);
+    }
+
+    @Provides
+    @Singleton
+    public ArsenalDataSource provideArsenalDataSource(ArsenalService arsenalService, RepositoryService repositoryService) {
+        return new ArsenalDataSource(arsenalService, repositoryService);
     }
 }

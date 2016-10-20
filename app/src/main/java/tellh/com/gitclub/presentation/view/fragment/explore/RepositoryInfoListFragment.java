@@ -1,5 +1,7 @@
 package tellh.com.gitclub.presentation.view.fragment.explore;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 
 import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper;
@@ -25,14 +27,26 @@ import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFrag
 
 /**
  * Created by tlh on 2016/9/5 :)
+ * TO list Repository in Github, but the data source is Gank or Arsenal Android.
  */
-public class GankDataListFragment extends ListFragment implements ExploreContract.OnGetGankDataListener,
+public class RepositoryInfoListFragment extends ListFragment implements ExploreContract.OnGetGankDataListener,
         OnReachFooterListener {
+    int listType;
     private OnListFragmentInteractListener mListener;
     private FooterLoadMoreAdapterWrapper adapter;
 
-    public static GankDataListFragment newInstance() {
-        return new GankDataListFragment();
+    public static RepositoryInfoListFragment newInstance(@ExploreContract.ListType int listType) {
+        Bundle args = new Bundle();
+        args.putInt("ListType", listType);
+        RepositoryInfoListFragment fragment = new RepositoryInfoListFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        listType = getArguments().getInt("ListType");
     }
 
     @Override
@@ -54,7 +68,7 @@ public class GankDataListFragment extends ListFragment implements ExploreContrac
     @Override
     public void onRefresh() {
         super.onRefresh();
-        mListener.onFetchData(ExploreContract.GANK_IO, 1);
+        mListener.onFetchData(listType, 1);
     }
 
     void setListFragmentInteractListener(OnListFragmentInteractListener listener) {
@@ -75,7 +89,7 @@ public class GankDataListFragment extends ListFragment implements ExploreContrac
 
     @Override
     public void onToLoadMore(int curPage) {
-        mListener.onFetchData(ExploreContract.GANK_IO, curPage + 1);
+        mListener.onFetchData(listType, curPage + 1);
     }
 
     public void showOnError(String msg, @UpdateType int updateType) {

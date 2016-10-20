@@ -23,6 +23,7 @@ import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
 import tellh.com.gitclub.model.entity.Trending;
+import tellh.com.gitclub.model.net.DataSource.ArsenalDataSource;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
 import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
@@ -34,8 +35,10 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
         implements ExploreContract.Presenter {
     private final ExploreDataSource mExploreDataSource;
     private final GankDataSource mGankDataSource;
+    private final ArsenalDataSource mArsenalDataSource;
 
-    private boolean isFlying;
+    private boolean isFlyingGankRequest;
+    private boolean isFlyingArsenalRequest;
 
     private LangTrending curLanguage;
     private Since curSince;
@@ -46,9 +49,10 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
     private DialogManager dialogManager;
 
     public ExplorePresenter(ExploreDataSource exploreDataSource, RepositoryDataSource repositoryDataSource,
-                            GankDataSource gankDataSource) {
+                            GankDataSource gankDataSource, ArsenalDataSource arsenalDataSource) {
         mExploreDataSource = exploreDataSource;
         mGankDataSource = gankDataSource;
+        mArsenalDataSource = arsenalDataSource;
         repoListPresenter = new RepoListPresenter(this, repositoryDataSource);
 
         curLanguage = LangTrending.ALL;
@@ -133,17 +137,17 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
 
     @Override
     public void listGankData(final int page) {
-        if (isFlying) {
+        if (isFlyingGankRequest) {
             getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
             return;
         }
-        isFlying = true;
+        isFlyingGankRequest = true;
         addSubscription(
                 mGankDataSource.getRepositories(page)
                         .doOnTerminate(new Action0() {
                             @Override
                             public void call() {
-                                isFlying = false;
+                                isFlyingGankRequest = false;
                             }
                         })
                         .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
@@ -155,7 +159,35 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
 
                             @Override
                             protected void onError(String errorStr) {
-                                getView().showOnError(getUpdateType(page), Utils.getString(R.string.error_gank_data));
+//                                getView().showOnError(getUpdateType(page), Utils.getString(R.string.error_gank_data));
+                            }
+                        })
+        );
+    }
+
+    @Override
+    public void listArsenalData(final int page) {
+        if (isFlyingArsenalRequest) {
+            getView().showOnError(getUpdateType(page), Utils.getString(R.string.reqest_flying));
+            return;
+        }
+        isFlyingArsenalRequest = true;
+        addSubscription(
+                mArsenalDataSource.getRepositories(page)
+                        .doOnTerminate(new Action0() {
+                            @Override
+                            public void call() {
+                                isFlyingArsenalRequest = false;
+                            }
+                        })
+                        .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
+                            @Override
+                            public void onNext(List<RepositoryInfo> repositoryList) {
+                                getView().onGetArsenalData(repositoryList, getUpdateType(page));
+                                getView().showOnSuccess();
+                            }
+                            @Override
+                            protected void onError(String errorStr) {
                             }
                         })
         );

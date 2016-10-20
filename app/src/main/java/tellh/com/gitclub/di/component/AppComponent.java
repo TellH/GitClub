@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Component;
 import tellh.com.gitclub.di.module.ContextModule;
 import tellh.com.gitclub.di.module.NetModule;
+import tellh.com.gitclub.model.net.DataSource.ArsenalDataSource;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
 import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
@@ -24,4 +25,6 @@ public interface AppComponent {
     UserDataSource userDataSource();
 
     GankDataSource gankDataSource();
+
+    ArsenalDataSource arsenalDataSource();
 }
