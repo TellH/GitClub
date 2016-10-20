@@ -5,6 +5,7 @@ import android.content.Context;
 import dagger.Module;
 import dagger.Provides;
 import tellh.com.gitclub.di.DiView;
+import tellh.com.gitclub.model.net.DataSource.ArsenalDataSource;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
 import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
@@ -42,8 +43,8 @@ public class PresenterModule {
     @Provides
     @DiView
     public ExploreContract.Presenter provideExplorePresenter(ExploreDataSource exploreDataSource, RepositoryDataSource repositoryDataSource,
-                                                             GankDataSource gankDataSource) {
-        return new ExplorePresenter(exploreDataSource, repositoryDataSource, gankDataSource);
+                                                             GankDataSource gankDataSource, ArsenalDataSource arsenalDataSource) {
+        return new ExplorePresenter(exploreDataSource, repositoryDataSource, gankDataSource, arsenalDataSource);
     }
 
     @Provides

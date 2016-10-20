@@ -41,6 +41,7 @@ import tellh.com.gitclub.presentation.widget.OnPageChangeListenerAdapter;
 import tellh.com.gitclub.presentation.widget.ShowcaseListBottomSheetDialog;
 
 import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.REFRESH;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.*;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.GANK_IO;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.ListType;
 import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFragmentInteractListener;
@@ -55,13 +56,17 @@ public class ExploreFragment extends LazyFragment
     private ViewPager mViewPager;
     private ShowCaseListFragment showCaseListFragment;
     private TrendingListFragment trendingListFragment;
-    private GankDataListFragment gankDataListFragment;
+    private RepositoryInfoListFragment gankDataListFragment;
+    private RepositoryInfoListFragment arsenalDataListFragment;
     private FloatingActionButton fabLang;
     private FloatingActionButton fabSince;
     private FloatingActionsMenu fabMenu;
     private ShowcaseListBottomSheetDialog showcaseListDialog;
     private ImageView ivHeader;
     private CollapsingToolbarLayout collapsingLayout;
+
+    private boolean hasInitGankPage = false;
+    private boolean hasInitArsenalPage = false;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -75,10 +80,8 @@ public class ExploreFragment extends LazyFragment
     public void initData(Bundle savedInstanceState) {
         presenter.listTrending();
         presenter.listShowCase();
-        presenter.listGankData(1);
         trendingListFragment.showLoading();
         showCaseListFragment.showLoading();
-        gankDataListFragment.showLoading();
         addSubscription(RxBus.getDefault().toObservable(GetShowcaseDetailEvent.class)
                 .subscribe(new Action1<GetShowcaseDetailEvent>() {
                     @Override
@@ -173,9 +176,12 @@ public class ExploreFragment extends LazyFragment
         showCaseListFragment = ShowCaseListFragment.newInstance();
         showCaseListFragment.setListFragmentInteractListener(this);
         viewPagerAdapter.addFragment("ShowCases", showCaseListFragment);
-        gankDataListFragment = GankDataListFragment.newInstance();
+        gankDataListFragment = RepositoryInfoListFragment.newInstance(GANK_IO);
         gankDataListFragment.setListFragmentInteractListener(this);
         viewPagerAdapter.addFragment("Gank.IO", gankDataListFragment);
+        arsenalDataListFragment = RepositoryInfoListFragment.newInstance(ARSENAL);
+        arsenalDataListFragment.setListFragmentInteractListener(this);
+        viewPagerAdapter.addFragment("Arsenal", arsenalDataListFragment);
         mViewPager.setOffscreenPageLimit(4);
         mViewPager.setAdapter(viewPagerAdapter);
         mViewPager.addOnPageChangeListener(new OnPageChangeListenerAdapter() {
@@ -202,8 +208,28 @@ public class ExploreFragment extends LazyFragment
                         }
                     });
                 } else if (position == 2) {
+                    if (!hasInitGankPage) {
+                        presenter.listGankData(1);
+                        gankDataListFragment.showLoading();
+                        hasInitGankPage = true;
+                    }
                     collapsingLayout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.light_blue));
                     Utils.setImageWithFade(ivHeader, R.drawable.sky);
+                    FabAnimationHelper.hide(fabMenu, new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            fabMenu.setVisibility(View.INVISIBLE);
+                        }
+                    });
+                } else if (position == 3) {
+                    if (!hasInitArsenalPage) {
+                        presenter.listArsenalData(1);
+                        arsenalDataListFragment.showLoading();
+                        hasInitArsenalPage = true;
+                    }
+                    collapsingLayout.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.purple));
+                    Utils.setImageWithFade(ivHeader, R.drawable.arsenal);
                     FabAnimationHelper.hide(fabMenu, new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
@@ -225,6 +251,7 @@ public class ExploreFragment extends LazyFragment
         showCaseListFragment = null;
         trendingListFragment = null;
         gankDataListFragment = null;
+        arsenalDataListFragment = null;
     }
 
     @Override
@@ -271,6 +298,13 @@ public class ExploreFragment extends LazyFragment
     }
 
     @Override
+    public void onGetArsenalData(List<RepositoryInfo> repositoryList, int updateType) {
+        arsenalDataListFragment.onGet(repositoryList, updateType);
+        if (updateType == REFRESH)
+            arsenalDataListFragment.hideLoading();
+    }
+
+    @Override
     public void onFetchData(@ListType int type, int page) {
         switch (type) {
             case SHOWCASES:
@@ -281,6 +315,9 @@ public class ExploreFragment extends LazyFragment
                 break;
             case GANK_IO:
                 presenter.listGankData(page);
+                break;
+            case ARSENAL:
+                presenter.listArsenalData(page);
                 break;
         }
     }
@@ -298,6 +335,6 @@ public class ExploreFragment extends LazyFragment
     @Override
     public void showOnError(@UpdateType int updateType, String msg) {
         showOnError(msg);
-        gankDataListFragment.showOnError(msg, updateType);
+//        gankDataListFragment.showOnError(msg, updateType);
     }
 }

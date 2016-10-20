@@ -16,6 +16,7 @@ import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
 import tellh.com.gitclub.model.entity.Trending;
+import tellh.com.gitclub.model.net.DataSource.ArsenalDataSource;
 import tellh.com.gitclub.model.net.DataSource.ExploreDataSource;
 import tellh.com.gitclub.model.net.DataSource.GankDataSource;
 
@@ -26,6 +27,7 @@ public class ExploreDataSourceTestActivity extends AppCompatActivity {
     ExploreDataSource dataSource;
 
     GankDataSource gankDataSource;
+    ArsenalDataSource arsenalDataSource;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,7 +39,8 @@ public class ExploreDataSourceTestActivity extends AppCompatActivity {
 //        testListTrending2();
 //        testListShowCase();
 //        testGetShowCaseDetail();
-        testGetGankRepositoryList();
+//        testGetGankRepositoryList();
+        testGetArsenalRepositoryList();
     }
 
     public void testListTrending() {
@@ -99,6 +102,17 @@ public class ExploreDataSourceTestActivity extends AppCompatActivity {
     public void testGetGankRepositoryList() {
         gankDataSource = AndroidApplication.getInstance().getAppComponent().gankDataSource();
         gankDataSource.getRepositories(1)
+                .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
+                    @Override
+                    public void onNext(List<RepositoryInfo> repositoryInfos) {
+                        LogUtils.d(repositoryInfos.toString());
+                    }
+                });
+    }
+
+    public void testGetArsenalRepositoryList() {
+        arsenalDataSource = AndroidApplication.getInstance().getAppComponent().arsenalDataSource();
+        arsenalDataSource.getRepositories(1)
                 .subscribe(new DefaultSubscriber<List<RepositoryInfo>>() {
                     @Override
                     public void onNext(List<RepositoryInfo> repositoryInfos) {

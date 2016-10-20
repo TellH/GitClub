@@ -23,8 +23,9 @@ public interface ExploreContract {
     int SHOWCASES = 0;
     int TRENDING = 1;
     int GANK_IO = 2;
+    int ARSENAL = 3;
 
-    @IntDef({SHOWCASES, TRENDING, GANK_IO})
+    @IntDef({SHOWCASES, TRENDING, GANK_IO,ARSENAL})
     @Retention(RetentionPolicy.SOURCE)
     @interface ListType {
     }
@@ -40,6 +41,7 @@ public interface ExploreContract {
 
         void onGetShowcasesDetail(ShowCaseInfo showCaseInfo);
 
+        void onGetArsenalData(List<RepositoryInfo> repositoryList, int updateType);
     }
 
     interface Presenter extends MvpPresenter<View>, IRepoListPresenter {
@@ -51,6 +53,8 @@ public interface ExploreContract {
         void getShowcaseDetail(ShowCase showCase);
 
         void listGankData(int page);
+
+        void listArsenalData(int page);
 
         MaterialDialog getDialogLang();
 
