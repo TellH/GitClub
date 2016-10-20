@@ -1,38 +1,46 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    repositories {
-        mavenCentral()
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0'
-
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
+	ext {
+		springBootVersion = '1.4.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
 }
 
-allprojects {
-    repositories {
-        jcenter()
-        maven { url "https://jitpack.io" }
-    }
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'androidarsenalcraweler'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
 }
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
-}
 
-project.ext {
-    supportVersion = "24.2.1"
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+	testCompile group: 'org.springframework', name: 'spring-test', version: '4.3.3.RELEASE'
+	// https://mvnrepository.com/artifact/org.jsoup/jsoup
+	compile group: 'org.jsoup', name: 'jsoup', version: '1.9.2'
+//	compile 'io.reactivex:rxjava:1.1.9'
+//	compile 'com.google.code.gson:gson:2.7'
+//	compile "com.squareup.retrofit2:retrofit:2.1.0"
+//	compile "com.squareup.retrofit2:converter-gson:2.1.0"
+//	compile "com.squareup.retrofit2:adapter-rxjava:2.1.0"
+//	compile "com.squareup.okhttp3:okhttp:3.4.1"
 
-    retrofitVersion = "2.1.0"
-
-    okhttpVersion = "3.4.1"
-
-    leakcanaryVersion = "1.4-beta2"
-
-    daggerVersion = "2.6"
+	compile 'org.springframework:spring-jdbc:4.3.3.RELEASE'
+	compile 'mysql:mysql-connector-java:5.1.38'
+	compile 'com.mchange:c3p0:0.9.5.2'
 }
