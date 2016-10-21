@@ -24,6 +24,7 @@ import rx.functions.Action1;
 import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
+import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.di.component.DaggerExploreComponent;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
@@ -176,10 +177,10 @@ public class ExploreFragment extends LazyFragment
         showCaseListFragment = ShowCaseListFragment.newInstance();
         showCaseListFragment.setListFragmentInteractListener(this);
         viewPagerAdapter.addFragment("ShowCases", showCaseListFragment);
-        gankDataListFragment = RepositoryInfoListFragment.newInstance(GANK_IO);
+        gankDataListFragment = RepositoryInfoListFragment.newInstance(GANK_IO, Constant.PER_PAGE_GANK);
         gankDataListFragment.setListFragmentInteractListener(this);
         viewPagerAdapter.addFragment("Gank.IO", gankDataListFragment);
-        arsenalDataListFragment = RepositoryInfoListFragment.newInstance(ARSENAL);
+        arsenalDataListFragment = RepositoryInfoListFragment.newInstance(ARSENAL, Constant.PER_PAGE_ARSENAL);
         arsenalDataListFragment.setListFragmentInteractListener(this);
         viewPagerAdapter.addFragment("Arsenal", arsenalDataListFragment);
         mViewPager.setOffscreenPageLimit(4);
@@ -260,7 +261,6 @@ public class ExploreFragment extends LazyFragment
         switch (type) {
             case GANK_IO:
                 gankDataListFragment.hideLoading();
-                gankDataListFragment.showErrorView();
                 break;
             case SHOWCASES:
                 showCaseListFragment.hideLoading();
@@ -269,6 +269,9 @@ public class ExploreFragment extends LazyFragment
             case TRENDING:
                 trendingListFragment.hideLoading();
                 trendingListFragment.showErrorView();
+                break;
+            case ARSENAL:
+                arsenalDataListFragment.hideLoading();
                 break;
         }
     }

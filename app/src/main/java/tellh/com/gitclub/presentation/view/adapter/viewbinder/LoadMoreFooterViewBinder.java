@@ -25,12 +25,20 @@ public class LoadMoreFooterViewBinder extends FooterRecyclerViewBinder<LoadMoreF
     private String toLoadText = Utils.getString(R.string.pull_to_load_more);
     private String noMoreText = Utils.getString(R.string.no_more);
     private String loadingText = Utils.getString(R.string.loading);
+    private int PER_PAGE = Constant.PER_PAGE;
+
+    public LoadMoreFooterViewBinder(int PER_PAGE) {
+        this.PER_PAGE = PER_PAGE;
+    }
+
+    public LoadMoreFooterViewBinder() {
+    }
 
     @Override
     protected void bindFooter(IListAdapter adapter, ViewHolder holder, int position) {
         FooterLoadMoreAdapterWrapper adapterWrapper = (FooterLoadMoreAdapterWrapper) adapter;
         int size = adapter.getDisplayList().size();
-        if (size < Constant.PER_PAGE) {
+        if (size < PER_PAGE) {
             holder.tvFooter.setText(noMoreText);
             holder.progressBar.setVisibility(View.INVISIBLE);
             return;
@@ -61,9 +69,9 @@ public class LoadMoreFooterViewBinder extends FooterRecyclerViewBinder<LoadMoreF
         return R.layout.footer_load_more;
     }
 
-    public class ViewHolder extends RecyclerViewBinder.ViewHolder {
-        public TextView tvFooter;
-        public ProgressBar progressBar;
+    public static class ViewHolder extends RecyclerViewBinder.ViewHolder {
+        TextView tvFooter;
+        ProgressBar progressBar;
 
         public ViewHolder(View rootView) {
             super(rootView);

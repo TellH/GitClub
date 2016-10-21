@@ -31,13 +31,16 @@ import static tellh.com.gitclub.presentation.contract.ExploreContract.OnListFrag
  */
 public class RepositoryInfoListFragment extends ListFragment implements ExploreContract.OnGetGankDataListener,
         OnReachFooterListener {
-    int listType;
     private OnListFragmentInteractListener mListener;
     private FooterLoadMoreAdapterWrapper adapter;
+    private int listType;
+    private int pageSize;
 
-    public static RepositoryInfoListFragment newInstance(@ExploreContract.ListType int listType) {
+    public static RepositoryInfoListFragment newInstance(@ExploreContract.ListType int listType,
+                                                         int pageSize) {
         Bundle args = new Bundle();
         args.putInt("ListType", listType);
+        args.putInt("PageSize", pageSize);
         RepositoryInfoListFragment fragment = new RepositoryInfoListFragment();
         fragment.setArguments(args);
         return fragment;
@@ -47,13 +50,14 @@ public class RepositoryInfoListFragment extends ListFragment implements ExploreC
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listType = getArguments().getInt("ListType");
+        pageSize = getArguments().getInt("PageSize");
     }
 
     @Override
     protected RecyclerView.Adapter getListAdapter() {
         adapter = (FooterLoadMoreAdapterWrapper) RecyclerViewAdapter.builder()
                 .addItemType(new RepoListItemViewBinder(mListener.getPresenter()))
-                .setLoadMoreFooter(new LoadMoreFooterViewBinder(), recyclerView, this)
+                .setLoadMoreFooter(new LoadMoreFooterViewBinder(pageSize), recyclerView, this)
                 .setErrorView(new ErrorViewBinder(this))
                 .setEmptyView(new EasyEmptyRecyclerViewBinder(R.layout.empty_view))
                 .build();
@@ -102,4 +106,5 @@ public class RepositoryInfoListFragment extends ListFragment implements ExploreC
             adapter.showErrorView(recyclerView);
         }
     }
+
 }
