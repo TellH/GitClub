@@ -32,7 +32,6 @@ public class AndroidApplication extends Application {
         super.onCreate();
         instance = this;
         LogUtils.init();
-//        SharedPrefsUtils.init(this);
         Stetho.initializeWithDefaults(this);
         refWatcher = LeakCanary.install(this);
         appComponent = DaggerAppComponent.builder().build();

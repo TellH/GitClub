@@ -30,6 +30,8 @@ import tellh.com.gitclub.model.net.DataSource.RepositoryDataSource;
 import tellh.com.gitclub.presentation.contract.ExploreContract;
 
 import static tellh.com.gitclub.common.config.Constant.Since;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.ARSENAL;
+import static tellh.com.gitclub.presentation.contract.ExploreContract.GANK_IO;
 
 public class ExplorePresenter extends BasePresenter<ExploreContract.View>
         implements ExploreContract.Presenter {
@@ -159,7 +161,7 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
 
                             @Override
                             protected void onError(String errorStr) {
-//                                getView().showOnError(getUpdateType(page), Utils.getString(R.string.error_gank_data));
+                                getView().showOnError("Something wrong when freching Gank data.", GANK_IO);
                             }
                         })
         );
@@ -186,8 +188,10 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
                                 getView().onGetArsenalData(repositoryList, getUpdateType(page));
                                 getView().showOnSuccess();
                             }
+
                             @Override
                             protected void onError(String errorStr) {
+                                getView().showOnError("Something wrong when freching ARSENAL data.", ARSENAL);
                             }
                         })
         );

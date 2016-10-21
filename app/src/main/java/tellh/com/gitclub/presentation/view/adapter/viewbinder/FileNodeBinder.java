@@ -29,8 +29,8 @@ public class FileNodeBinder extends TreeViewBinder<FileNodeBinder.ViewHolder> {
         return R.layout.item_file;
     }
 
-    public class ViewHolder extends TreeViewBinder.ViewHolder {
-        public TextView tvName;
+    public static class ViewHolder extends TreeViewBinder.ViewHolder {
+        TextView tvName;
 
         public ViewHolder(View rootView) {
             super(rootView);

@@ -9,6 +9,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 import rx.functions.Func1;
+import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.model.entity.GankResponse;
@@ -30,7 +31,7 @@ public class GankDataSource {
     }
 
     private Observable<List<GankResponse.ResultsEntity>> getData(int page) {
-        return gankService.getData(20, page)
+        return gankService.getData(Constant.PER_PAGE_GANK, page)
                 .compose(RxJavaUtils.<GankResponse>applySchedulers())
                 .map(new Func1<GankResponse, List<GankResponse.ResultsEntity>>() {
                     @Override

@@ -7,6 +7,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 import rx.functions.Func1;
+import tellh.com.gitclub.common.config.Constant;
 import tellh.com.gitclub.common.utils.RxJavaUtils;
 import tellh.com.gitclub.model.entity.ArsenalRepository;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
@@ -27,7 +28,7 @@ public class ArsenalDataSource {
     }
 
     private Observable<List<ArsenalRepository>> getData(int page) {
-        return arsenalService.list(page, 15)
+        return arsenalService.list(page, Constant.PER_PAGE_ARSENAL)
                 .compose(RxJavaUtils.<List<ArsenalRepository>>applySchedulers());
     }
 
@@ -36,7 +37,7 @@ public class ArsenalDataSource {
                 .flatMap(new Func1<List<ArsenalRepository>, Observable<RepositoryInfo>>() {
                     @Override
                     public Observable<RepositoryInfo> call(final List<ArsenalRepository> resultsEntities) {
-                        List<Observable<RepositoryInfo>> observableList = new ArrayList<>(20);
+                        List<Observable<RepositoryInfo>> observableList = new ArrayList<>(Constant.PER_PAGE_ARSENAL);
                         for (ArsenalRepository repo : resultsEntities) {
                             observableList.add(repositoryService.getRepoInfo(repo.getOwner(), repo.getName()));
                         }
@@ -46,7 +47,7 @@ public class ArsenalDataSource {
     }
 
     public Observable<List<RepositoryInfo>> getRepositories(final int page) {
-        final List<RepositoryInfo> repositories = new ArrayList<>(20);
+        final List<RepositoryInfo> repositories = new ArrayList<>(Constant.PER_PAGE_ARSENAL);
         return Observable.create(new Observable.OnSubscribe<List<RepositoryInfo>>() {
             @Override
             public void call(final Subscriber<? super List<RepositoryInfo>> subscriber) {
