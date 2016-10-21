@@ -4,8 +4,10 @@
 
 <img src="raw/effect.gif" width="40%" align="right" hspace="20"/>
 
-*An elegent Android Client for Github.*
-This material design style App is built with dagger2+Retrofit+RxJava and MVP architecture. [Apk is available in Github.](https://github.com/TellH/GitClub/raw/dev/apk/app-release.apk) Why I create this app?
+*An elegent Android Client for Github.* <br>
+[Apk is available in Github.](https://github.com/TellH/GitClub/raw/dev/apk/app-release.apk) <br>
+This material design style App is built with dagger2+Retrofit+RxJava and MVP architecture.<br>
+Why I create this app?
 
 1. I love Github very much.
 2. I want to discover some remarkabe projects or something new in Github with my phone in my spare time especially when I don't have computer nearby.
