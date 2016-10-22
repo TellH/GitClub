@@ -88,7 +88,7 @@ public class ScheduledTasks {
     }
 
     //    @Scheduled(fixedDelay = 10000)
-    @Scheduled(cron = "* * 10/10 * * ? ")
+    @Scheduled(cron = "0 0 10/10 * * ? ")
     public void doCrawel() {
 //        while (true) {
 //            if (page == 0) {
