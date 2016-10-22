@@ -80,28 +80,29 @@ public class ScheduledTasks {
                 }
             }
             return true;
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("Exception: {} was throwed! messge: {}", e.getClass().getName(), e.getMessage());
+//            e.printStackTrace();
             return false;
         }
     }
 
     //    @Scheduled(fixedDelay = 10000)
-    @Scheduled(cron = "* * 18/5 * * ? ")
+    @Scheduled(cron = "* * 10/10 * * ? ")
     public void doCrawel() {
-        while (true) {
-            if (page == 0) {
-                page = 2;
-                return;
+//        while (true) {
+//            if (page == 0) {
+//                page = 2;
+//                return;
+//            }
+        while (!crawelPage(1)) {
+            if (repeat > 3) {
+                break;
             }
-            while (!crawelPage(page)) {
-                if (repeat > 3) {
-                    break;
-                }
-                repeat++;
-            }
-            page--;
-            repeat = 0;
+            repeat++;
         }
+//            page--;
+        repeat = 0;
+//        }
     }
 }
