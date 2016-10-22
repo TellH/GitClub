@@ -76,7 +76,7 @@ public class ScheduledTasks {
                     jdbcTemplate.update("INSERT INTO arsenal_craweler.repository (`full_name`, `name`, `owner`) VALUES (?,?,?)",
                             owner + "/" + name, name, owner);
                     log.info("Success insert {}", owner + "," + name);
-                } catch (IndexOutOfBoundsException | NullPointerException e) {
+                } catch (Exception e) {
                 }
             }
             return true;
