@@ -94,7 +94,7 @@ public class PersonalHomePageActivity extends BaseActivity
     @Override
     public void showOnSuccess() {
         progressDialog.dismiss();
-        Note.show(getString(R.string.success_loading));
+//        Note.show(getString(R.string.success_loading));
         if (errorView.isShowing())
             errorView.hideErrorView(mainContent);
     }

@@ -14,7 +14,7 @@ public class Constant {
     public static final String URL_ARSENAL = "http://182.254.233.29/arsenal_api/";
     public static final int PER_PAGE = 10;
     public static final int PER_PAGE_NEWS = 15;
-    public static final int PER_PAGE_GANK = 20;
+    public static final int PER_PAGE_GANK = 10;
     public static final int PER_PAGE_ARSENAL = 15;
 
     public interface SortType {

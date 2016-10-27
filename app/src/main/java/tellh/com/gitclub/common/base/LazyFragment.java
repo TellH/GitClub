@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
-import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
 
@@ -82,7 +81,7 @@ public abstract class LazyFragment extends Fragment implements BaseView {
     @Override
     public void showOnSuccess() {
         progressDialog.dismiss();
-        Note.show(getString(R.string.success_loading));
+//        Note.show(getString(R.string.success_loading));
     }
 
     @Override

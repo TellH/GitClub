@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import tellh.com.gitclub.R;
 import tellh.com.gitclub.common.wrapper.Note;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
@@ -42,7 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     @Override
     public void showOnSuccess() {
         progressDialog.dismiss();
-        Note.show(getString(R.string.success_loading));
+//        Note.show(getString(R.string.success_loading));
     }
 
     @Override
