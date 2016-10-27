@@ -1,6 +1,5 @@
 # GitClub
-
-[![](https://img.shields.io/badge/Platform-Android-green.svg)](https://github.com/TellH/GitClub)
+<img src="https://www.cleveroad.com/public/comercial/label-android.svg" height="20"> 
 
 <img src="raw/effect.gif" width="45%" align="right" hspace="20"/>
 
