@@ -3,6 +3,7 @@ package tellh.com.gitclub.presentation.view.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
@@ -19,6 +20,7 @@ import tellh.com.gitclub.presentation.contract.bus.RxBus;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 import tellh.com.gitclub.presentation.contract.bus.event.LaunchActivityEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.OnBackPressEvent;
+import tellh.com.gitclub.presentation.contract.bus.event.OnClickOutsideToHideEvent;
 import tellh.com.gitclub.presentation.contract.bus.event.QuickReturnEvent;
 import tellh.com.gitclub.presentation.view.activity.repo_page.RepoPageActivity;
 import tellh.com.gitclub.presentation.view.activity.user_personal_page.PersonalHomePageActivity;
@@ -146,5 +148,12 @@ public class HomeActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        OnClickOutsideToHideEvent clickEvent = new OnClickOutsideToHideEvent();
+        RxBusPostman.postOnClickScreenEvent(clickEvent);
+        return clickEvent.consume || super.dispatchTouchEvent(ev);
     }
 }
