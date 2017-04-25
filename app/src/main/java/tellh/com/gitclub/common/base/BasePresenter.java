@@ -5,9 +5,9 @@ import com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.UpdateType;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 
 import static com.tellh.nolistadapter.adapter.FooterLoadMoreAdapterWrapper.LOAD_MORE;
@@ -49,7 +49,7 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
     }
 
     public boolean checkLogin() {
-        if (AccountPrefs.isLogin(AndroidApplication.getInstance()))
+        if (AccountPrefs.isLogin(ComponentHolder.getContext()))
             return true;
         view.showOnError(Utils.getString(R.string.note_to_login));
         return false;
@@ -66,7 +66,7 @@ public class BasePresenter<T extends BaseView> implements MvpPresenter<T> {
     }
 
     public boolean checkNetwork() {
-        if (!Utils.isNetworkAvailable(AndroidApplication.getInstance())) {
+        if (!Utils.isNetworkAvailable(ComponentHolder.getContext())) {
             Note.show(Utils.getString(R.string.error_no_network));
             return false;
         }

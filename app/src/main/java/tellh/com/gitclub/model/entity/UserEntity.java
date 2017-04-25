@@ -68,4 +68,18 @@ public class UserEntity extends DataBean {
     public int getItemLayoutId(IListAdapter iListAdapter) {
         return R.layout.item_user;
     }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "login='" + login + '\'' +
+                ", id=" + id +
+                ", avatar_url='" + avatar_url + '\'' +
+                ", html_url='" + html_url + '\'' +
+                ", type='" + type + '\'' +
+                ", hasCheck=" + hasCheck +
+                ", bio='" + bio + '\'' +
+                ", isFollowing=" + isFollowing +
+                '}';
+    }
 }

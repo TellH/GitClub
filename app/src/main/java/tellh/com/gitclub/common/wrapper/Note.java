@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.Toast;
 
-import tellh.com.gitclub.common.AndroidApplication;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
 
 /**
@@ -17,7 +17,7 @@ public class Note {
 
     public static void show(String msg) {
         if (mToast == null)
-            mToast = Toast.makeText(AndroidApplication.getInstance(), null, Toast.LENGTH_SHORT);
+            mToast = Toast.makeText(ComponentHolder.getContext(), null, Toast.LENGTH_SHORT);
         mToast.setText(msg);
         mToast.setDuration(Toast.LENGTH_SHORT);
         mToast.show();

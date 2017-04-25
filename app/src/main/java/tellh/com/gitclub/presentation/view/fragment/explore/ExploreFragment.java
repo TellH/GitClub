@@ -22,10 +22,9 @@ import javax.inject.Inject;
 
 import rx.functions.Action1;
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
 import tellh.com.gitclub.common.utils.Utils;
-import tellh.com.gitclub.di.component.DaggerExploreComponent;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.ShowCase;
 import tellh.com.gitclub.model.entity.ShowCaseInfo;
@@ -92,9 +91,7 @@ public class ExploreFragment extends LazyFragment
     }
 
     private void initDagger() {
-        DaggerExploreComponent.builder()
-                .appComponent(AndroidApplication.getInstance().getAppComponent())
-                .build().inject(this);
+        ComponentHolder.getExploreComponent().inject(this);
         presenter.attachView(this);
     }
 

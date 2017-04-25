@@ -25,17 +25,16 @@ import javax.inject.Inject;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.BaseActivity;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.utils.Utils;
-import tellh.com.gitclub.di.component.DaggerRepoPageComponent;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.entity.Branch;
 import tellh.com.gitclub.model.entity.File;
 import tellh.com.gitclub.presentation.contract.RepoSourceContract;
-import tellh.com.gitclub.presentation.view.adapter.viewbinder.DirectoryNodeBinder;
 import tellh.com.gitclub.presentation.view.adapter.EasySpinnerAdapter;
+import tellh.com.gitclub.presentation.view.adapter.viewbinder.DirectoryNodeBinder;
 import tellh.com.gitclub.presentation.view.adapter.viewbinder.FileNodeBinder;
 import tellh.com.gitclub.presentation.widget.WebViewHelper;
 import tellh.com.recyclertreeview_lib.TreeNode;
@@ -86,9 +85,7 @@ public class RepoSourceActivity extends BaseActivity implements RepoSourceContra
             mRepo = intent.getStringExtra(ExtraKey.REPO_NAME);
         }
         if (presenter == null) {
-            DaggerRepoPageComponent.builder()
-                    .appComponent(AndroidApplication.getInstance().getAppComponent())
-                    .build().inject(this);
+            ComponentHolder.getRepoPageComponent().inject(this);
             presenter.attachView(this);
         }
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

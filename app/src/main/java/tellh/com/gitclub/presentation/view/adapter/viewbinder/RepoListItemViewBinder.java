@@ -14,12 +14,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.contract.bus.RxBusPostman;
@@ -130,7 +130,7 @@ public class RepoListItemViewBinder extends RecyclerViewBinder<RepositoryInfo, R
     }
 
     private boolean checkLogin() {
-        if (!AccountPrefs.isLogin(AndroidApplication.getInstance())) {
+        if (!AccountPrefs.isLogin(ComponentHolder.getContext())) {
             Note.show(Utils.getString(R.string.note_to_login));
             return false;
         }

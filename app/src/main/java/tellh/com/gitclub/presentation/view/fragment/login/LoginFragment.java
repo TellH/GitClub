@@ -21,10 +21,9 @@ import android.widget.TextView;
 import javax.inject.Inject;
 
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.utils.Utils;
 import tellh.com.gitclub.common.wrapper.Note;
-import tellh.com.gitclub.di.component.DaggerLoginComponent;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.presentation.contract.LoginContract;
 
 /**
@@ -56,9 +55,7 @@ public class LoginFragment extends DialogFragment implements LoginContract.View 
     }
 
     private void initDagger() {
-        DaggerLoginComponent.builder()
-                .appComponent(AndroidApplication.getInstance().getAppComponent())
-                .build().inject(this);
+        ComponentHolder.getLoginComponent().inject(this);
         presenter.attachView(this);
     }
 

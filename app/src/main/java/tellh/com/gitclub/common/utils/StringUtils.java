@@ -8,7 +8,7 @@ import android.widget.TextView;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tellh.com.gitclub.common.AndroidApplication;
+import tellh.com.gitclub.di.component.ComponentHolder;
 
 /**
  * Created by tlh on 2016/8/24 :)
@@ -32,7 +32,7 @@ public class StringUtils {
     }
 
     public static void changeFontStyle(String fontType, TextView tv) {
-        Typeface custom_font = Typeface.createFromAsset(AndroidApplication.getInstance().getAssets(), fontType);
+        Typeface custom_font = Typeface.createFromAsset(ComponentHolder.getContext().getAssets(), fontType);
         tv.setTypeface(custom_font);
     }
 

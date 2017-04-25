@@ -7,12 +7,17 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
-import static tellh.com.gitclub.common.AndroidApplication.getInstance;
-
 @Module
 public class ContextModule {
-    @Provides @Singleton
+    private Context context;
+
+    public ContextModule(Context context) {
+        this.context = context;
+    }
+
+    @Provides
+    @Singleton
     public Context provideContext() {
-        return getInstance().getApplicationContext();
+        return context;
     }
 }

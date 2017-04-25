@@ -61,6 +61,11 @@ public class ExplorePresenter extends BasePresenter<ExploreContract.View>
         curSince = Since.TODAY;
     }
 
+    // Convenient for Unit test
+    public void setView(ExploreContract.View view) {
+        super.attachView(view);
+    }
+
     @Override
     public void attachView(ExploreContract.View mvpView) {
         super.attachView(mvpView);

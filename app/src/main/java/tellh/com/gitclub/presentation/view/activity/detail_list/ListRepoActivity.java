@@ -6,8 +6,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import tellh.com.gitclub.common.AndroidApplication;
-import tellh.com.gitclub.di.component.DaggerListItemComponent;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.presentation.presenter.ListRepoPresenter;
 import tellh.com.gitclub.presentation.view.adapter.viewbinder.RepoListItemViewBinder;
@@ -29,9 +28,7 @@ public abstract class ListRepoActivity extends BaseListActivity
 
     @Override
     protected void initDagger() {
-        DaggerListItemComponent.builder()
-                .appComponent(AndroidApplication.getInstance().getAppComponent())
-                .build().inject(this);
+        ComponentHolder.getListItemComponent().inject(this);
         presenter.attachView(this);
         presenter.setUser(user);
     }

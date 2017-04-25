@@ -44,7 +44,15 @@ android {
 def dep = rootProject.ext;
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    // test
     testCompile 'junit:junit:4.12'
+    testCompile "org.robolectric:robolectric:3.3.2"
+    testCompile "org.mockito:mockito-core:1.+"
+    // https://github.com/fabioCollini/DaggerMock
+    testCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
+    androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.4'
+
+
     compile "com.android.support:appcompat-v7:${dep.supportVersion}"
     compile "com.android.support:design:${dep.supportVersion}"
     compile "com.android.support:recyclerview-v7:${dep.supportVersion}"

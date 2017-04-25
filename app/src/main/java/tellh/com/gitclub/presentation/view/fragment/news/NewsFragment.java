@@ -14,11 +14,10 @@ import java.util.List;
 import javax.inject.Inject;
 
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.Utils;
-import tellh.com.gitclub.di.component.DaggerNewsComponent;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.entity.Event;
 import tellh.com.gitclub.presentation.contract.NewsContract;
 import tellh.com.gitclub.presentation.view.adapter.viewbinder.ErrorViewBinder;
@@ -89,9 +88,7 @@ public class NewsFragment extends LazyFragment
     }
 
     private void initDagger() {
-        DaggerNewsComponent.builder()
-                .appComponent(AndroidApplication.getInstance().getAppComponent())
-                .build().inject(this);
+        ComponentHolder.getNewsComponent().inject(this);
         presenter.attachView(this);
     }
 

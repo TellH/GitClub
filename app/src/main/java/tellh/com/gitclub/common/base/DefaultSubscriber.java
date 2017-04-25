@@ -15,7 +15,7 @@ import tellh.com.gitclub.common.utils.Utils;
 public abstract class DefaultSubscriber<T> extends Subscriber<T> {
     @Override
     public void onCompleted() {
-        LogUtils.d("RxCompleted");
+//        LogUtils.d("RxCompleted");
     }
 
     @Override

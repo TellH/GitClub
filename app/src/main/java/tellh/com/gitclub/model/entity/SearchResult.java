@@ -32,4 +32,12 @@ public class SearchResult<T> {
     public void setItems(List<T> items) {
         this.items = items;
     }
+
+    @Override
+    public String toString() {
+        return "SearchResult{" +
+                "total_count=" + total_count +
+                ", items=" + items +
+                '}';
+    }
 }

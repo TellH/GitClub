@@ -65,7 +65,8 @@ public class UserDataSource {
                         AccountPrefs.saveLoginToken(mCtx, token);
                         return api.getUserInfo(userName);
                     }
-                }).compose(RxJavaUtils.<UserInfo>applySchedulers())
+                })
+                .compose(RxJavaUtils.<UserInfo>applySchedulers())
                 .map(new Func1<UserInfo, Boolean>() {
                     @Override
                     public Boolean call(UserInfo userInfo) {

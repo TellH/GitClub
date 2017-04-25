@@ -26,13 +26,12 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import javax.inject.Inject;
 
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.BaseActivity;
 import tellh.com.gitclub.common.config.ExtraKey;
 import tellh.com.gitclub.common.utils.StringUtils;
 import tellh.com.gitclub.common.wrapper.ImageLoader;
 import tellh.com.gitclub.common.wrapper.Note;
-import tellh.com.gitclub.di.component.DaggerHomePageComponent;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.entity.UserInfo;
 import tellh.com.gitclub.model.sharedprefs.AccountPrefs;
 import tellh.com.gitclub.presentation.contract.PersonalPageContract;
@@ -102,9 +101,7 @@ public class PersonalHomePageActivity extends BaseActivity
     @Override
     public void initData(Bundle savedInstanceState) {
         if (presenter == null) {
-            DaggerHomePageComponent.builder()
-                    .appComponent(AndroidApplication.getInstance().getAppComponent())
-                    .build().inject(this);
+            ComponentHolder.getHomePageComponent().inject(this);
             presenter.attachView(this);
         }
         Intent intent = getIntent();

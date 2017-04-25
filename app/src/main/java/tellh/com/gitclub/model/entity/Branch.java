@@ -64,6 +64,14 @@ public class Branch implements EasySpinnerAdapter.SpinnerEntity {
     }
 
     @Override
+    public String toString() {
+        return "Branch{" +
+                "name='" + name + '\'' +
+                ", commit=" + commit +
+                '}';
+    }
+
+    @Override
     public View createEntityView(int position, ViewGroup parent) {
         TextView textView = new TextView(parent.getContext());
 //        textView.setTextColor(ContextCompat.getColor(parent.getContext(), R.color.gray_text));

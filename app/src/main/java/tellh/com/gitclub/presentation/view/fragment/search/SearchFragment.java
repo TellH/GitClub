@@ -24,10 +24,9 @@ import javax.inject.Inject;
 
 import rx.functions.Action1;
 import tellh.com.gitclub.R;
-import tellh.com.gitclub.common.AndroidApplication;
 import tellh.com.gitclub.common.base.LazyFragment;
 import tellh.com.gitclub.common.utils.Utils;
-import tellh.com.gitclub.di.component.DaggerSearchComponent;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.model.entity.RepositoryInfo;
 import tellh.com.gitclub.model.entity.UserEntity;
 import tellh.com.gitclub.presentation.contract.SearchContract;
@@ -153,9 +152,7 @@ public class SearchFragment extends LazyFragment
     }
 
     private void initDagger() {
-        DaggerSearchComponent.builder()
-                .appComponent(AndroidApplication.getInstance().getAppComponent())
-                .build().inject(this);
+        ComponentHolder.getSearchComponent().inject(this);
         presenter.attachView(this);
     }
 

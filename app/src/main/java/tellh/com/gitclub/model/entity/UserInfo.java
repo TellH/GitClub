@@ -167,4 +167,18 @@ public class UserInfo extends UserEntity implements Parcelable {
             return new UserInfo[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "name='" + name + '\'' +
+                ", company='" + company + '\'' +
+                ", blog='" + blog + '\'' +
+                ", location='" + location + '\'' +
+                ", email='" + email + '\'' +
+                ", public_repos=" + public_repos +
+                ", followers=" + followers +
+                ", following=" + following +
+                '}';
+    }
 }

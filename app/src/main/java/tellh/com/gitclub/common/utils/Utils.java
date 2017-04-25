@@ -13,6 +13,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
 import tellh.com.gitclub.common.AndroidApplication;
+import tellh.com.gitclub.di.component.ComponentHolder;
 import tellh.com.gitclub.presentation.widget.AnimationListenerAdapter;
 
 /**
@@ -21,7 +22,7 @@ import tellh.com.gitclub.presentation.widget.AnimationListenerAdapter;
 public class Utils {
 
     public static String getString(int resId) {
-        return AndroidApplication.getInstance().getString(resId);
+        return ComponentHolder.getContext().getString(resId);
     }
 
     public static boolean isNetworkAvailable(Context context) {
@@ -35,11 +36,11 @@ public class Utils {
     }
 
     public static int getScreenWidth() {
-        return AndroidApplication.getInstance().getResources().getDisplayMetrics().widthPixels;
+        return ComponentHolder.getContext().getResources().getDisplayMetrics().widthPixels;
     }
 
     public static int getScreenHeight() {
-        return AndroidApplication.getInstance().getResources().getDisplayMetrics().heightPixels;
+        return ComponentHolder.getContext().getResources().getDisplayMetrics().heightPixels;
     }
 
     public static void setImageWithFade(final ImageView img, @DrawableRes final int resId) {
@@ -67,7 +68,7 @@ public class Utils {
 
     public static void copyDataToClipBoard(String data) {
         ClipboardManager clipboardManager;
-        clipboardManager = (ClipboardManager) AndroidApplication.getInstance().getSystemService(Context.CLIPBOARD_SERVICE);
+        clipboardManager = (ClipboardManager) ComponentHolder.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         clipboardManager.setPrimaryClip(ClipData.newPlainText("text", data));
     }
 }
